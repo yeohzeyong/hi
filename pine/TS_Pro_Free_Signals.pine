@@ -1,0 +1,806 @@
+//@version=6
+// ═══════════════════════════════════════════════════════════════════════════════════════
+//  TS PRO ALL-IN-ONE  (Pine Script v6)
+//  A TrendSpider-style toolkit built on widely used, published methods:
+//   • Auto Anchored VWAP from period high/low (same logic as TradingView's built-in
+//     "VWAP Auto Anchored"), plus earnings or custom-date anchor, with volume-weighted σ bands
+//   • Visible Range Volume Profile with intrabar precision (request.security_lower_tf),
+//     POC and 70% Value Area (expand-from-POC method)
+//   • Flat-top resistance + least-squares rising support, volume-confirmed breakouts
+//   • IBD-style RS Rating (40/20/20/20 weighting) ranked vs a stock basket, RS line + new highs
+//   • MACD with crossover markers and convergence shading
+//   • Dashboard: trend, AVWAPs, value area, RS, MACD, pattern, relative volume, ATR
+//  Lower pane shows ONE of: MACD / RS Rating / RS Line (choose in settings).
+//  Request budget: 5 fixed + basket ≤ 34  (TradingView limit is 40 on non-Ultimate plans).
+//
+//  FREE (BASIC) PLAN EDITION
+//   • Everything is in ONE indicator, so it uses 1 of the 2 indicator slots on a free chart.
+//   • Lower pane can also show Volume, so you don't need the built-in Volume indicator.
+//   • Defaults are lighter (20-ticker basket, 60-min intrabars on daily charts) to stay well
+//     inside the 20-second execution limit for basic accounts. "Lite" mode goes further.
+//   • ONE combined alert: create a single alert with "Any alert() function call" and it fires
+//     for every signal, so it only uses 1 of your free alert slots.
+//   • TRADE SIGNALS (section 7): rule-based buy/sell setups evaluated on bar close only
+//     (no lookahead, no visible-range data), with stop and target levels for the latest buy.
+//     These are setups to evaluate, not predictions. Backtest with the companion strategy.
+// ═══════════════════════════════════════════════════════════════════════════════════════
+indicator("TS Pro All-in-One (Free Edition + Signals)", shorttitle = "TS Pro Signals", overlay = false, precision = 2,
+     max_boxes_count = 500, max_lines_count = 100, max_labels_count = 100, max_polylines_count = 30)
+
+// ═══════════════════════════ INPUTS ═══════════════════════════
+string paneMode = input.string("MACD", "Lower pane shows", options = ["MACD", "RS Rating", "RS Line", "Volume"])
+string perfMode = input.string("Standard", "Performance mode", options = ["Standard", "Lite"],
+     tooltip = "Lite turns off intrabar precision, the RS Rating basket and σ bands. Use it if the script shows a timeout or loads slowly.")
+bool   lite     = perfMode == "Lite"
+
+string G1 = "1 · Anchored VWAPs"
+string anchorMode = input.string("Calendar year", "High/low anchors: search window", options = ["Calendar year", "Lookback bars"], group = G1)
+int    lookback   = input.int(252, "Lookback bars", minval = 10, maxval = 4900, group = G1)
+bool   showHi     = input.bool(true, "AVWAP from period HIGH", inline = "hi", group = G1)
+color  colHi      = input.color(#4FC3F7, "", inline = "hi", group = G1)
+bool   showLo     = input.bool(true, "AVWAP from period LOW", inline = "lo", group = G1)
+color  colLo      = input.color(#4FC3F7, "", inline = "lo", group = G1)
+string thirdMode  = input.string("Last earnings", "Third AVWAP", options = ["Last earnings", "Custom date", "Off"], inline = "th", group = G1)
+color  colTh      = input.color(#FFB74D, "", inline = "th", group = G1)
+int    customT    = input.time(timestamp("07 Aug 2026 00:00 +0000"), "Custom anchor date", group = G1)
+string bandMode   = input.string("Off", "σ bands", options = ["Off", "±1σ", "±1σ and ±2σ"], group = G1)
+float  vwSrc      = input.source(hlc3, "Price source", group = G1)
+int    vwWidth    = input.int(2, "Line width", minval = 1, maxval = 4, group = G1)
+
+string G2 = "2 · Visible Range Volume Profile"
+bool   showVP     = input.bool(true, "Show volume profile", group = G2)
+bool   useLTF     = input.bool(true, "Intrabar precision (lower-timeframe data)", group = G2,
+     tooltip = "Places volume where it actually traded inside each bar. Falls back to the chart bar where intrabar history is unavailable.")
+int    vpRows     = input.int(100, "Rows", minval = 10, maxval = 240, group = G2)
+float  vaPct      = input.float(70, "Value Area %", minval = 10, maxval = 95, group = G2)
+float  vpWidthPct = input.float(35, "Max width (% of visible bars)", minval = 5, maxval = 100, group = G2)
+int    vpOffset   = input.int(0, "Shift right edge (bars)", minval = 0, maxval = 200, group = G2)
+color  vpUpC      = input.color(#4CAF50, "Up / Down volume", inline = "vpc", group = G2)
+color  vpDnC      = input.color(#F44336, "", inline = "vpc", group = G2)
+int    vaTr       = input.int(55, "Transparency inside / outside VA", minval = 0, maxval = 100, inline = "tr", group = G2)
+int    outTr      = input.int(82, "", minval = 0, maxval = 100, inline = "tr", group = G2)
+bool   showLevels = input.bool(true, "Show POC / VAH / VAL lines", group = G2)
+
+string G3 = "3 · Pattern & breakouts"
+bool   showTri    = input.bool(true, "Flat-top zone + rising support", group = G3)
+int    pivLen     = input.int(5, "Pivot strength (bars each side)", minval = 2, maxval = 20, group = G3)
+int    nPiv       = input.int(3, "Pivot highs for flat top", minval = 2, maxval = 6, group = G3)
+float  tolPct     = input.float(2.0, "Flat-top tolerance %", minval = 0.1, maxval = 10, step = 0.1, group = G3)
+int    supK       = input.int(3, "Pivot lows in support regression", minval = 2, maxval = 8, group = G3)
+int    triMaxAge  = input.int(120, "Max pattern age (bars)", minval = 20, group = G3)
+float  boVolMult  = input.float(1.4, "Breakout volume ≥ x × 50-bar average", minval = 1.0, step = 0.1, group = G3)
+bool   showBO     = input.bool(true, "Mark breakouts on chart", group = G3)
+
+string GR = "4 · Relative strength"
+bool   calcRS   = input.bool(true, "Calculate RS Rating (uses basket requests)", group = GR)
+string rsMethod = input.string("IBD weighted (3/6/9/12m)", "RS score", options = ["IBD weighted (3/6/9/12m)", "Simple 12-month"], group = GR)
+string idxSym   = input.symbol("SP:SPX", "Benchmark for RS line", group = GR)
+int    rsNHLen  = input.int(252, "RS line new-high lookback", minval = 20, group = GR)
+string basket   = input.text_area("NASDAQ:AAPL,NASDAQ:MSFT,NASDAQ:NVDA,NASDAQ:AMZN,NASDAQ:GOOGL,NASDAQ:META,NASDAQ:AVGO,NASDAQ:COST,NYSE:JPM,NYSE:V,NYSE:UNH,NYSE:XOM,NYSE:JNJ,NYSE:PG,NYSE:HD,NYSE:LLY,NYSE:KO,NYSE:CAT,NYSE:NEE,NYSE:UNP",
+     "Basket (comma-separated; 20 is fast on free plans, max 34)", group = GR)
+
+string GM = "5 · MACD"
+int   fastLen  = input.int(12, "Fast", minval = 1, inline = "m", group = GM)
+int   slowLen  = input.int(26, "Slow", minval = 1, inline = "m", group = GM)
+int   sigLen   = input.int(9, "Signal", minval = 1, inline = "m", group = GM)
+float mSrc     = input.source(close, "Source", group = GM)
+bool  macdPct  = input.bool(false, "Express as % of price (comparable across stocks)", group = GM)
+bool  showHist = input.bool(false, "Show histogram", group = GM)
+float convPct  = input.float(0.15, "Convergence: |MACD − Signal| < x% of price", minval = 0, step = 0.05, group = GM)
+
+string G5 = "6 · Tables"
+bool showDash = input.bool(true, "Dashboard (top right)", group = G5)
+bool showRev  = input.bool(true, "Revenue table (bottom left)", group = G5)
+int  revN     = input.int(6, "Quarters", minval = 2, maxval = 12, group = G5)
+
+string G7 = "7 · Trade signals"
+bool  showBuy    = input.bool(true, "Show buy signals", inline = "sg", group = G7)
+bool  showSell   = input.bool(true, "Show sell / exit signals", inline = "sg", group = G7)
+bool  usePB      = input.bool(true, "Pullback to rising AVWAP (trend)", group = G7)
+bool  useRC      = input.bool(true, "Reclaim of high AVWAP (trend change)", group = G7)
+bool  useBO      = input.bool(true, "Volume-confirmed breakout + RS", group = G7)
+bool  useOS      = input.bool(false, "Oversold bounce at −2σ (higher risk)", group = G7)
+int   minScore   = input.int(2, "Minimum buy quality score (0–5)", minval = 0, maxval = 5, group = G7,
+     tooltip = "1 point each: long-term uptrend, RS strong, MACD momentum up, volume ≥ average, price above both AVWAPs.")
+float touchAtr   = input.float(0.25, "AVWAP touch tolerance (× ATR)", minval = 0, step = 0.05, group = G7)
+float rvolRC     = input.float(1.5, "Reclaim needs volume ≥ x × average", minval = 1, step = 0.1, group = G7)
+int   sigCool    = input.int(10, "Bars between signals of the same side", minval = 1, group = G7)
+float stopAtr    = input.float(0.5, "Stop buffer below support (× ATR)", minval = 0, step = 0.1, group = G7)
+float tgtR       = input.float(2.0, "Target 1 (R multiple)", minval = 0.5, step = 0.5, group = G7)
+bool  showPlan   = input.bool(true, "Draw entry / stop / targets for latest buy", group = G7)
+
+float vol = nz(volume)
+
+// ═══════════════════════════ 1) ANCHORED VWAPs ═══════════════════════════
+// Cumulative sums are stored for the last 10,000 bars (polyline point limit), so any anchor
+// inside that window can be evaluated exactly.
+var int storeStart = math.max(0, last_bar_index - 9999)
+var float runPV = 0.0
+var float runV  = 0.0
+var float runP2 = 0.0
+var float prePV = 0.0
+var float preV  = 0.0
+var float preP2 = 0.0
+var array<float> cPV = array.new<float>()
+var array<float> cV  = array.new<float>()
+var array<float> cP2 = array.new<float>()
+
+if bar_index == storeStart
+    prePV := runPV
+    preV  := runV
+    preP2 := runP2
+runPV += vwSrc * vol
+runV  += vol
+runP2 += vwSrc * vwSrc * vol
+if bar_index >= storeStart
+    cPV.push(runPV)
+    cV.push(runV)
+    cP2.push(runP2)
+
+// Calendar-year high/low
+var float yHi = na
+var int   yHiBar = na
+var float yLo = na
+var int   yLoBar = na
+bool newYear = bar_index > 0 and year != year[1]
+if na(yHi) or newYear
+    yHi := high
+    yHiBar := bar_index
+    yLo := low
+    yLoBar := bar_index
+else
+    if high > yHi
+        yHi := high
+        yHiBar := bar_index
+    if low < yLo
+        yLo := low
+        yLoBar := bar_index
+
+// Lookback high/low
+int hiOffLB = -ta.highestbars(high, lookback)
+int loOffLB = -ta.lowestbars(low, lookback)
+
+// Earnings anchor (bar on which reported EPS appears)
+float epsAct = request.earnings(syminfo.tickerid, earnings.actual, barmerge.gaps_on, ignore_invalid_symbol = true)
+var int lastEarnBar = na
+if not na(epsAct)
+    lastEarnBar := bar_index
+
+// Custom date anchor
+var int customBar = na
+if na(customBar) and time >= customT
+    customBar := bar_index
+
+bool   useYear  = anchorMode == "Calendar year"
+int    hiAnchor = useYear or na(hiOffLB) ? yHiBar : bar_index - hiOffLB
+int    loAnchor = useYear or na(loOffLB) ? yLoBar : bar_index - loOffLB
+int    thAnchor = thirdMode == "Last earnings" ? lastEarnBar : thirdMode == "Custom date" ? customBar : na
+string hiTxt    = useYear ? str.tostring(year) + " high AVWAP" : "Lookback high AVWAP"
+string loTxt    = useYear ? str.tostring(year) + " low AVWAP" : "Lookback low AVWAP"
+string thTxt    = thirdMode == "Last earnings" ? "Earnings AVWAP" : "Custom AVWAP"
+int    nBands   = lite ? 0 : bandMode == "±1σ" ? 1 : bandMode == "±1σ and ±2σ" ? 2 : 0
+
+f_base(int aBar) =>
+    float bPV = aBar > storeStart ? cPV.get(aBar - 1 - storeStart) : prePV
+    float bV  = aBar > storeStart ? cV.get(aBar - 1 - storeStart) : preV
+    float bP2 = aBar > storeStart ? cP2.get(aBar - 1 - storeStart) : preP2
+    [bPV, bV, bP2]
+
+f_avwapNow(int aIn) =>
+    float out = na
+    if not na(aIn) and aIn <= bar_index and bar_index >= storeStart
+        int aBar = math.max(aIn, storeStart)
+        [bPV, bV, bP2] = f_base(aBar)
+        float dv = runV - bV
+        out := dv > 0 ? (runPV - bPV) / dv : na
+    out
+
+f_avwapStats(int aIn) =>
+    float vw = na
+    float sd = na
+    if not na(aIn) and aIn <= bar_index and bar_index >= storeStart
+        int aBar = math.max(aIn, storeStart)
+        [bPV, bV, bP2] = f_base(aBar)
+        float dv = runV - bV
+        if dv > 0
+            vw := (runPV - bPV) / dv
+            sd := math.sqrt(math.max((runP2 - bP2) / dv - vw * vw, 0.0))
+    [vw, sd]
+
+[avHiNow, sdHi] = f_avwapStats(hiAnchor)
+[avLoNow, sdLo] = f_avwapStats(loAnchor)
+[avThNow, sdTh] = f_avwapStats(thAnchor)
+
+var array<polyline> plArr = array.new<polyline>()
+var array<label>    lbArr = array.new<label>()
+
+f_drawAvwap(int aIn, color c, string txt) =>
+    float lastVw = na
+    if not na(aIn) and aIn <= bar_index
+        int aBar = math.max(aIn, storeStart)
+        [bPV, bV, bP2] = f_base(aBar)
+        array<chart.point> mid = array.new<chart.point>()
+        array<chart.point> u1  = array.new<chart.point>()
+        array<chart.point> d1  = array.new<chart.point>()
+        array<chart.point> u2  = array.new<chart.point>()
+        array<chart.point> d2  = array.new<chart.point>()
+        int start = math.max(aBar, bar_index - 9999)
+        for i = start to bar_index
+            int k = i - storeStart
+            float dv = cV.get(k) - bV
+            if dv > 0
+                float vw = (cPV.get(k) - bPV) / dv
+                float sd = math.sqrt(math.max((cP2.get(k) - bP2) / dv - vw * vw, 0.0))
+                lastVw := vw
+                mid.push(chart.point.from_index(i, vw))
+                if nBands >= 1
+                    u1.push(chart.point.from_index(i, vw + sd))
+                    d1.push(chart.point.from_index(i, vw - sd))
+                if nBands >= 2
+                    u2.push(chart.point.from_index(i, vw + 2 * sd))
+                    d2.push(chart.point.from_index(i, vw - 2 * sd))
+        if mid.size() >= 2
+            plArr.push(polyline.new(mid, line_color = c, line_width = vwWidth, force_overlay = true))
+            if nBands >= 1
+                plArr.push(polyline.new(u1, line_color = color.new(c, 55), line_style = line.style_dashed, force_overlay = true))
+                plArr.push(polyline.new(d1, line_color = color.new(c, 55), line_style = line.style_dashed, force_overlay = true))
+            if nBands >= 2
+                plArr.push(polyline.new(u2, line_color = color.new(c, 70), line_style = line.style_dotted, force_overlay = true))
+                plArr.push(polyline.new(d2, line_color = color.new(c, 70), line_style = line.style_dotted, force_overlay = true))
+            lbArr.push(label.new(bar_index, lastVw, txt + "  " + str.tostring(lastVw, format.mintick),
+                 style = label.style_label_left, color = c, textcolor = color.black, size = size.small, force_overlay = true))
+    lastVw
+
+if barstate.islast
+    for p in plArr
+        p.delete()
+    plArr.clear()
+    for l in lbArr
+        l.delete()
+    lbArr.clear()
+    if showHi
+        f_drawAvwap(hiAnchor, colHi, hiTxt)
+    if showLo
+        f_drawAvwap(loAnchor, colLo, loTxt)
+    if thirdMode != "Off"
+        f_drawAvwap(thAnchor, colTh, thTxt)
+
+plot(avHiNow, "High AVWAP", display = display.data_window, force_overlay = true)
+plot(avLoNow, "Low AVWAP", display = display.data_window, force_overlay = true)
+plot(avThNow, "Third AVWAP", display = display.data_window, force_overlay = true)
+
+// ═══════════════════════════ 2) VISIBLE RANGE VOLUME PROFILE ═══════════════════════════
+int    tfSec  = timeframe.in_seconds(timeframe.period)
+string ltfStr = tfSec <= 60 ? timeframe.period : tfSec <= 900 ? "1" : tfSec <= 3600 ? "5" : tfSec <= 14400 ? "15" : tfSec <= 86400 ? "60" : tfSec <= 604800 ? "240" : "D"
+[ih, il, iv, ic, io] = request.security_lower_tf(syminfo.tickerid, ltfStr, [high, low, volume, close, open], ignore_invalid_symbol = true)
+
+bool inView = time >= chart.left_visible_bar_time and time <= chart.right_visible_bar_time
+var array<float> vH   = array.new<float>()
+var array<float> vL   = array.new<float>()
+var array<float> vVol = array.new<float>()
+var array<bool>  vUpA = array.new<bool>()
+var int firstVisBar = na
+var int lastVisBar  = na
+if inView
+    int nIntra = useLTF and not lite ? ih.size() : 0
+    if nIntra > 0
+        for k = 0 to nIntra - 1
+            vH.push(ih.get(k))
+            vL.push(il.get(k))
+            vVol.push(nz(iv.get(k)))
+            vUpA.push(ic.get(k) >= io.get(k))
+    else
+        vH.push(high)
+        vL.push(low)
+        vVol.push(vol)
+        vUpA.push(close >= open)
+    if na(firstVisBar)
+        firstVisBar := bar_index
+    lastVisBar := bar_index
+
+var array<box>  vpBoxes  = array.new<box>()
+var array<line> vpLines  = array.new<line>()
+var array<label> vpLabels = array.new<label>()
+var float pocPrice = na
+var float vaHigh = na
+var float vaLow  = na
+
+if barstate.islast and showVP and vH.size() > 0
+    for b in vpBoxes
+        b.delete()
+    vpBoxes.clear()
+    for ln in vpLines
+        ln.delete()
+    vpLines.clear()
+    for lb in vpLabels
+        lb.delete()
+    vpLabels.clear()
+    float pHi  = vH.max()
+    float pLo  = vL.min()
+    float step = (pHi - pLo) / vpRows
+    if step > 0
+        array<float> upV = array.new<float>(vpRows, 0.0)
+        array<float> dnV = array.new<float>(vpRows, 0.0)
+        for j = 0 to vH.size() - 1
+            float h = vH.get(j)
+            float l = vL.get(j)
+            float v = vVol.get(j)
+            bool isUpBar = vUpA.get(j)
+            int r0 = math.max(0, math.min(vpRows - 1, math.floor((l - pLo) / step)))
+            int r1 = math.max(0, math.min(vpRows - 1, math.floor((h - pLo) / step)))
+            float rng = h - l
+            for r = r0 to r1
+                float rb = pLo + r * step
+                float rt = rb + step
+                float part = rng > 0 ? v * math.max(0.0, math.min(h, rt) - math.max(l, rb)) / rng : v
+                if isUpBar
+                    upV.set(r, upV.get(r) + part)
+                else
+                    dnV.set(r, dnV.get(r) + part)
+        // POC
+        array<float> tot = array.new<float>(vpRows, 0.0)
+        float maxV = 0.0
+        float sumV = 0.0
+        int pocRow = 0
+        for r = 0 to vpRows - 1
+            float t = upV.get(r) + dnV.get(r)
+            tot.set(r, t)
+            sumV += t
+            if t > maxV
+                maxV := t
+                pocRow := r
+        // Value Area: expand from POC, adding the larger neighbouring row each step
+        int loR = pocRow
+        int hiR = pocRow
+        float acc = tot.get(pocRow)
+        float target = sumV * vaPct / 100
+        while acc < target and (loR > 0 or hiR < vpRows - 1)
+            float upNext = hiR < vpRows - 1 ? tot.get(hiR + 1) : -1.0
+            float dnNext = loR > 0 ? tot.get(loR - 1) : -1.0
+            if upNext >= dnNext
+                hiR += 1
+                acc += upNext
+            else
+                loR -= 1
+                acc += dnNext
+        pocPrice := pLo + (pocRow + 0.5) * step
+        vaHigh   := pLo + (hiR + 1) * step
+        vaLow    := pLo + loR * step
+        // Draw histogram
+        int maxW = math.max(1, math.round(vVol.size() > 0 ? (lastVisBar - firstVisBar + 1) * vpWidthPct / 100 : 1))
+        int xR = lastVisBar + vpOffset
+        if maxV > 0
+            for r = 0 to vpRows - 1
+                float t = tot.get(r)
+                if t > 0
+                    bool inVA = r >= loR and r <= hiR
+                    int w   = math.max(1, math.round(maxW * t / maxV))
+                    int wUp = math.round(w * upV.get(r) / t)
+                    float yb = pLo + r * step
+                    float yt = yb + step
+                    int xL = xR - w
+                    color cu = color.new(vpUpC, inVA ? vaTr : outTr)
+                    color cd = color.new(vpDnC, inVA ? vaTr : outTr)
+                    if wUp > 0
+                        vpBoxes.push(box.new(xL, yt, xL + wUp, yb, border_color = color(na), border_width = 0, bgcolor = cu, force_overlay = true))
+                    if w - wUp > 0
+                        vpBoxes.push(box.new(xL + wUp, yt, xR, yb, border_color = color(na), border_width = 0, bgcolor = cd, force_overlay = true))
+        if showLevels
+            vpLines.push(line.new(firstVisBar, pocPrice, xR, pocPrice, color = color.new(#FFEB3B, 10), width = 2, force_overlay = true))
+            vpLines.push(line.new(firstVisBar, vaHigh, xR, vaHigh, color = color.new(#B0BEC5, 30), style = line.style_dashed, force_overlay = true))
+            vpLines.push(line.new(firstVisBar, vaLow, xR, vaLow, color = color.new(#B0BEC5, 30), style = line.style_dashed, force_overlay = true))
+            vpLabels.push(label.new(firstVisBar, pocPrice, "POC " + str.tostring(pocPrice, format.mintick), style = label.style_label_right,
+                 color = color.new(color.black, 100), textcolor = #FFEB3B, size = size.tiny, force_overlay = true))
+            vpLabels.push(label.new(firstVisBar, vaHigh, "VAH " + str.tostring(vaHigh, format.mintick), style = label.style_label_right,
+                 color = color.new(color.black, 100), textcolor = #B0BEC5, size = size.tiny, force_overlay = true))
+            vpLabels.push(label.new(firstVisBar, vaLow, "VAL " + str.tostring(vaLow, format.mintick), style = label.style_label_right,
+                 color = color.new(color.black, 100), textcolor = #B0BEC5, size = size.tiny, force_overlay = true))
+
+// ═══════════════════════════ 3) PATTERN: FLAT TOP + REGRESSION SUPPORT ═══════════════════════════
+float phv = ta.pivothigh(high, pivLen, pivLen)
+float plv = ta.pivotlow(low, pivLen, pivLen)
+var array<float> phV = array.new<float>()
+var array<int>   phB = array.new<int>()
+var array<float> plV = array.new<float>()
+var array<int>   plB = array.new<int>()
+
+var float resTop = na
+var float resBot = na
+var int   resStart = na
+if not na(phv)
+    phV.push(phv)
+    phB.push(bar_index - pivLen)
+    if phV.size() > 30
+        phV.shift()
+        phB.shift()
+    int n = phV.size()
+    if n >= nPiv
+        float t = phV.get(n - 1)
+        float b = t
+        for k = n - nPiv to n - 1
+            t := math.max(t, phV.get(k))
+            b := math.min(b, phV.get(k))
+        if (t - b) / t * 100 <= tolPct
+            resTop := t
+            resBot := b
+            resStart := phB.get(n - nPiv)
+        else
+            resTop := na
+            resBot := na
+            resStart := na
+
+var float supSlope = na
+var float supIntc  = na
+var int   supStartBar = na
+if not na(plv)
+    plV.push(plv)
+    plB.push(bar_index - pivLen)
+    if plV.size() > 30
+        plV.shift()
+        plB.shift()
+    int m = plV.size()
+    int kN = math.min(supK, m)
+    supSlope := na
+    supIntc := na
+    supStartBar := na
+    if kN >= 2
+        float mx = 0.0
+        float my = 0.0
+        for j = m - kN to m - 1
+            mx += plB.get(j)
+            my += plV.get(j)
+        mx /= kN
+        my /= kN
+        float sxy = 0.0
+        float sxx = 0.0
+        for j = m - kN to m - 1
+            float dx = plB.get(j) - mx
+            sxy += dx * (plV.get(j) - my)
+            sxx += dx * dx
+        if sxx > 0
+            float slope = sxy / sxx
+            if slope > 0
+                supSlope := slope
+                supIntc := my - slope * mx
+                supStartBar := plB.get(m - kN)
+
+float supNow   = na(supSlope) ? na : supIntc + supSlope * bar_index
+bool  resValid = not na(resTop) and bar_index - resStart <= triMaxAge
+bool  supValid = not na(supNow) and bar_index - supStartBar <= triMaxAge
+
+float vol50 = ta.sma(vol, 50)
+float relVol = vol50 > 0 ? vol / vol50 : na
+bool  xResUp  = ta.crossover(close, resTop)
+bool  boCross = resValid and xResUp
+bool  boConfirmed = boCross and relVol >= boVolMult
+bool  boWeak = boCross and not (relVol >= boVolMult)
+bool  xSupDn   = ta.crossunder(close, supNow)
+bool  supBreak = supValid and xSupDn
+
+plotshape(showBO and boConfirmed, "Volume-confirmed breakout", shape.triangleup, location.belowbar, color = #00E676, size = size.small, force_overlay = true)
+plotshape(showBO and boWeak, "Low-volume breakout", shape.xcross, location.belowbar, color = color.gray, size = size.tiny, force_overlay = true)
+
+var box   resBox = na
+var line  supLine = na
+var label triLbl = na
+if barstate.islast and showTri
+    box.delete(resBox)
+    line.delete(supLine)
+    label.delete(triLbl)
+    if resValid
+        float thick = math.max(resTop - resBot, resTop * 0.002)
+        resBox := box.new(resStart, resTop, bar_index + 3, resTop - thick,
+             border_color = color(na), border_width = 0, bgcolor = color.new(#90A4AE, 55), force_overlay = true)
+    if supValid
+        supLine := line.new(supStartBar, supIntc + supSlope * supStartBar, bar_index, supNow, color = color.white, width = 1, force_overlay = true)
+    if resValid and supValid
+        triLbl := label.new(bar_index, resTop, "Ascending triangle", style = label.style_label_lower_left,
+             color = color.new(color.white, 85), textcolor = color.white, size = size.small, force_overlay = true)
+
+// ═══════════════════════════ 4) RELATIVE STRENGTH ═══════════════════════════
+f_score() =>
+    float ibd = 0.4 * (close / close[63] - 1) + 0.2 * (close / close[126] - 1) + 0.2 * (close / close[189] - 1) + 0.2 * (close / close[252] - 1)
+    float yr  = close / close[252] - 1
+    rsMethod == "IBD weighted (3/6/9/12m)" ? ibd : yr
+
+float myScore = request.security(syminfo.tickerid, "D", f_score(), ignore_invalid_symbol = true)
+float idxC    = request.security(idxSym, timeframe.period, close, ignore_invalid_symbol = true)
+
+float rsRating = na
+if calcRS and not lite
+    string cleaned = str.replace_all(str.replace_all(basket, " ", ""), "\n", "")
+    array<string> syms = str.split(cleaned, ",")
+    string selfSym = syminfo.prefix + ":" + syminfo.ticker
+    int beat  = 0
+    int valid = 0
+    for s in syms
+        if str.length(s) > 0 and s != selfSym
+            float sc = request.security(s, "D", f_score(), ignore_invalid_symbol = true)
+            if not na(sc) and not na(myScore)
+                valid += 1
+                if myScore > sc
+                    beat += 1
+    rsRating := valid > 0 ? 1 + 98.0 * beat / valid : na
+
+float rsLine  = idxC > 0 ? close / idxC : na
+float rsHi    = ta.highest(rsLine, rsNHLen)
+float prHi    = ta.highest(high, rsNHLen)
+bool  rsNH    = not na(rsLine) and rsLine >= rsHi
+bool  priceNH = high >= prHi
+bool  rsLead  = rsNH and not priceNH
+
+bool isRSR = paneMode == "RS Rating"
+bool isRSL = paneMode == "RS Line"
+
+plot(isRSR ? rsRating : na, "RS Rating", color = color.white, linewidth = 2)
+plot(isRSR ? 80 : na, "80", color = color.new(color.gray, 40))
+plot(isRSR ? 50 : na, "50", color = color.new(color.gray, 65))
+plot(isRSR ? 20 : na, "20", color = color.new(color.gray, 40))
+bgcolor(isRSR and rsRating >= 80 ? color.new(#4CAF50, 88) : isRSR and rsRating <= 20 ? color.new(#F44336, 85) : na)
+
+plot(isRSL ? rsLine : na, "RS Line", color = #64B5F6, linewidth = 2)
+plot(isRSL and rsNH ? rsLine : na, "RS new high", style = plot.style_circles, linewidth = 4, color = rsLead ? #2962FF : color.new(#90CAF9, 20))
+
+var label rsLbl = na
+if barstate.islast
+    label.delete(rsLbl)
+    if isRSR and not na(rsRating)
+        rsLbl := label.new(bar_index, rsRating, "RS Rating " + str.tostring(rsRating, "#") + " (vs basket)", style = label.style_label_left,
+             color = color.new(color.black, 100), textcolor = color.white, size = size.normal)
+
+// ═══════════════════════════ 5) MACD ═══════════════════════════
+[m0, s0, h0] = ta.macd(mSrc, fastLen, slowLen, sigLen)
+float mScale = macdPct ? 100.0 / close : 1.0
+float macdL = m0 * mScale
+float sigL  = s0 * mScale
+float histL = h0 * mScale
+bool xUp = ta.crossover(m0, s0)
+bool xDn = ta.crossunder(m0, s0)
+bool converging = math.abs(h0) / close * 100 < convPct and math.abs(h0) < math.abs(nz(h0[1]))
+bool isMacd = paneMode == "MACD"
+
+plot(isMacd ? macdL : na, "MACD", color = #2196F3, linewidth = 2)
+plot(isMacd ? sigL : na, "Signal", color = #FF9800, linewidth = 2)
+plot(isMacd ? 0 : na, "Zero", color = color.new(color.gray, 50))
+plot(isMacd and showHist ? histL : na, "Histogram", style = plot.style_columns,
+     color = histL >= 0 ? color.new(#26A69A, 50) : color.new(#EF5350, 50))
+plot(isMacd and (xUp or xDn) ? macdL : na, "Crossover", style = plot.style_circles, linewidth = 10,
+     color = xUp ? color.new(#FFD54F, 30) : color.new(#CE93D8, 30))
+bgcolor(isMacd and converging ? color.new(#FFD54F, 85) : na)
+
+// Volume pane (saves the second indicator slot on free plans)
+bool isVol = paneMode == "Volume"
+plot(isVol ? vol : na, "Volume", style = plot.style_columns,
+     color = boConfirmed ? #00E676 : close >= open ? color.new(#26A69A, 40) : color.new(#EF5350, 40))
+plot(isVol ? vol50 : na, "50-bar avg volume", color = color.new(color.white, 30))
+
+// ═══════════════════════════ 7) TRADE SIGNALS ═══════════════════════════
+// Every input here is point-in-time: AVWAP anchors, trend, RS and volume use only data
+// available on that bar, and signals are confirmed on bar close (no repainting).
+float sma50  = ta.sma(close, 50)
+float sma200 = ta.sma(close, 200)
+float atr14  = ta.atr(14)
+float atrPct = atr14 / close * 100
+float hh252  = ta.highest(high, 252)
+
+bool  upTrend = close > sma200 and sma50 > sma200
+bool  dnTrend = close < sma200 and sma50 < sma200
+float rngBar  = high - low
+bool  bullBar = close > open and close > close[1] and (rngBar == 0 or close - low >= 0.5 * rngBar)
+bool  bearBar = close < open and close < close[1] and (rngBar == 0 or high - close >= 0.5 * rngBar)
+float tolAbs  = atr14 * touchAtr
+bool  loRising = avLoNow > avLoNow[5]
+bool  thRising = avThNow > avThNow[5]
+bool  momUp    = m0 > s0 or h0 > h0[1]
+bool  rsUsable = calcRS and not lite and not na(rsRating)
+bool  rsStrong = rsUsable ? rsRating >= 70 : (not na(rsHi) and rsLine >= rsHi * 0.97)
+
+f_touchHold(float lvl) =>
+    not na(lvl) and low <= lvl + tolAbs and close > lvl
+
+// Buy setups
+bool pbLo  = f_touchHold(avLoNow) and loRising
+bool pbTh  = f_touchHold(avThNow) and thRising
+bool setPB = usePB and upTrend and (pbLo or pbTh) and bullBar
+bool xHiUp = ta.crossover(close, avHiNow)
+bool setRC = useRC and xHiUp and relVol >= rvolRC and close > open
+bool setBO = useBO and boConfirmed and rsStrong
+float osBand = avLoNow - 2 * sdLo
+bool setOS = useOS and sdLo > 0 and low <= osBand and close > osBand and bullBar and close > sma200
+
+int score = (upTrend ? 1 : 0) + (rsStrong ? 1 : 0) + (momUp ? 1 : 0) + (relVol >= 1 ? 1 : 0) +
+     (not na(avHiNow) and not na(avLoNow) and close > avHiNow and close > avLoNow ? 1 : 0)
+
+var int lastBuyBar  = na
+var int lastSellBar = na
+bool buyRaw = setPB or setRC or setBO or setOS
+bool buySig = showBuy and barstate.isconfirmed and buyRaw and score >= minScore and (na(lastBuyBar) or bar_index - lastBuyBar >= sigCool)
+string buyType = setBO ? "Breakout" : setRC ? "Reclaim" : setPB ? "Pullback" : setOS ? "Oversold bounce" : ""
+
+// Sell / exit setups
+bool setTrim = sdLo > 0 and high >= avLoNow + 2 * sdLo and bearBar
+bool setRej  = dnTrend and not na(avHiNow) and high >= avHiNow - tolAbs and close < avHiNow and bearBar
+bool loBreak = ta.crossunder(close, avLoNow)
+bool setExit = (loBreak and relVol >= 1.2) or supBreak
+bool sellRaw = setTrim or setRej or setExit
+bool sellSig = showSell and barstate.isconfirmed and sellRaw and (na(lastSellBar) or bar_index - lastSellBar >= sigCool)
+string sellType = setExit ? "Exit" : setRej ? "Rejected" : setTrim ? "Trim" : ""
+
+// Latest buy plan
+var float  planEntry = na
+var float  planStop  = na
+var float  planT1    = na
+var float  planT2    = na
+var string planType  = ""
+var int    planBar   = na
+var int    planScore = na
+var int    planTime  = na
+var string lastSellTxt = ""
+if buySig
+    lastBuyBar := bar_index
+    float support = setPB ? (pbLo ? avLoNow : avThNow) : setRC ? math.min(low, avHiNow) : low
+    planEntry := close
+    planStop  := math.min(low, support) - stopAtr * atr14
+    float risk = planEntry - planStop
+    planT1    := planEntry + tgtR * risk
+    planT2    := not na(avHiNow) and avHiNow > planEntry * 1.01 ? avHiNow : hh252 > planEntry * 1.01 ? hh252 : planEntry + 2 * tgtR * risk
+    planType  := buyType
+    planBar   := bar_index
+    planScore := score
+    planTime  := time
+if sellSig
+    lastSellBar := bar_index
+    lastSellTxt := sellType + " · " + str.format_time(time, "dd MMM yyyy", syminfo.timezone)
+
+// Markers (constant text per setup type)
+plotshape(buySig and buyType == "Pullback", "BUY pullback", shape.labelup, location.belowbar, color = #00C853, text = "BUY\nPB", textcolor = color.white, size = size.small, force_overlay = true)
+plotshape(buySig and buyType == "Reclaim", "BUY reclaim", shape.labelup, location.belowbar, color = #00B0FF, text = "BUY\nRC", textcolor = color.white, size = size.small, force_overlay = true)
+plotshape(buySig and buyType == "Breakout", "BUY breakout", shape.labelup, location.belowbar, color = #00E676, text = "BUY\nBO", textcolor = color.black, size = size.small, force_overlay = true)
+plotshape(buySig and buyType == "Oversold bounce", "BUY oversold", shape.labelup, location.belowbar, color = #FFD600, text = "BUY\nOS", textcolor = color.black, size = size.small, force_overlay = true)
+plotshape(sellSig and sellType == "Trim", "TRIM stretched", shape.labeldown, location.abovebar, color = #FF9100, text = "TRIM", textcolor = color.black, size = size.small, force_overlay = true)
+plotshape(sellSig and sellType == "Rejected", "SELL rejected", shape.labeldown, location.abovebar, color = #FF5252, text = "SELL\nREJ", textcolor = color.white, size = size.small, force_overlay = true)
+plotshape(sellSig and sellType == "Exit", "EXIT breakdown", shape.labeldown, location.abovebar, color = #D50000, text = "EXIT", textcolor = color.white, size = size.small, force_overlay = true)
+
+// Plan lines for the latest buy (while price stays above its stop)
+var array<line>  planLines  = array.new<line>()
+var array<label> planLabels = array.new<label>()
+if barstate.islast
+    for ln in planLines
+        ln.delete()
+    planLines.clear()
+    for lb in planLabels
+        lb.delete()
+    planLabels.clear()
+    if showPlan and not na(planBar) and close > planStop
+        int xe = bar_index + 8
+        planLines.push(line.new(planBar, planEntry, xe, planEntry, color = color.new(color.white, 20), style = line.style_dotted, force_overlay = true))
+        planLines.push(line.new(planBar, planStop, xe, planStop, color = #FF5252, width = 2, force_overlay = true))
+        planLines.push(line.new(planBar, planT1, xe, planT1, color = #00E676, style = line.style_dashed, force_overlay = true))
+        planLines.push(line.new(planBar, planT2, xe, planT2, color = #00E676, style = line.style_dotted, force_overlay = true))
+        planLabels.push(label.new(xe, planStop, "Stop " + str.tostring(planStop, format.mintick), style = label.style_label_left, color = color.new(#FF5252, 20), textcolor = color.white, size = size.tiny, force_overlay = true))
+        planLabels.push(label.new(xe, planT1, str.tostring(tgtR, "0.#") + "R " + str.tostring(planT1, format.mintick), style = label.style_label_left, color = color.new(#00E676, 30), textcolor = color.black, size = size.tiny, force_overlay = true))
+        planLabels.push(label.new(xe, planT2, "T2 " + str.tostring(planT2, format.mintick), style = label.style_label_left, color = color.new(#00E676, 50), textcolor = color.black, size = size.tiny, force_overlay = true))
+
+// ═══════════════════════════ 6) REVENUE TABLE ═══════════════════════════
+float rev = request.financial(syminfo.tickerid, "TOTAL_REVENUE", "FQ", barmerge.gaps_on, ignore_invalid_symbol = true)
+var array<float> revV = array.new<float>()
+var array<int>   revT = array.new<int>()
+if not na(rev)
+    revV.push(rev)
+    revT.push(time)
+    if revV.size() > 20
+        revV.shift()
+        revT.shift()
+
+f_pct(float x) =>
+    na(x) ? "–" : (x >= 0 ? "+" : "") + str.tostring(x, "0.0") + "%"
+
+var table revTbl = table.new(position.bottom_left, 3, 13, bgcolor = color.new(color.black, 25), border_width = 1, force_overlay = true)
+if barstate.islast and showRev and revV.size() > 0
+    revTbl.clear(0, 0, 2, 12)
+    revTbl.cell(0, 0, "Reported", text_color = color.white, text_size = size.small)
+    revTbl.cell(1, 0, "Revenue", text_color = color.white, text_size = size.small)
+    revTbl.cell(2, 0, "YoY", text_color = color.white, text_size = size.small)
+    int sz = revV.size()
+    int shown = math.min(revN, sz)
+    for i = 0 to shown - 1
+        int idx = sz - 1 - i
+        float v = revV.get(idx)
+        float yoy = idx >= 4 ? (v / revV.get(idx - 4) - 1) * 100 : na
+        color yc = na(yoy) ? color.gray : yoy >= 0 ? #4CAF50 : #F44336
+        revTbl.cell(0, i + 1, str.format_time(revT.get(idx), "MMM yyyy", syminfo.timezone), text_color = color.silver, text_size = size.small)
+        revTbl.cell(1, i + 1, str.tostring(v / 1e9, "0.00") + "B", text_color = color.white, text_size = size.small)
+        revTbl.cell(2, i + 1, f_pct(yoy), text_color = yc, text_size = size.small)
+
+// ═══════════════════════════ 7) DASHBOARD ═══════════════════════════
+
+f_dist(float lvl) =>
+    na(lvl) ? "–" : (close >= lvl ? "Above " : "Below ") + str.tostring(lvl, format.mintick) + " (" + f_pct((close / lvl - 1) * 100) + ")"
+f_col(float lvl) =>
+    na(lvl) ? color.gray : close >= lvl ? #4CAF50 : #F44336
+
+var table dash = table.new(position.top_right, 2, 15, bgcolor = color.new(color.black, 20), border_width = 1, force_overlay = true)
+if barstate.islast and showDash
+    dash.clear(0, 0, 1, 14)
+    string trendTxt = close > sma50 and close > sma200 and sma50 > sma200 ? "Uptrend (above 50 & 200 SMA)" :
+         close < sma50 and close < sma200 and sma50 < sma200 ? "Downtrend (below 50 & 200 SMA)" : "Mixed / transition"
+    color trendCol = str.startswith(trendTxt, "Up") ? #4CAF50 : str.startswith(trendTxt, "Down") ? #F44336 : #FFB74D
+    string vaTxt = na(vaHigh) ? "–" : close > vaHigh ? "Above value (VAH " + str.tostring(vaHigh, format.mintick) + ")" :
+         close < vaLow ? "Below value (VAL " + str.tostring(vaLow, format.mintick) + ")" : "Inside value area"
+    string macdState = (m0 > s0 ? "Bullish" : "Bearish") + (m0 > 0 ? ", above 0" : ", below 0") + (converging ? " · converging" : "")
+    string pattern = resValid and close > resTop ? "Above flat top " + str.tostring(resTop, format.mintick) :
+         resValid and supValid ? "Ascending triangle (res " + str.tostring(resTop, format.mintick) + ")" :
+         resValid ? "Flat top at " + str.tostring(resTop, format.mintick) :
+         supValid ? "Rising support" : "None detected"
+    string rsTxt = (na(rsRating) ? "–" : str.tostring(rsRating, "#")) + (rsLead ? " · RS line new high before price" : rsNH ? " · RS line at new high" : "")
+    color rsCol = na(rsRating) ? color.gray : rsRating >= 80 ? #4CAF50 : rsRating >= 50 ? #FFB74D : #F44336
+    dash.cell(0, 0, syminfo.ticker, text_color = color.white, text_size = size.small)
+    dash.cell(1, 0, str.tostring(close, format.mintick), text_color = color.white, text_size = size.small)
+    dash.cell(0, 1, "Trend", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 1, trendTxt, text_color = trendCol, text_size = size.small)
+    dash.cell(0, 2, "High AVWAP", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 2, f_dist(avHiNow), text_color = f_col(avHiNow), text_size = size.small)
+    dash.cell(0, 3, "Low AVWAP", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 3, f_dist(avLoNow), text_color = f_col(avLoNow), text_size = size.small)
+    dash.cell(0, 4, thTxt, text_color = color.silver, text_size = size.small)
+    dash.cell(1, 4, f_dist(avThNow), text_color = f_col(avThNow), text_size = size.small)
+    dash.cell(0, 5, "Value area", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 5, vaTxt, text_color = color.white, text_size = size.small)
+    dash.cell(0, 6, "Volume POC", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 6, f_dist(pocPrice), text_color = f_col(pocPrice), text_size = size.small)
+    dash.cell(0, 7, "RS Rating", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 7, rsTxt, text_color = rsCol, text_size = size.small)
+    dash.cell(0, 8, "MACD", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 8, macdState, text_color = m0 > s0 ? #4CAF50 : #F44336, text_size = size.small)
+    dash.cell(0, 9, "Pattern", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 9, pattern, text_color = color.white, text_size = size.small)
+    dash.cell(0, 10, "Rel. volume", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 10, na(relVol) ? "–" : str.tostring(relVol, "0.00") + "× 50-bar avg", text_color = relVol >= boVolMult ? #4CAF50 : color.white, text_size = size.small)
+    dash.cell(0, 11, "ATR(14)", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 11, str.tostring(atrPct, "0.0") + "% of price", text_color = color.white, text_size = size.small)
+    bool planLive = not na(planBar) and close > planStop
+    string buyTxt = na(planBar) ? "None yet" : planType + " " + str.tostring(planScore) + "/5 · " + str.format_time(planTime, "dd MMM yyyy", syminfo.timezone) + (planLive ? "" : " (stopped)")
+    dash.cell(0, 12, "Last buy signal", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 12, buyTxt, text_color = planLive ? #00E676 : color.gray, text_size = size.small)
+    string planTxt = na(planBar) ? "–" : "Entry " + str.tostring(planEntry, format.mintick) + " · Stop " + str.tostring(planStop, format.mintick) + " · T1 " + str.tostring(planT1, format.mintick) + " · T2 " + str.tostring(planT2, format.mintick)
+    dash.cell(0, 13, "Plan", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 13, planTxt, text_color = color.white, text_size = size.small)
+    dash.cell(0, 14, "Last sell signal", text_color = color.silver, text_size = size.small)
+    dash.cell(1, 14, lastSellTxt == "" ? "None yet" : lastSellTxt, text_color = lastSellTxt == "" ? color.gray : #FF8A80, text_size = size.small)
+
+// ═══════════════════════════ ALERTS ═══════════════════════════
+bool aHiUp   = ta.crossover(close, avHiNow)
+bool aLoDn   = ta.crossunder(close, avLoNow)
+bool aThUp   = ta.crossover(close, avThNow)
+bool rsUp80  = ta.crossover(rsRating, 80)
+bool rsLeadN = rsLead and not rsLead[1]
+
+// One alert for everything (free plans have very few alert slots):
+// Alert → Condition: this indicator → "Any alert() function call" → Once per bar close.
+string evts = ""
+evts += aHiUp ? "closed above high AVWAP; " : ""
+evts += aLoDn ? "closed below low AVWAP; " : ""
+evts += aThUp ? "closed above " + thTxt + "; " : ""
+evts += boConfirmed ? "volume-confirmed breakout; " : ""
+evts += supBreak ? "rising support broken; " : ""
+evts += xUp ? "MACD bullish cross; " : ""
+evts += xDn ? "MACD bearish cross; " : ""
+evts += rsUp80 ? "RS Rating above 80; " : ""
+evts += rsLeadN ? "RS line new high before price; " : ""
+evts += buySig ? "BUY signal (" + buyType + ", score " + str.tostring(score) + "/5, stop " + str.tostring(planStop, format.mintick) + "); " : ""
+evts += sellSig ? "SELL signal (" + sellType + "); " : ""
+if barstate.isconfirmed and str.length(evts) > 0
+    alert(syminfo.ticker + " @ " + str.tostring(close, format.mintick) + " — " + evts, alert.freq_once_per_bar_close)
+
+// Individual conditions are still available if you prefer separate alerts
+alertcondition(aHiUp, "Close crosses ABOVE high AVWAP", "{{ticker}} closed above the high-anchored AVWAP")
+alertcondition(aLoDn, "Close crosses BELOW low AVWAP", "{{ticker}} closed below the low-anchored AVWAP")
+alertcondition(aThUp, "Close crosses ABOVE earnings/custom AVWAP", "{{ticker}} closed above the earnings/custom AVWAP")
+alertcondition(boConfirmed, "Volume-confirmed breakout", "{{ticker}} broke above flat-top resistance on above-average volume")
+alertcondition(supBreak, "Rising support broken", "{{ticker}} broke below rising support")
+alertcondition(xUp, "MACD bullish crossover", "{{ticker}}: MACD crossed above signal")
+alertcondition(xDn, "MACD bearish crossover", "{{ticker}}: MACD crossed below signal")
+alertcondition(rsUp80, "RS Rating above 80", "{{ticker}}: RS Rating rose above 80")
+alertcondition(rsLeadN, "RS line new high before price", "{{ticker}}: RS line made a new high before price")
+alertcondition(buySig, "BUY signal", "{{ticker}}: buy setup triggered")
+alertcondition(sellSig, "SELL / EXIT signal", "{{ticker}}: sell or exit setup triggered")
