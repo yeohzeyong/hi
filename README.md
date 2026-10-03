@@ -6,9 +6,8 @@ It is built around one question:
 > *Will the rent pay the installment and the maintenance, and am I buying far
 > enough below the real market to cover what I can't see inside?*
 
-It scrapes [bplelonglist.com](https://www.bplelonglist.com/) and
-[lelongtips.com.my](https://www.lelongtips.com.my/) (the same listing engine;
-duplicates across the two sites are merged), values each unit
+It scrapes [bplelonglist.com](https://www.bplelonglist.com/) plus the public
+Telegram channels of auction agents you list in `config.yaml`, values each unit
 against cleaned **PropertyGuru + iProperty** sale and rent data, measures the
 walk to the nearest **MRT / LRT / Monorail**, and remembers every auction it has
 seen. It then grades each unit A-D, gives a **walk-away bid** price, and gives a plain
@@ -39,7 +38,7 @@ bplelonglist ──► parse ──► SQLite history ──► market comps ─
 | Rent covers installment + maintenance | **Rent cover ratio** = rent ÷ (installment + maintenance + quit rent/assessment/insurance). Grade A requires ≥ 1.00× |
 | Cheap enough, since the condition is unknown | Grade A requires ≥ 20% below the *cleaned* market value. The walk-away bid also sets aside RM25/sqft for repairs and 12 months of possible maintenance arrears |
 | Fake / auction listings on portals | 7-layer cleaner (below). Every dashboard card shows which comps were kept and which were dropped, and why |
-| Learn from past auctions | lelongtips keeps old auctions online, and `scrape --backfill` seeds history from it. Every run is stored. The same unit coming back with a ~10% lower reserve counts as a new **round**. Per building it reports auction frequency, median reserve psf, "likely sold" psf and sell-through rate |
+| Learn from past auctions | Every run is stored. The same unit coming back with a ~10% lower reserve counts as a new **round**. Per building it reports auction frequency, median reserve psf, "likely sold" psf and sell-through rate |
 | Works long term | Runs unattended on GitHub Actions. Results are cached, fixes go in config files (no code changes needed), it fails loudly if a site blocks it, and history keeps accumulating |
 
 ### Fake-listing defence (portal comps)
@@ -104,6 +103,14 @@ Occupied units get an RM10k eviction buffer in the cash-needed figure.
    3. Add both as repo secrets `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
 
    You get one message per new A-grade deal, and again if a re-auction cuts its price.
+   To check the connection: **Actions → Auction tracker → Run workflow → `telegram-test`**. You should get a "connected" message within a minute.
+
+**Telegram channels**: the agents' public channels under `telegram_channels` in `config.yaml` are read daily through Telegram's no-login web preview.
+- Auction links posted there are analysed like any other listing.
+- Posts that look like sold results go to `data/telegram_inbox.csv`. Copy the ones you trust into `data/auction_results.csv`; nothing from Telegram changes a valuation automatically.
+- Private groups can't be read this way.
+
+**lelongtips** and the other sites on the same engine can be switched on under `sources`. lelongtips hides listing details unless you're logged in, so it is off by default. With an account, run locally with `--backend chrome` and log in once in the Chrome window it opens.
 
 ### 2. Run on your own PC with your Chrome (best for PropertyGuru / iProperty)
 PropertyGuru and iProperty use Cloudflare, which often blocks cloud servers

@@ -9,7 +9,7 @@ on:
         description: "Command to run"
         default: "run"
         type: choice
-        options: [run, "scrape --backfill", "comps --force", evaluate]
+        options: [run, "scrape --backfill", "comps --force", evaluate, telegram-test]
 
 permissions:
   contents: write
@@ -48,17 +48,21 @@ jobs:
         run: |
           git config user.name "auction-tracker-bot"
           git config user.email "auction-tracker-bot@users.noreply.github.com"
+          mkdir -p docs
           git add data docs
           git diff --cached --quiet || git commit -m "Tracker update $(date -u +%F)"
           git pull --rebase origin "${GITHUB_REF_NAME}" || true
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
-      - name: Upload dashboard
+      - name: Upload dashboard and database
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: dashboard
-          path: docs/
+          path: |
+            docs/
+            data/tracker.db
+          if-no-files-found: ignore
 
       # Publishes docs/ to GitHub Pages. Enable once: Settings -> Pages ->
       # Source: "GitHub Actions". Skipped quietly if Pages is not enabled.
@@ -66,11 +70,11 @@ jobs:
         id: pages
         continue-on-error: true
       - uses: actions/upload-pages-artifact@v3
-        if: steps.pages.outcome == 'success'
+        if: steps.pages.outcome == 'success' && hashFiles('docs/index.html') != ''
         with:
           path: docs/
       - uses: actions/deploy-pages@v4
-        if: steps.pages.outcome == 'success'
+        if: steps.pages.outcome == 'success' && hashFiles('docs/index.html') != ''
         continue-on-error: true
 
   test:

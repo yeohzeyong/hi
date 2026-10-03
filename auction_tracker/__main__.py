@@ -31,6 +31,7 @@ def _fetcher(cfg, args) -> Fetcher:
 def cmd_scrape(cfg, args, conn):
     with _fetcher(cfg, args) as f:
         pipeline.scrape(conn, f, cfg, backfill=args.backfill)
+        pipeline.scrape_telegram(conn, f, cfg, backfill=args.backfill)
 
 
 def cmd_comps(cfg, args, conn):
@@ -60,6 +61,10 @@ def cmd_run(cfg, args, conn):
             stats = pipeline.scrape(conn, f, cfg)
         except Exception:
             logging.exception("scrape step failed; continuing with stored data")
+        try:
+            pipeline.scrape_telegram(conn, f, cfg)
+        except Exception:
+            logging.exception("telegram step failed; continuing")
         if not args.skip_comps:
             try:
                 pipeline.refresh_comps(conn, f, cfg, limit=args.limit)
@@ -101,6 +106,10 @@ def cmd_reparse(cfg, args, conn):
     pipeline.reparse(conn, cfg)
 
 
+def cmd_telegram_test(cfg, args, conn):
+    print(notify.send_test())
+
+
 def cmd_stations(cfg, args, conn):
     st = transit.load_stations(cfg["transit"]["bbox"], refresh=True)
     print(f"{len(st)} stations cached")
@@ -135,6 +144,7 @@ def main(argv=None):
     sp.add_argument("url")
     add("reparse", cmd_reparse, "re-parse stored listing text")
     add("stations", cmd_stations, "refresh rail station cache")
+    add("telegram-test", cmd_telegram_test, "send a test Telegram message")
 
     args = p.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,

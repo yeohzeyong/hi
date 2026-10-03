@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from auction_tracker import bpl, cleaning, db, finance, history, pipeline, portals, scoring, transit
+from auction_tracker import bpl, cleaning, db, finance, history, pipeline, portals, scoring, telegram, transit
 from auction_tracker.config import load_config
 
 FIX = Path(__file__).parent / "fixtures"
@@ -262,3 +262,52 @@ def test_occupied_adds_eviction_buffer(cfg):
     plain = scoring.evaluate(lst, None, None, None, {"rounds": 1}, None, {}, cfg)
     occ = scoring.evaluate({**lst, "occupied": True}, None, None, None, {"rounds": 1}, None, {}, cfg)
     assert occ["finance"]["cash_needed"] - plain["finance"]["cash_needed"] == cfg["finance"]["occupied_buffer"]
+
+
+# ----------------------------------------------------- telegram + fixes ----
+TG_PAGE = """
+<div class="tgme_widget_message_wrap"><div class="tgme_widget_message" data-post="chrispangauction/101">
+ <div class="tgme_widget_message_text">Setapak condo 1,184sf<br>Reserve RM370,000<br>
+ <a href="https://www.bplelonglist.com/auction/ZXZMN0pCTVNiRXpQVUFGT25OazlOQT09/Lelong-Auction-Condominium-in-Setapak-Kuala-Lumpur-for-RM370000">details</a></div>
+ <a class="tgme_widget_message_date" href="https://t.me/chrispangauction/101"><time datetime="2026-10-01T09:00:00+00:00"></time></a>
+</div></div>
+<div class="tgme_widget_message_wrap"><div class="tgme_widget_message" data-post="chrispangauction/102">
+ <div class="tgme_widget_message_text">SOLD! Residensi Danau Kota, reserve RM400,000, sold at RM452,000. 9 bidders</div>
+ <a class="tgme_widget_message_date"><time datetime="2026-10-02T09:00:00+00:00"></time></a>
+</div></div>"""
+
+
+def test_telegram_channel_name():
+    assert telegram.channel_name("t.me/MyPropertyInvest/3") == "MyPropertyInvest"
+    assert telegram.channel_name("https://t.me/s/chrispangauction") == "chrispangauction"
+
+
+def test_telegram_collect(tmp_path, monkeypatch):
+    monkeypatch.setattr(telegram, "INBOX_FILE", tmp_path / "inbox.csv")
+
+    class F:
+        def get(self, url):
+            return TG_PAGE if "before" not in url else "<html></html>"
+    conn = db.connect(tmp_path / "t.db")
+    res = telegram.collect(conn, F(), ["t.me/chrispangauction"], pages=2)
+    assert res["stats"]["new_posts"] == 2 and res["stats"]["results"] == 1
+    assert res["listing_urls"][0].endswith("for-RM370000")
+    inbox = (tmp_path / "inbox.csv").read_text()
+    assert "452,000" in inbox and "t.me/chrispangauction/102" in inbox
+    again = telegram.collect(conn, F(), ["chrispangauction"], pages=1)
+    assert again["stats"]["new_posts"] == 0          # no duplicates on re-run
+
+
+def test_link_extraction_prefers_full_slug():
+    html = ('<a href="/property/Q1Q4TjBBd01PWVFE/Lelong-Auction-Condominium-in-Setapak-Kuala-Lumpur">a</a>'
+            '<a href="/property/Q1Q4TjBBd01PWVFE/Lelong-Auction-Condominium-in-Setapak-Kuala-Lumpur-for-RM370000">b</a>')
+    assert bpl.extract_listing_links(html, "https://www.lelongtips.com.my/") == [
+        "https://www.lelongtips.com.my/property/Q1Q4TjBBd01PWVFE/Lelong-Auction-Condominium-in-Setapak-Kuala-Lumpur-for-RM370000"]
+
+
+def test_area_label_ignores_marketing_title(tmp_path, cfg):
+    conn = db.connect(tmp_path / "t.db")
+    url = ("https://www.bplelonglist.com/auction/dVBDYmxLY3VobCtGTW9Z/Lelong-Auction-Hotel-Suite-Nearby-"
+           "Bukit-Bintang-in-Brickfields-Kuala-Lumpur-for-RM500000")
+    lst = bpl.parse_detail("<main><h1>Suite near Bukit Bintang</h1>Reserve Price RM 500,000</main>", url)
+    assert pipeline.save_parsed(conn, lst, cfg) is None

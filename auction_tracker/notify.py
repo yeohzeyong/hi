@@ -41,6 +41,19 @@ def format_message(e: dict) -> str:
     return "\n".join(lines)
 
 
+def send_test() -> str:
+    """Send a hello message so you know alerts are wired up correctly."""
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not token or not chat:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID secrets are not set")
+    r = requests.post(f"https://api.telegram.org/bot{token}/sendMessage",
+                      json={"chat_id": chat, "text": "✅ Auction tracker connected. New A-grade deals will arrive here."},
+                      timeout=20)
+    if not r.ok:
+        raise RuntimeError(f"Telegram refused the message: {r.status_code} {r.text[:200]}")
+    return "sent"
+
+
 def notify(conn, results: list[dict], min_grade: str = "A") -> int:
     token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
     sent = 0
