@@ -192,6 +192,7 @@ def test_pipeline_end_to_end(tmp_path, cfg, monkeypatch):
     assert e["finance"]["rent_cover"] > 1.0
     assert e["finance"]["discount"] > 0.2
     assert e["grade"] == "A", (e["score"], e["parts"], e["cons"], e["notes"])
+    assert e["verdict"]["action"] == "BID"
 
     # second day: nothing new, listing marked as still seen without refetch
     stats2 = pipeline.scrape(conn, f, cfg)
@@ -201,3 +202,63 @@ def test_pipeline_end_to_end(tmp_path, cfg, monkeypatch):
     out = report.generate(results, {}, cfg, tmp_path / "docs")
     html = out.read_text()
     assert "Residensi Danau Kota Suites" in html and "</script>" in html
+
+
+# ------------------------------------------------- multi-source + verdict ----
+def test_marketing_slug_and_source():
+    u = ("https://www.lelongtips.com.my/property/UnV3WkNaN3dKMkNhL0l4S2hKSWI0QT09/Lelong-Auction-Freehold-Setapak-"
+         "Green-Condominium-Strategic-Location-5-min-to-Setapak-Central-Mall-7-min-to-Wangsa-Maju-LRT-Station-in-"
+         "Setapak-Kuala-Lumpur-for-RM540000")
+    s = bpl.parse_slug(u)
+    assert (s["building"], s["property_type"], s["area"], s["reserve_price"]) == ("Setapak Green", "Condominium", "Setapak", 540000)
+    assert bpl.source_name(u) == "lelongtips"
+    assert bpl.extract_listing_links(f'<a href="{u}">x</a>', "https://www.lelongtips.com.my/search/") == [u]
+
+
+def test_marketing_slug_does_not_become_building():
+    html = "<main><h1>x</h1>Reserve Price RM 333,000<br>Address: Prima Setapak Condominium, Jalan Prima Setapak, 53300</main>"
+    u = ("https://central.auctionpro.my/auction/SjlvR0d6MWJlSkVKZlBJL3FZSStMZz09/Lelong-Auction-Nestled-in-a-prime-and-"
+         "highly-sought-after-location-Condominium-in-Setapak-Kuala-Lumpur-for-RM333000")
+    assert bpl.parse_detail(html, u).building == "Prima Setapak Condominium"
+
+
+def test_merge_cross_listed():
+    base = dict(building_key="danau kota", area_label="Setapak", built_up=1184.0, reserve_price=370000.0,
+                auction_date="2026-12-01", dual_key=False, occupied=False, flags=[], address="", building="x",
+                unit="", tenure="")
+    rows = [{**base, "listing_id": "a", "url": "https://lelongtips/a", "source": "lelongtips"},
+            {**base, "listing_id": "b", "url": "https://bpl/b", "source": "bplelonglist", "address": "B-15-07",
+             "flags": ["Non-LACA"]}]
+    out = pipeline.merge_cross_listed(rows)
+    assert len(out) == 1 and out[0]["listing_id"] == "b"
+    assert out[0]["also_listed"] == ["https://lelongtips/a"] and out[0]["flags"] == ["Non-LACA"]
+
+
+def test_verdicts(cfg):
+    t = cfg["targets"]
+    assert scoring.make_verdict(370000, 386000, 0.29, False, None, t)["action"] == "BID"
+    w = scoring.make_verdict(400000, 365000, 0.15, False, None, t)
+    assert w["action"] == "WAIT" and w["next_round_price"] == 360000
+    assert scoring.make_verdict(500000, 386000, 0.0, False, None, t)["action"] == "PASS"
+    assert scoring.make_verdict(370000, 386000, 0.29, True, None, t)["action"] == "VERIFY"
+    hot = scoring.make_verdict(370000, 386000, 0.29, False, {"premium_over_reserve": 0.12}, t)
+    assert "outbid" in hot["text"]
+
+
+def test_auction_results_feed_building_stats(tmp_path):
+    f = tmp_path / "r.csv"
+    f.write_text("auction_date,building,area,built_up,reserve_price,sold_price,source,note\n"
+                 "2026-03-01,Residensi Danau Kota Suites,Setapak,1184,400000,452000,fb,\n"
+                 "2026-05-01,Danau Kota Suites,Setapak,1184,380000,410000,fb,\n")
+    conn = db.connect(tmp_path / "t.db")
+    _, b = history.load(conn, f)
+    st = b[db.building_key("Residensi Danau Kota Suites")]
+    assert st["reported_results"] == 2 and st["actual_sold_psf"] == pytest.approx(363.1, 0.1)
+    assert st["premium_over_reserve"] == pytest.approx(0.104, abs=0.001)
+
+
+def test_occupied_adds_eviction_buffer(cfg):
+    lst = {"built_up": 1184, "reserve_price": 370000, "auction_date": None, "flags": [], "dual_key": False}
+    plain = scoring.evaluate(lst, None, None, None, {"rounds": 1}, None, {}, cfg)
+    occ = scoring.evaluate({**lst, "occupied": True}, None, None, None, {"rounds": 1}, None, {}, cfg)
+    assert occ["finance"]["cash_needed"] - plain["finance"]["cash_needed"] == cfg["finance"]["occupied_buffer"]

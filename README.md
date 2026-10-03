@@ -6,10 +6,13 @@ It is built around one question:
 > *Will the rent pay the installment and the maintenance, and am I buying far
 > enough below the real market to cover what I can't see inside?*
 
-It scrapes [bplelonglist.com](https://www.bplelonglist.com/), values each unit
+It scrapes [bplelonglist.com](https://www.bplelonglist.com/) and
+[lelongtips.com.my](https://www.lelongtips.com.my/) (the same listing engine;
+duplicates across the two sites are merged), values each unit
 against cleaned **PropertyGuru + iProperty** sale and rent data, measures the
 walk to the nearest **MRT / LRT / Monorail**, and remembers every auction it has
-seen. It then grades each unit A-D and gives a **walk-away bid** price.
+seen. It then grades each unit A-D, gives a **walk-away bid** price, and gives a plain
+**BID / WAIT / PASS / VERIFY** verdict.
 
 (`pine/` holds unrelated TradingView scripts.)
 
@@ -36,7 +39,7 @@ bplelonglist ──► parse ──► SQLite history ──► market comps ─
 | Rent covers installment + maintenance | **Rent cover ratio** = rent ÷ (installment + maintenance + quit rent/assessment/insurance). Grade A requires ≥ 1.00× |
 | Cheap enough, since the condition is unknown | Grade A requires ≥ 20% below the *cleaned* market value. The walk-away bid also sets aside RM25/sqft for repairs and 12 months of possible maintenance arrears |
 | Fake / auction listings on portals | 7-layer cleaner (below). Every dashboard card shows which comps were kept and which were dropped, and why |
-| Learn from past auctions | Every run is stored. The same unit coming back with a ~10% lower reserve counts as a new **round**. Per building it reports auction frequency, median reserve psf, "likely sold" psf and sell-through rate |
+| Learn from past auctions | lelongtips keeps old auctions online, and `scrape --backfill` seeds history from it. Every run is stored. The same unit coming back with a ~10% lower reserve counts as a new **round**. Per building it reports auction frequency, median reserve psf, "likely sold" psf and sell-through rate |
 | Works long term | Runs unattended on GitHub Actions. Results are cached, fixes go in config files (no code changes needed), it fails loudly if a site blocks it, and history keeps accumulating |
 
 ### Fake-listing defence (portal comps)
@@ -73,6 +76,17 @@ Otherwise **B** ≥ 55, **C** ≥ 40, **D** below that, and **?** when there is 
 
 **Walk-away bid** is the highest price that still meets *both* the rent-cover
 and discount targets. Bid up to it and no further.
+
+**Verdict** (what to do):
+
+| Verdict | Meaning |
+|---|---|
+| **BID** | Targets are met at the reserve price. Bid up to the walk-away price. If your results file shows units in this building usually sell well above reserve, it warns that you'll probably be outbid. |
+| **WAIT** | Not worth it at this reserve. If unsold, it typically returns ~10% cheaper, which *would* work. You'll be alerted when it comes back and qualifies. |
+| **PASS** | Doesn't work even after a 10% cut. |
+| **VERIFY** | Looks good, but the market data is thin or the discount is suspiciously deep (≥ 45%). Usually that means occupancy, arrears, title trouble or a wrong size. |
+
+Occupied units get an RM10k eviction buffer in the cash-needed figure.
 
 ---
 
@@ -131,6 +145,14 @@ python -m auction_tracker reparse              # re-run the parser over stored p
   - pinned coordinates
   - `exclude: true` for a building you never want to see again
 - **`data/manual_comps.csv`**: paste real transactions or rentals you trust (for example from Brickz or NAPIC). They are merged with the portal comps.
+- **`data/auction_results.csv`**: paste **real auction outcomes**: date, building, sqft, reserve and sold price. Useful sources:
+  - Facebook auction groups (e.g. StayWokeProp)
+  - auctioneer results
+  - "sold" posts
+
+  This gives each building an actual sold psf, and shows how far above reserve units really go. That is the best guide to whether your walk-away price can win.
+
+  Facebook needs a login and doesn't allow scraping, so this one stays a quick manual paste.
 - **Building auction history** tab: buildings that keep showing up at auction, or rarely sell, are telling you something.
 
 ## Before you bid: checklist

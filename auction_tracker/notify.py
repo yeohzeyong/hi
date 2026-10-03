@@ -32,7 +32,10 @@ def format_message(e: dict) -> str:
         lines.append(f"{st['walk_m']} m to {st['type']} {st['name']}")
     if l.get("dual_key"):
         lines.append("Dual key ✅")
-    if b.get("max_bid"):
+    v = e.get("verdict") or {}
+    if v:
+        lines.append(f"➡️ {v['action']}: {v['text']}")
+    elif b.get("max_bid"):
         lines.append(f"Walk-away bid: RM{b['max_bid']:,}")
     lines.append(l["url"])
     return "\n".join(lines)

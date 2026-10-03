@@ -28,7 +28,7 @@ def _slim(ev: dict) -> dict:
 
 
 def write_csv(results: list[dict], path):
-    cols = ["grade", "score", "area", "building", "built_up", "reserve_price", "price_psf", "auction_date",
+    cols = ["grade", "verdict", "score", "area", "building", "built_up", "reserve_price", "price_psf", "auction_date",
             "market_value", "discount", "rent_estimate", "installment", "maintenance", "rent_cover",
             "max_bid", "station", "walk_m", "dual_key", "rounds", "flags", "url"]
     with open(path, "w", newline="", encoding="utf-8") as fh:
@@ -36,7 +36,7 @@ def write_csv(results: list[dict], path):
         w.writerow(cols)
         for e in results:
             l, f, st = e["listing"], e["finance"], e.get("station") or {}
-            w.writerow([e["grade"], e["score"], l["area_label"], l["building"], l["built_up"], l["reserve_price"],
+            w.writerow([e["grade"], (e.get("verdict") or {}).get("action"), e["score"], l["area_label"], l["building"], l["built_up"], l["reserve_price"],
                         f.get("price_psf"), l["auction_date"], e["market_value"], f.get("discount"),
                         e["rent_estimate"], f.get("installment"), f.get("maintenance"), f.get("rent_cover"),
                         e["max_bid"].get("max_bid"), st.get("name"), st.get("walk_m"), l["dual_key"],
@@ -52,7 +52,7 @@ def write_markdown(results: list[dict], path, min_grade: str):
         lines += [f"## [{e['grade']}] {l['building'] or l['title']} - {l['area_label']}",
                   f"- Reserve **RM{l['reserve_price']:,.0f}** ({l['built_up']:,.0f} sqft, RM{f.get('price_psf')} psf), "
                   f"auction {l['auction_date'] or 'TBC'}",
-                  f"- Walk-away bid: **RM{(e['max_bid'].get('max_bid') or 0):,}**",
+                  f"- **{(e.get('verdict') or {}).get('action', '')}**: {(e.get('verdict') or {}).get('text', '')}",
                   *[f"- ✅ {p}" for p in e["pros"]], *[f"- ⚠️ {c}" for c in e["cons"]],
                   f"- {l['url']}", ""]
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -113,6 +113,9 @@ select,input,button{font:inherit;color:var(--ink);background:var(--card);border:
 table{border-collapse:collapse;width:100%}td{padding:3px 0;border-bottom:1px dashed var(--line)}td:last-child{text-align:right}
 h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:6px 0}
 ul{margin:4px 0;padding-left:18px}a{color:var(--accent)}.links{display:flex;flex-wrap:wrap;gap:4px 12px}.links a{white-space:nowrap}
+.v{display:inline-block;font-weight:700;font-size:12px;border-radius:6px;padding:1px 7px;margin-right:6px;color:#fff}
+.vBID{background:var(--a)}.vWAIT{background:var(--c)}.vPASS{background:var(--d)}.vVERIFY{background:var(--b)}
+.verdict{padding:8px 14px;border-top:1px solid var(--line);font-size:13px}
 .empty{padding:30px;text-align:center;color:var(--muted)}
 .tbl{overflow-x:auto}.tbl table td,.tbl table th{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
 @media (max-width:600px){.row{grid-template-columns:40px 1fr}.nums{grid-column:2;text-align:left}}
@@ -155,7 +158,7 @@ $("#kpis").innerHTML = [["A deals", cnt("A")], ["B deals", cnt("B")], ["Active l
 
 function card(e) {
   const l = e.listing, f = e.finance || {}, st = e.station, b = e.max_bid || {};
-  const g = e.grade === "?" ? "Q" : e.grade;
+  const g = e.grade === "?" ? "Q" : e.grade, v = e.verdict || {};
   const chips = [];
   if (f.rent_cover != null) chips.push([`cover ${f.rent_cover.toFixed(2)}x`, f.rent_cover >= D.targets.min_rent_cover]);
   if (f.discount != null) chips.push([`${pct(f.discount)} below mkt`, f.discount >= D.targets.min_discount]);
@@ -174,6 +177,7 @@ function card(e) {
       <div class="chips">${chips.map(([t, ok]) => `<span class="chip ${ok ? "good" : "bad"}">${esc(t)}</span>`).join("")}</div></div>
     <div class="nums"><div class="t">${rm(l.reserve_price)}</div><div class="m">${f.price_psf ? "RM" + f.price_psf + " psf" : ""}</div>
       <div class="m">max bid <b>${rm(b.max_bid)}</b></div></div></div>
+    ${v.action ? `<div class="verdict"><span class="v v${v.action}">${v.action}</span>${esc(v.text)}</div>` : ""}
     <div class="detail"><div class="cols">
       <div><h3>Why</h3><ul>${e.pros.map(p => `<li>✅ ${esc(p)}</li>`).join("")}${e.cons.map(c => `<li>⚠️ ${esc(c)}</li>`).join("")}${e.notes.map(n => `<li>ℹ️ ${esc(n)}</li>`).join("")}</ul></div>
       <div><h3>Monthly at reserve</h3><table>
@@ -189,7 +193,8 @@ function card(e) {
         <tr><td><b>Total</b></td><td><b>${rm(f.cash_needed)}</b></td></tr><tr><td>10% deposit on auction day</td><td>${rm(f.deposit_on_auction_day)}</td></tr></table>
         <h3>Auction history (this unit)</h3>${ev.length ? `<ul>${ev.map(x => `<li>${esc(x.date)} · ${rm(x.price)} · ${esc(x.outcome || "")}</li>`).join("")}</ul>` : "<i>first time seen</i>"}</div>
       <div><h3>Sale comps</h3>${audit("sale")}<h3>Rent comps</h3>${audit("rent")}
-        <h3>Listing</h3><div class="m">${esc(l.address)}<br>${esc(l.title_type)} ${l.bumi ? "· Bumi lot" : ""}<br>${esc(l.bank)} ${esc(l.auctioneer)}</div></div>
+        <h3>Listing</h3><div class="m">${esc(l.address)}<br>${esc(l.title_type)} ${l.bumi ? "· Bumi lot" : ""}<br>${esc(l.bank)} ${esc(l.auctioneer)}
+        ${(l.also_listed || []).length ? `<br>Also listed: ${l.also_listed.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener">${i + 1}</a>`).join(" ")}` : ""}</div></div>
     </div><div class="links" style="margin-top:10px">${Object.entries(e.links || {}).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${k.replace(/_/g, " ")}</a>`).join("")}</div></div></div>`;
 }
 function render() {
@@ -212,6 +217,7 @@ $("#hist").innerHTML = H.length ? `<table><tr><th>Building</th><th>Auction event
 $("#meth").innerHTML = `<p><b>Score (0-100)</b> = rent cover (30) + discount to cleaned market value (25) + walk to MRT/LRT/Monorail (15) + rentability (15) + dual key (5) + auction history (10).</p>
 <p><b>A</b> needs score ≥ 70 <i>and</i> rent ≥ ${D.targets.min_rent_cover}× (installment + maintenance + other) <i>and</i> ≥ ${pct(D.targets.min_discount)} below market <i>and</i> enough clean comps. Otherwise B ≥ 55, C ≥ 40.</p>
 <p><b>Market data hygiene</b>: portal listings mentioning auction/lelong/below-market, room rentals, stale ads, duplicates across agents and portals, wrong unit sizes, bait lowballs and statistical outliers are removed; asking prices are haircut toward transacted levels. Open any deal and expand "see comps" to audit what was kept and dropped.</p>
+<p><b>Verdict</b>: <b>BID</b> = targets met at reserve, bid up to the walk-away price. <b>WAIT</b> = not worth it now, but a typical 10% cut next round would make it work. <b>PASS</b> = doesn't work even after a cut. <b>VERIFY</b> = looks good but the data is thin or the discount is suspiciously deep.</p>
 <p><b>Walk-away bid</b> = the highest price that still meets both the rent-cover and discount targets after a ${D.finance.repair_buffer_psf} RM/sqft repair buffer. Never bid above it.</p>`;
 render();
 </script>

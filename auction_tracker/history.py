@@ -12,9 +12,15 @@ Outcome inference (best-effort, the site does not publish results):
 
 from __future__ import annotations
 
+import csv
 import statistics
 from collections import defaultdict
 from datetime import date, timedelta
+from pathlib import Path
+
+from .config import DATA_DIR
+
+RESULTS_FILE = DATA_DIR / "auction_results.csv"
 
 
 def _events(conn):
@@ -98,6 +104,47 @@ def building_stats(events: list[dict]) -> dict[str, dict]:
     return out
 
 
-def load(conn):
+def load_results(path: Path | None = None) -> list[dict]:
+    """Real outcomes you collect (Facebook groups, auctioneers, lelongtips
+    'sold' posts): auction_date,building,area,built_up,reserve_price,sold_price,source,note"""
+    from .db import building_key
+    path = path or RESULTS_FILE
+    if not path.exists():
+        return []
+    out = []
+    with open(path, newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            try:
+                sold = float(row["sold_price"]) if row.get("sold_price") else None
+                reserve = float(row["reserve_price"]) if row.get("reserve_price") else None
+                sqft = float(row["built_up"]) if row.get("built_up") else None
+            except ValueError:
+                continue
+            if not row.get("building") or not (sold or reserve):
+                continue
+            out.append({"building_key": building_key(row["building"]), "area": row.get("area", ""),
+                        "date": row.get("auction_date", ""), "sold": sold, "reserve": reserve, "sqft": sqft})
+    return out
+
+
+def merge_results(bstats: dict, results: list[dict]) -> dict:
+    by_b = defaultdict(list)
+    for r in results:
+        by_b[r["building_key"]].append(r)
+    for bk, rs in by_b.items():
+        st = bstats.setdefault(bk, {"events": 0, "units": 0, "last_12m": 0, "median_reserve_psf": None,
+                                    "sold_psf": None, "sell_through": None})
+        sold = [r for r in rs if r["sold"] and r["sqft"]]
+        prem = [r["sold"] / r["reserve"] - 1 for r in rs if r["sold"] and r["reserve"]]
+        st["reported_results"] = len(rs)
+        if sold:
+            st["actual_sold_psf"] = round(statistics.median(r["sold"] / r["sqft"] for r in sold), 1)
+            st["sold_psf"] = st["actual_sold_psf"]          # real data beats inference
+        if prem:
+            st["premium_over_reserve"] = round(statistics.median(prem), 3)
+    return bstats
+
+
+def load(conn, results_path: Path | None = None):
     events = infer_outcomes(_events(conn))
-    return events, building_stats(events)
+    return events, merge_results(building_stats(events), load_results(results_path))

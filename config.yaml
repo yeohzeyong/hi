@@ -4,6 +4,17 @@
 # auction_tracker evaluate` after editing - no re-scraping needed.
 # ---------------------------------------------------------------------------
 
+# Auction listing sites. These all run the same listing engine, so one
+# parser reads them all and duplicates across sites are merged. lelongtips
+# keeps old auctions online - great for building auction history.
+# Same engine, uncomment to add: auctionpro, lelongsifu, listinglelong
+sources:
+  bplelonglist: "https://www.bplelonglist.com/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  lelongtips: "https://www.lelongtips.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # auctionpro: "https://www.auctionpro.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # lelongsifu: "https://lelongsifu.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # listinglelong: "https://listinglelong.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+
 search:
   state: "Kuala Lumpur"
   # Area name -> keywords searched on bplelonglist and matched against the
@@ -76,12 +87,15 @@ finance:
   arrears_buffer_months: 12   # outstanding maintenance you may inherit
   valuation_fee: 1500
   misc_fees: 3000          # auctioneer, searches, utilities reconnection, etc.
+  occupied_buffer: 10000   # legal eviction if the unit is occupied (RM3k-15k typical)
   dual_key_rent_premium: 0.15  # applied only if listing rent comps lack dual-key data
 
 targets:
   min_rent_cover: 1.00     # rent must cover installment + maintenance + other
   min_discount: 0.20       # vs. cleaned market value (unknown condition!)
   bid_increment: 1000
+  next_round_cut: 0.10     # unsold units usually return ~10% cheaper next round
+  suspicious_discount: 0.45   # deeper than this = "too good to be true", dig in
 
 transit:
   good_walk_m: 500

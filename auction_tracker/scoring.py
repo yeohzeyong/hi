@@ -37,6 +37,8 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
     fin_cfg = {**cfg["finance"]}
     if override.get("maintenance_psf"):
         fin_cfg["maintenance_psf"] = override["maintenance_psf"]
+    if lst.get("occupied"):
+        fin_cfg["misc_fees"] = fin_cfg.get("misc_fees", 0) + fin_cfg.get("occupied_buffer", 0)
     targets = cfg["targets"]
     tcfg = cfg["transit"]
     sqft = lst.get("built_up")
@@ -133,6 +135,12 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
         else:
             pros.append(f"Headroom to bid up to RM{bid['max_bid']:,} ({bid['binding']}-limited)")
 
+    if disc is not None and disc >= targets.get("suspicious_discount", 0.45):
+        cons.append(f"{disc:.0%} discount is unusually deep - verify size, occupancy, arrears and title "
+                    "before trusting it")
+    if lst.get("occupied"):
+        notes.append(f"Eviction buffer RM{fin_cfg.get('occupied_buffer', 0):,} added to cash needed")
+
     # ---- grade -----------------------------------------------------------
     low_conf = not (sale and sale.get("confident")) or not (rent and rent.get("confident"))
     if override.get("market_psf") and override.get("rent"):
@@ -141,6 +149,7 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
         grade = "?"
     elif (score >= 70 and cover and cover >= targets["min_rent_cover"]
           and disc is not None and disc >= targets["min_discount"]
+          and (bid.get("max_bid") or 0) >= (price or 0)
           and (walk is None or walk <= tcfg["max_walk_m"])):
         grade = "A"
     elif score >= 55:
@@ -154,9 +163,11 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
         notes.append("Capped at B: low data confidence or title/bumi issue - verify manually")
     if override.get("exclude"):
         status = "excluded_by_you"
+    verdict = make_verdict(price, bid.get("max_bid"), disc, low_conf, bstats, targets,
+                           has_data=market_value is not None or rent_est is not None)
 
     return {
-        "status": status, "grade": grade, "score": score, "parts": {k: (round(v, 1) if v is not None else None)
+        "status": status, "grade": grade, "score": score, "verdict": verdict, "parts": {k: (round(v, 1) if v is not None else None)
                                                                      for k, v in parts.items()},
         "market_value": round(market_value) if market_value else None,
         "rent_estimate": round(rent_est) if rent_est else None,
@@ -164,3 +175,27 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
         "finance": fin, "max_bid": bid, "unit_history": unit_hist, "building_stats": bstats,
         "low_confidence": low_conf, "pros": pros, "cons": cons, "notes": notes,
     }
+
+
+def make_verdict(price, max_bid, disc, low_conf, bstats, targets, has_data=True) -> dict:
+    """BID / WAIT / PASS / VERIFY - what to actually do about this auction."""
+    if not has_data or not price or max_bid is None:
+        return {"action": "VERIFY", "text": "Not enough market data - check rent and sale prices manually first."}
+    nxt = price * (1 - targets.get("next_round_cut", 0.10))
+    if max_bid >= price:
+        text = f"Bid from RM{price:,.0f} up to RM{max_bid:,} - stop there."
+        prem = (bstats or {}).get("premium_over_reserve")
+        if prem is not None and price * (1 + prem) > max_bid:
+            text += (f" Units here have sold ~{prem:.0%} above reserve (~RM{price * (1 + prem):,.0f}),"
+                     " above your limit - expect to be outbid; don't chase.")
+        action = "BID"
+        if low_conf or (disc is not None and disc >= targets.get("suspicious_discount", 0.45)):
+            action = "VERIFY"
+            text = "Numbers look good but data is thin or the discount looks too good - confirm comps first. " + text
+        return {"action": action, "text": text, "next_round_price": round(nxt)}
+    if max_bid >= nxt:
+        return {"action": "WAIT", "next_round_price": round(nxt),
+                "text": (f"Targets not met at RM{price:,.0f}. If unsold it should return at ~RM{nxt:,.0f}, "
+                         f"within your RM{max_bid:,} limit - you'll be alerted if it comes back cheaper and meets your targets.")}
+    return {"action": "PASS", "next_round_price": round(nxt),
+            "text": f"Even a 10% cut (~RM{nxt:,.0f}) stays above your walk-away price of RM{max_bid:,}."}

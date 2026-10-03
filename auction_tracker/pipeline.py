@@ -36,13 +36,21 @@ def scrape(conn, fetcher, cfg: dict, backfill: bool = False) -> dict:
     stats = {"new": 0, "updated": 0, "seen": 0, "search_pages": 0}
     keywords = [k for kws in s["areas"].values() for k in kws]
     pages = s["backfill_max_pages"] if backfill else s["max_pages_per_keyword"]
-    # Walk every result page (up to the cap) so still-listed units keep being
-    # marked as seen - auction-history inference relies on it.
-    for url, html in bpl.crawl(fetcher, s["state"], keywords, pages, known_ids,
-                               stop_after_known_pages=0, seen_sink=seen, stats=stats):
-        save_parsed(conn, bpl.parse_detail(html, url), cfg)
-        stats["new"] += 1
-        conn.commit()
+    sources = cfg.get("sources") or {"bplelonglist": bpl.DEFAULT_SEARCH}
+    for name, template in sources.items():
+        src_stats = {"search_pages": 0}
+        # Walk every result page (up to the cap) so still-listed units keep
+        # being marked as seen - auction-history inference relies on it.
+        for url, html in bpl.crawl(fetcher, s["state"], keywords, pages, known_ids,
+                                   stop_after_known_pages=0, seen_sink=seen, stats=src_stats,
+                                   template=template):
+            save_parsed(conn, bpl.parse_detail(html, url), cfg)
+            stats["new"] += 1
+            conn.commit()
+        stats["search_pages"] += src_stats["search_pages"]
+        stats[f"pages_{name}"] = src_stats["search_pages"]
+        if not src_stats["search_pages"]:
+            log.error("source %s returned no search pages (blocked or changed?)", name)
     # Listings already known: still listed today. Re-fetch only when the
     # reserve price in the URL slug changed (a new round / correction).
     for lid, url in seen.items():
@@ -95,6 +103,29 @@ def candidate_listings(conn, cfg: dict, active_only: bool = True) -> list[dict]:
             if not r["auction_date"] and r["last_seen"] < cutoff:
                 continue
         out.append(r)
+    return merge_cross_listed(out)
+
+
+def merge_cross_listed(rows: list[dict]) -> list[dict]:
+    """The same auction often appears on several sites. Keep the most complete
+    record and remember the other URLs."""
+    def completeness(r):
+        return (sum(bool(r.get(k)) for k in ("built_up", "auction_date", "address", "building", "unit", "tenure")),
+                r.get("source") == "bplelonglist")
+    groups: dict[tuple, list[dict]] = {}
+    for r in rows:
+        key = (r["building_key"] or r["area_label"], round((r["built_up"] or 0) / 10),
+               round(r["reserve_price"] or 0, -2), r["auction_date"] or r["listing_id"])
+        groups.setdefault(key, []).append(r)
+    out = []
+    for grp in groups.values():
+        grp.sort(key=completeness, reverse=True)
+        best = dict(grp[0])
+        best["also_listed"] = [g["url"] for g in grp[1:]]
+        best["dual_key"] = any(g["dual_key"] for g in grp)
+        best["occupied"] = any(g["occupied"] for g in grp)
+        best["flags"] = sorted({f for g in grp for f in g["flags"]})
+        out.append(best)
     return out
 
 
@@ -210,7 +241,9 @@ def evaluate_all(conn, cfg: dict, geocode: bool = True) -> list[dict]:
         ev["listing"] = {k: r[k] for k in ("listing_id", "url", "title", "property_type", "area_label", "area",
                                            "building", "address", "unit", "built_up", "reserve_price",
                                            "auction_date", "tenure", "title_type", "bumi", "dual_key",
-                                           "auctioneer", "bank", "first_seen", "last_seen")}
+                                           "occupied", "auctioneer", "bank", "first_seen", "last_seen",
+                                           "source")}
+        ev["listing"]["also_listed"] = r.get("also_listed", [])
         ev["location"] = list(loc) if loc else None
         ev["comps_debug"] = debug
         ev["links"] = research_links(r)

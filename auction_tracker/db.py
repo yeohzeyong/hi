@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS listings (
     building TEXT, address TEXT, unit TEXT, built_up REAL,
     tenure TEXT, title_type TEXT, bumi INTEGER, dual_key INTEGER, occupied INTEGER,
     auctioneer TEXT, bank TEXT, flags TEXT, raw_text TEXT,
-    first_seen TEXT, last_seen TEXT, reserve_price REAL, auction_date TEXT
+    first_seen TEXT, last_seen TEXT, reserve_price REAL, auction_date TEXT, source TEXT
 );
 CREATE INDEX IF NOT EXISTS ix_listings_fp ON listings(fingerprint);
 CREATE INDEX IF NOT EXISTS ix_listings_bk ON listings(building_key);
@@ -64,7 +64,16 @@ def connect(path: Path | None = None) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    cols = {r["name"] for r in conn.execute("PRAGMA table_info(listings)")}
+    if "source" not in cols:                       # migrate older databases
+        conn.execute("ALTER TABLE listings ADD COLUMN source TEXT")
     return conn
+
+
+LISTING_COLS = ["listing_id", "url", "fingerprint", "building_key", "title", "property_type", "area_label",
+                "area", "state", "building", "address", "unit", "built_up", "tenure", "title_type", "bumi",
+                "dual_key", "occupied", "auctioneer", "bank", "flags", "raw_text", "first_seen", "last_seen",
+                "reserve_price", "auction_date", "source"]
 
 
 def today() -> str:
@@ -76,14 +85,12 @@ def upsert_listing(conn, lst: dict, area_label: str):
     fp = fingerprint(lst["building"], lst["unit"], lst["built_up"], lst["area"])
     row = conn.execute("SELECT first_seen FROM listings WHERE listing_id=?", (lst["listing_id"],)).fetchone()
     first = row["first_seen"] if row else now
-    conn.execute("""INSERT OR REPLACE INTO listings VALUES
-        (:listing_id,:url,:fp,:bk,:title,:property_type,:area_label,:area,:state,:building,:address,:unit,
-         :built_up,:tenure,:title_type,:bumi,:dual_key,:occupied,:auctioneer,:bank,:flags,:raw_text,
-         :first_seen,:last_seen,:reserve_price,:auction_date)""",
-                 {**lst, "fp": fp, "bk": building_key(lst["building"]), "area_label": area_label,
-                  "flags": json.dumps(lst.get("flags", [])), "bumi": int(lst["bumi"]),
-                  "dual_key": int(lst["dual_key"]), "occupied": int(lst["occupied"]),
-                  "first_seen": first, "last_seen": now})
+    row = {**lst, "fingerprint": fp, "building_key": building_key(lst["building"]), "area_label": area_label,
+           "flags": json.dumps(lst.get("flags", [])), "bumi": int(lst["bumi"]),
+           "dual_key": int(lst["dual_key"]), "occupied": int(lst["occupied"]),
+           "first_seen": first, "last_seen": now, "source": lst.get("source", "")}
+    conn.execute(f"INSERT OR REPLACE INTO listings ({','.join(LISTING_COLS)}) "
+                 f"VALUES ({','.join(':' + c for c in LISTING_COLS)})", row)
     observe(conn, lst["listing_id"], lst["reserve_price"], lst["auction_date"])
 
 

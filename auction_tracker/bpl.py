@@ -1,4 +1,9 @@
-"""bplelonglist.com scraper and listing parser.
+"""Auction listing scraper and parser.
+
+bplelonglist.com, lelongtips.com.my, auctionpro.my, lelongsifu.com.my and
+listinglelong.my all run the same listing engine (same search URL and
+``/auction|property/<id>/Lelong-Auction-...-for-RM<price>`` detail pages),
+so one parser serves every source configured in ``config.yaml``.
 
 The parser is deliberately text/regex based rather than tied to CSS classes:
 when the site redesigns, labels such as "Reserve Price" and "sq.ft" rarely
@@ -27,14 +32,18 @@ STATES = ["Kuala Lumpur", "Selangor", "Putrajaya", "Penang", "Pulau Pinang", "Jo
           "Perak", "Negeri Sembilan", "Melaka", "Malacca", "Pahang", "Kedah", "Kelantan",
           "Terengganu", "Perlis", "Sabah", "Sarawak", "Labuan"]
 
-AUCTION_LINK_RE = re.compile(r"/auction/([A-Za-z0-9=%+_-]+)/([A-Za-z0-9%._'-]+)")
-SLUG_RE = re.compile(r"^Lelong-Auction-(?P<head>.+)-in-(?P<place>.+)-for-RM(?P<price>\d+(?:\.\d+)?)", re.I)
+AUCTION_LINK_RE = re.compile(
+    r"(?P<host>https?://[A-Za-z0-9.-]+)?/(?P<kind>auction|property)/(?P<id>[A-Za-z0-9=%+_-]{8,})/"
+    r"(?P<slug>(?:Lelong-)?Auction-[A-Za-z0-9%._'-]+)")
+SLUG_RE = re.compile(r"^(?:Lelong-)?Auction-(?P<head>.+)-in-(?P<place>.+)-for-RM(?P<price>\d+(?:\.\d+)?)", re.I)
+DEFAULT_SEARCH = BASE + "/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
 
 
 @dataclass
 class Listing:
     listing_id: str
     url: str
+    source: str = ""
     title: str = ""
     property_type: str = ""
     area: str = ""            # area as written by the listing (e.g. "Mont Kiara")
@@ -62,26 +71,31 @@ class Listing:
 # --------------------------------------------------------------------------
 # Search pages
 # --------------------------------------------------------------------------
-def search_url(state: str, keyword: str, page: int) -> str:
-    return (f"{BASE}/search/?keyword={quote_plus(keyword)}&page={page}"
-            f"&sort=recent&state={quote_plus(state)}")
+def search_url(state: str, keyword: str, page: int, template: str = DEFAULT_SEARCH) -> str:
+    return template.format(keyword=quote_plus(keyword), page=page, state=quote_plus(state))
 
 
-def extract_listing_links(html: str) -> list[str]:
+def extract_listing_links(html: str, base: str = BASE) -> list[str]:
     """Return absolute, de-duplicated auction detail URLs in page order."""
     seen, out = set(), []
     for m in AUCTION_LINK_RE.finditer(html):
-        lid = m.group(1)
+        lid = m.group("id")
         if lid in seen:
             continue
         seen.add(lid)
-        out.append(urljoin(BASE, f"/auction/{m.group(1)}/{m.group(2)}"))
+        out.append(urljoin(m.group("host") or base, f"/{m.group('kind')}/{lid}/{m.group('slug')}"))
     return out
 
 
 def listing_id_from_url(url: str) -> str:
     m = AUCTION_LINK_RE.search(urlparse(url).path)
-    return m.group(1) if m else url
+    return m.group("id") if m else url
+
+
+def source_name(url: str) -> str:
+    host = urlparse(url).netloc.lower()
+    host = re.sub(r"^(www|central)\.", "", host)
+    return host.split(".")[0] if host else ""
 
 
 # --------------------------------------------------------------------------
@@ -112,6 +126,16 @@ def parse_slug(url: str) -> dict:
             ptype = head[-len(t):]
             building = head[: -len(t)].strip()
             break
+    else:
+        # Marketing-style slugs: "Freehold Setapak Green Condominium Strategic
+        # Location 5 min to ..." - take the earliest type word.
+        hits = [(m.start(), -len(t), t) for t in TYPE_WORDS
+                for m in [re.search(rf"\b{re.escape(t)}\b", head, re.I)] if m]
+        if hits:
+            pos, neg_len, t = min(hits)
+            ptype = head[pos:pos - neg_len]
+            building = head[:pos].strip()
+    building = re.sub(r"(?i)^(freehold|leasehold)\s+", "", building)
     return {"property_type": ptype, "building": building, "area": place,
             "state": state, "reserve_price": float(m.group("price"))}
 
@@ -215,7 +239,7 @@ def parse_detail(html: str, url: str) -> Listing:
     text = re.sub(r"\n{2,}", "\n", text)
 
     slug = parse_slug(url)
-    lst = Listing(listing_id=listing_id_from_url(url), url=url, title=title)
+    lst = Listing(listing_id=listing_id_from_url(url), url=url, source=source_name(url), title=title)
 
     # JSON-LD, when present, is the most structured source.
     for tag in soup.find_all("script", type="application/ld+json"):
@@ -245,8 +269,8 @@ def parse_detail(html: str, url: str) -> Listing:
                          or slug.get("property_type", ""))
     lst.area = slug.get("area") or ""
     lst.state = slug.get("state") or ""
-    lst.building = (_label(text, r"(?:building|project|development|scheme)\s*name|condominium\s*name",
-                           r"([^\n]{2,80})") or slug.get("building") or "")
+    lst.building = _label(text, r"(?:building|project|development|scheme)\s*name|condominium\s*name",
+                          r"([^\n]{2,80})") or ""
 
     low = text.lower()
     if "freehold" in low or "pegangan bebas" in low:
@@ -267,7 +291,12 @@ def parse_detail(html: str, url: str) -> Listing:
     lst.occupied = bool(re.search(r"\b(tenanted|occupied by|occupants?)\b", low)) and "vacant" not in low
 
     if not lst.building:
-        lst.building = derive_building(lst.address, title)
+        # Address beats the URL slug: slugs on some sites are marketing copy
+        # ("Nestled in a prime location Condominium ...").
+        slug_b = slug.get("building", "")
+        lst.building = (derive_building(lst.address, "")
+                        or (slug_b if 0 < len(slug_b.split()) <= 5 else "")
+                        or derive_building("", title))
     um = UNIT_RE.search(lst.address or "")
     if um:
         lst.unit = um.group(1).upper()
@@ -294,7 +323,8 @@ def parse_detail(html: str, url: str) -> Listing:
 # Crawl
 # --------------------------------------------------------------------------
 def crawl(fetcher, state: str, keywords: list[str], max_pages: int, known_ids: set[str],
-          stop_after_known_pages: int = 2, seen_sink: dict | None = None, stats: dict | None = None):
+          stop_after_known_pages: int = 2, seen_sink: dict | None = None, stats: dict | None = None,
+          template: str = DEFAULT_SEARCH):
     """Yield (url, html) for detail pages not seen before.
 
     Every listing URL encountered on a search page is recorded in
@@ -308,7 +338,7 @@ def crawl(fetcher, state: str, keywords: list[str], max_pages: int, known_ids: s
         known_streak = 0
         seen_this_kw: set[str] = set()
         for page in range(1, max_pages + 1):
-            url = search_url(state, kw, page)
+            url = search_url(state, kw, page, template)
             try:
                 html = fetcher.get(url)
             except Exception as exc:
@@ -316,7 +346,7 @@ def crawl(fetcher, state: str, keywords: list[str], max_pages: int, known_ids: s
                 break
             if stats is not None:
                 stats["search_pages"] = stats.get("search_pages", 0) + 1
-            links = [u for u in extract_listing_links(html) if listing_id_from_url(u) not in seen_this_kw]
+            links = [u for u in extract_listing_links(html, url) if listing_id_from_url(u) not in seen_this_kw]
             if not links:
                 break
             new = [u for u in links if listing_id_from_url(u) not in known_ids]
