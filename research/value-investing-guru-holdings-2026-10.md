@@ -13,7 +13,7 @@ The market is expensive overall: the Shiller CAPE is about 40.6x, the 2nd-highes
 
 | Rank | Stock | Moat | Price | Off 52w high | Rough valuation | Guru owners (Q2-26) | Verdict |
 |---|---|---|---|---|---|---|---|
-| 1 | **S&P Global (SPGI)** | Wide (ratings duopoly + indices) | $386 | −26% | ~19.8x 2026 EPS ($19.4–19.65 guide), lowest since 2022 | Ackman (new, 5.4%), TCI 10.9%, Valley Forge 19.9%; 15 superinvestors | **BUY**: best moat-for-price trade on the list |
+| 1 | **S&P Global (SPGI)** | Wide (ratings duopoly + indices) | $386 | −26% | ~19x 2027 consensus EPS (~$20.2–20.8, excluding Mobility), lowest since 2022 | Ackman (new, 5.4%), TCI 10.9%, Valley Forge 19.9%; 15 superinvestors | **BUY**: best moat-for-price trade on the list |
 | 2 | **American Express (AXP)** | Wide (closed-loop network, affluent brand) | $303 | −21% | ~17–18x fwd, 4.7% above 52w low | Berkshire #2 (17.1%), Spier 15.3%; 16 owners | **BUY**: Buffett's 2nd-largest holding near its low |
 | 3 | **Brookfield Corp (BN)** | Wide-ish (scale in real assets, permanent capital) | $36.92 | −25% | ~45% below management's $67 plan value/share | Ackman #2 (12.6%), Akre 10.1% | **BUY (sized for complexity)**: Dhandho-style discount |
 | 4 | **Elevance Health (ELV)** | Narrow (Blue Cross scale) | $386 | −11% | ~14x 2026 EPS (≥$27), ~13x 2027 (+12% target) | Klarman #2 (9.1%); 12 owners | **BUY**: policy fear priced, 2027 MA rates +2.48% |

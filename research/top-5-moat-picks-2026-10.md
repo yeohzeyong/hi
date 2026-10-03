@@ -33,7 +33,7 @@
 - **Elevance, 73. Brookfield, 75.** Cheaper, but narrower moats or more complex balance sheets. They don't fit a "sleep well for 10 years" brief.
 
 **Fair-value basis:**
-- SPGI: 25x 2026 EPS of $19.50.
+- SPGI: ~24x 2027 consensus EPS of ~$20.2–20.8. That excludes Mobility, which was spun off Jul 1, 2026; 2026 guidance was rebased for the spin-off.
 - V: 27x FY27 EPS of $14.98.
 - AON: 20x ~$18 adjusted EPS.
 - BRK.B: ~1.5x book, where book is ≈ $352 per B share.
@@ -58,7 +58,7 @@
 - Benchmark products are ~2/3 of revenue and over 80% of operating profit.
 - It has raised its dividend for 50+ consecutive years.
 
-**Why it's cheap:** fear that AI agents will commoditize financial data. That fear applies to Market Intelligence (36% margin, +6% growth), *not* to ratings or indices, which make most of the profit. At ~20x 2026 EPS it trades at its lowest multiple since 2022, against a usual 25–30x.
+**Why it's cheap:** fear that AI agents will commoditize financial data. That fear applies to Market Intelligence (36% margin, +6% growth), *not* to ratings or indices, which make most of the profit. At ~19x 2027 consensus EPS (~$20.5, excluding Mobility) it trades at its lowest multiple since 2022, against a usual 25–30x.
 
 **What would break the thesis:** regulators removing the role of ratings or banning issuer-pays (discussed after 2008, never done); major fee compression on index licensing; a reputational scandal of 2008 scale.
 
