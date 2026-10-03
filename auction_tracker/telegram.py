@@ -6,6 +6,8 @@ Public channels have a no-login web preview at https://t.me/s/<channel>.
 What we use from each post:
   * auction listing links (bplelonglist / lelongtips / ...) -> analysed like
     any other listing
+  * listing posts (building, address, size, auction price, date) -> parsed
+    into listings and analysed like any other
   * posts that look like auction RESULTS ("sold", "terjual", RM amounts) ->
     written to data/telegram_inbox.csv for you to confirm. They are NOT fed
     into valuations automatically - copy confirmed rows into
@@ -19,6 +21,7 @@ import csv
 import json
 import logging
 import re
+import unicodedata
 
 from bs4 import BeautifulSoup
 
@@ -74,11 +77,98 @@ def looks_like_result(text: str) -> bool:
     return bool(RESULT_RE.search(text)) and bool(money_values(text))
 
 
+# --------------------------------------------------------------------------
+# Listing posts -> Listing records
+# --------------------------------------------------------------------------
+PRICE_RE = re.compile(r"(?:lelong|auction|reserve)\s*price\s*:?\s*\n?\s*RM\s*([\d.,]+)\s*(k|mil|million|m)?\b", re.I)
+MARKET_RE = re.compile(r"market\s*(?:value|price)\s*:?\s*RM\s*([\d.,]+)\s*(k|mil|million|m)?\b", re.I)
+RENT_CLAIM_RE = re.compile(r"rental\s*:?\s*RM\s*([\d,]+)(?:\s*-\s*RM\s*([\d,]+))?", re.I)
+DATE_RE = re.compile(r"(?:lelong|auction)\s*date\s*:?\s*([^\n]+)", re.I)
+UNIT_BLOCK_RE = re.compile(r"^\s*unit\s*no", re.I | re.M)
+
+
+def _rm(num: str, mult: str | None) -> float | None:
+    try:
+        v = float(num.replace(",", ""))
+    except ValueError:
+        return None
+    m = (mult or "").lower()
+    return v * (1e3 if m == "k" else 1e6 if m in ("m", "mil", "million") else 1)
+
+
+def clean_text(text: str) -> str:
+    """Fancy-font letters -> ASCII, drop emoji-only lines."""
+    t = unicodedata.normalize("NFKC", text)
+    lines = [ln.strip() for ln in t.split("\n")]
+    return "\n".join(ln for ln in lines if re.search(r"[A-Za-z0-9]", ln))
+
+
+def _blocks(text: str) -> list[str]:
+    """One post can advertise several units; split at each 'Unit No' that
+    carries its own price, keeping the shared header/footer with each."""
+    starts = [m.start() for m in UNIT_BLOCK_RE.finditer(text)]
+    if len(starts) < 2 or len(PRICE_RE.findall(text)) < 2:
+        return [text]
+    head, out = text[:starts[0]], []
+    for i, st in enumerate(starts):
+        body = text[st: starts[i + 1] if i + 1 < len(starts) else len(text)]
+        out.append(head + body + "\n" + text[starts[-1]:])
+    return out
+
+
+def parse_post_listings(post: dict) -> list:
+    """Agent listing posts (Yuki Cheah / Chris Pang / Trinity style) -> Listings."""
+    text = clean_text(post["text"])
+    if not PRICE_RE.search(text):
+        return []
+    ch, pid = post["channel"], post["post_id"]
+    header = next((ln for ln in text.split("\n")
+                   if not re.search(r"bank\s*lelong|deposit|^\W*$", ln, re.I) and len(ln) > 3), "")
+    out = []
+    for i, block in enumerate(_blocks(text)):
+        pm = PRICE_RE.search(block)
+        price = _rm(pm.group(1), pm.group(2))
+        if not price or price < 30_000:
+            continue
+        lst = bpl.Listing(listing_id=f"tg-{ch}-{pid}" + (f"-{i + 1}" if i else ""),
+                          url=f"https://t.me/{ch}/{pid}", source=f"telegram:{ch}")
+        lst.reserve_price = price
+        addr = re.search(r"^(?:location\s*:\s*)?((?:unit\s*no\.?\s*)?[^\n]*\b\d{5}\b[^\n]*)$", block, re.I | re.M)
+        lst.address = addr.group(1).strip() if addr else ""
+        unit = re.search(r"unit\s*no\.?\s*:?\s*([A-Z0-9]{1,4}(?:-[A-Z0-9]{1,4}){1,3})", block, re.I)
+        if unit:
+            lst.unit = unit.group(1).upper()
+        lst.built_up = bpl.parse_built_up(block)
+        dm = DATE_RE.search(block)
+        lst.auction_date = bpl.parse_date(dm.group(1)) if dm else None
+        lst.title = header[:120]
+        name, _, area = header.partition("@")
+        lst.area = area.strip()
+        lst.building = (bpl.derive_building(lst.address, "") if lst.address else "") or name.split(",")[0].strip()
+        lst.state = next((s for s in bpl.STATES if s.lower() in lst.address.lower()), "")
+        for t in bpl.TYPE_WORDS + ["SOHO", "Suite", "Terrace", "Semi Detached", "Shop"]:
+            if re.search(rf"\b{re.escape(t)}\b", block, re.I):
+                lst.property_type = t
+                break
+        mv = MARKET_RE.search(block)
+        if mv and _rm(mv.group(1), mv.group(2)):
+            lst.flags.append(f"Agent claims market value RM{_rm(mv.group(1), mv.group(2)):,.0f} (unverified)")
+        rc = RENT_CLAIM_RE.search(block)
+        if rc:
+            lst.flags.append(f"Agent claims rental RM{rc.group(1)}" + (f"-{rc.group(2)}" if rc.group(2) else "")
+                             + " (unverified)")
+        bpl.enrich(lst, block)
+        lst.raw_text = block[:5000]
+        out.append(lst)
+    return out
+
+
 def collect(conn, fetcher, channels: list[str], pages: int = 2) -> dict:
     """Fetch recent posts; return listing URLs found and counts."""
     conn.executescript(SCHEMA)
     listing_urls: list[str] = []
-    stats = {"posts": 0, "new_posts": 0, "results": 0}
+    post_listings: list = []
+    stats = {"posts": 0, "new_posts": 0, "results": 0, "listing_posts": 0}
     inbox_rows = []
     for ref in channels:
         ch = channel_name(ref)
@@ -101,6 +191,9 @@ def collect(conn, fetcher, channels: list[str], pages: int = 2) -> dict:
                 stats["new_posts"] += is_new
                 blob = p["text"] + " " + " ".join(p["links"])
                 listing_urls += bpl.extract_listing_links(blob)
+                found = parse_post_listings({**p, "channel": ch})
+                stats["listing_posts"] += bool(found)
+                post_listings += found
                 if is_new and looks_like_result(p["text"]):
                     stats["results"] += 1
                     inbox_rows.append([p["posted_at"][:10], ch, f"https://t.me/{ch}/{p['post_id']}",
@@ -119,4 +212,4 @@ def collect(conn, fetcher, channels: list[str], pages: int = 2) -> dict:
             w.writerows(inbox_rows)
     stats["listing_links"] = len(set(listing_urls))
     log.info("telegram: %s", stats)
-    return {"stats": stats, "listing_urls": list(dict.fromkeys(listing_urls))}
+    return {"stats": stats, "listing_urls": list(dict.fromkeys(listing_urls)), "listings": post_listings}

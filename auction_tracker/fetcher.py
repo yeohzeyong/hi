@@ -12,6 +12,7 @@ from __future__ import annotations
 import logging
 import os
 import random
+import re
 import time
 from urllib.parse import urlparse
 
@@ -33,7 +34,10 @@ class FetchError(RuntimeError):
 def looks_blocked(status: int, html: str) -> bool:
     if status in (401, 403, 429, 503):
         return True
-    head = html[:4000].lower()
+    head = html[:6000].lower()
+    title = re.search(r"<title[^>]*>([^<]*)", head)
+    if title and re.search(r"just a moment|attention required|access denied|verify|captcha|blocked", title.group(1)):
+        return True                     # challenge pages can be large; trust the title
     return len(html) < 20000 and any(m in head for m in CHALLENGE_MARKERS)
 
 
