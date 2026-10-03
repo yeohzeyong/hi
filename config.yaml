@@ -5,12 +5,13 @@
 # ---------------------------------------------------------------------------
 
 # Auction listing sites. These all run the same listing engine, so one
-# parser reads them all and duplicates across sites are merged. lelongtips
-# keeps old auctions online - great for building auction history.
-# Same engine, uncomment to add: auctionpro, lelongsifu, listinglelong
+# parser reads them all and duplicates across sites are merged.
+# lelongtips locks listing details behind a member login (pages return 404
+# otherwise), so it is off by default. If you have an account, enable it and
+# run locally with --backend chrome after logging in once in that Chrome.
 sources:
   bplelonglist: "https://www.bplelonglist.com/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
-  lelongtips: "https://www.lelongtips.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # lelongtips: "https://www.lelongtips.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
   # auctionpro: "https://www.auctionpro.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
   # lelongsifu: "https://lelongsifu.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
   # listinglelong: "https://listinglelong.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
@@ -104,6 +105,15 @@ transit:
   walk_detour_factor: 1.3  # straight line -> real walking distance
   # Overpass bounding box (south, west, north, east) - Klang Valley rail.
   bbox: [2.85, 101.45, 3.35, 101.85]
+
+# Public Telegram channels to read (t.me/s/<name> web preview, no login).
+# Auction links found are analysed; result-like posts go to
+# data/telegram_inbox.csv for you to confirm.
+telegram_channels:
+  - yukicheahbankauctionlist
+  - chrispangauction
+  - trinitypropertymalaysia
+  - MyPropertyInvest
 
 scoring:
   exclude_bumi_lot: false  # true = hide Bumi/Malay-reserve lots entirely

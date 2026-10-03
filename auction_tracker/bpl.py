@@ -76,15 +76,39 @@ def search_url(state: str, keyword: str, page: int, template: str = DEFAULT_SEAR
 
 
 def extract_listing_links(html: str, base: str = BASE) -> list[str]:
-    """Return absolute, de-duplicated auction detail URLs in page order."""
-    seen, out = set(), []
+    """Return absolute, de-duplicated auction detail URLs in page order.
+
+    A page can mention the same listing several times with different slugs
+    (e.g. a shortened one without the price, which the site answers with
+    404), so keep the most complete slug per listing id.
+    """
+    best: dict[str, tuple] = {}
     for m in AUCTION_LINK_RE.finditer(html):
-        lid = m.group("id")
-        if lid in seen:
-            continue
-        seen.add(lid)
-        out.append(urljoin(m.group("host") or base, f"/{m.group('kind')}/{lid}/{m.group('slug')}"))
-    return out
+        lid, slug = m.group("id"), m.group("slug")
+        rank = ("-for-RM" in slug, len(slug))
+        if lid not in best or rank > best[lid][0]:
+            url = urljoin(m.group("host") or base, f"/{m.group('kind')}/{lid}/{slug}")
+            best[lid] = (rank, url)
+    return [u for _, u in best.values()]
+
+
+def detail_candidates(url: str) -> list[str]:
+    """URL to try first, then the bare id path (the slug is often decorative)."""
+    m = AUCTION_LINK_RE.search(url)
+    if not m:
+        return [url]
+    p = urlparse(url)
+    return [url, f"{p.scheme}://{p.netloc}/{m.group('kind')}/{m.group('id')}"]
+
+
+def fetch_detail(fetcher, url: str) -> str:
+    last = None
+    for cand in detail_candidates(url):
+        try:
+            return fetcher.get(cand)
+        except Exception as exc:
+            last = exc
+    raise last
 
 
 def listing_id_from_url(url: str) -> str:
@@ -357,12 +381,24 @@ def crawl(fetcher, state: str, keywords: list[str], max_pages: int, known_ids: s
             known_streak = 0 if new else known_streak + 1
             for u in new:
                 try:
-                    yield u, fetcher.get(u)
+                    yield u, fetch_detail(fetcher, u)
                     known_ids.add(listing_id_from_url(u))
                 except Exception as exc:
                     log.warning("detail failed %s: %s", u, exc)
+                    if stats is not None and not stats.get("debug_saved"):
+                        _save_debug(url, html)
+                        stats["debug_saved"] = True
             if stop_after_known_pages and known_streak >= stop_after_known_pages:
                 break
+
+
+def _save_debug(url: str, html: str):
+    """Keep one search page per source when detail pages fail, so the
+    link format can be inspected and the parser fixed."""
+    from .config import DATA_DIR
+    d = DATA_DIR / "debug"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / f"{source_name(url)}_search.html").write_text(html[:400_000], encoding="utf-8")
 
 
 def search_page_ids(html: str) -> set[str]:

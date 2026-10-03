@@ -7,7 +7,7 @@ import json
 import logging
 from datetime import date, timedelta
 
-from . import bpl, db, history, portals, scoring, transit
+from . import bpl, db, history, portals, scoring, telegram, transit
 from .cleaning import clean_comps, summarize
 from .config import DATA_DIR, load_yaml
 
@@ -22,8 +22,13 @@ MANUAL_COMPS_FILE = DATA_DIR / "manual_comps.csv"
 # ---------------------------------------------------------------------------
 def save_parsed(conn, lst: bpl.Listing, cfg: dict) -> str | None:
     d = lst.to_dict()
-    label = scoring.matched_area(" ".join([d["area"], d["address"], d["title"], d["building"]]),
-                                 cfg["search"]["areas"])
+    # Use the real location (area from the URL, then the address). Advert
+    # titles often name-drop nearby areas ("... near Bukit Bintang") for
+    # units that are actually in Pudu or Brickfields.
+    areas = cfg["search"]["areas"]
+    label = scoring.matched_area(d["area"], areas) or scoring.matched_area(d["address"], areas)
+    if not label and not d["area"] and not d["address"]:
+        label = scoring.matched_area(f"{d['title']} {d['building']}", areas)
     db.upsert_listing(conn, d, label or "")
     return label
 
@@ -61,7 +66,7 @@ def scrape(conn, fetcher, cfg: dict, backfill: bool = False) -> dict:
         old = known[lid]
         if slug_price and old["reserve_price"] and abs(slug_price - old["reserve_price"]) > 1:
             try:
-                save_parsed(conn, bpl.parse_detail(fetcher.get(url), url), cfg)
+                save_parsed(conn, bpl.parse_detail(bpl.fetch_detail(fetcher, url), url), cfg)
                 stats["updated"] += 1
             except Exception as exc:
                 log.warning("refresh failed %s: %s", url, exc)
@@ -70,6 +75,27 @@ def scrape(conn, fetcher, cfg: dict, backfill: bool = False) -> dict:
     conn.commit()
     log.info("scrape: %s", stats)
     return stats
+
+
+def scrape_telegram(conn, fetcher, cfg: dict, backfill: bool = False) -> dict:
+    """Analyse auction links that agents post in public Telegram channels."""
+    channels = cfg.get("telegram_channels") or []
+    if not channels:
+        return {}
+    res = telegram.collect(conn, fetcher, channels, pages=10 if backfill else 2)
+    known = {r["listing_id"] for r in conn.execute("SELECT listing_id FROM listings")}
+    added = 0
+    for url in res["listing_urls"]:
+        if bpl.listing_id_from_url(url) in known:
+            continue
+        try:
+            save_parsed(conn, bpl.parse_detail(bpl.fetch_detail(fetcher, url), url), cfg)
+            added += 1
+        except Exception as exc:
+            log.warning("telegram listing failed %s: %s", url, exc)
+    conn.commit()
+    res["stats"]["listings_added"] = added
+    return res["stats"]
 
 
 def reparse(conn, cfg: dict):
