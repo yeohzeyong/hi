@@ -1,0 +1,111 @@
+# ---------------------------------------------------------------------------
+# Malaysia Auction Property Tracker - investment criteria
+# Every number here is an assumption you can tune. Re-run `python -m
+# auction_tracker evaluate` after editing - no re-scraping needed.
+# ---------------------------------------------------------------------------
+
+# Auction listing sites. These all run the same listing engine, so one
+# parser reads them all and duplicates across sites are merged. lelongtips
+# keeps old auctions online - great for building auction history.
+# Same engine, uncomment to add: auctionpro, lelongsifu, listinglelong
+sources:
+  bplelonglist: "https://www.bplelonglist.com/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  lelongtips: "https://www.lelongtips.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # auctionpro: "https://www.auctionpro.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # lelongsifu: "https://lelongsifu.com.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+  # listinglelong: "https://listinglelong.my/search/?keyword={keyword}&page={page}&sort=recent&state={state}"
+
+search:
+  state: "Kuala Lumpur"
+  # Area name -> keywords searched on bplelonglist and matched against the
+  # listing title/address. Add aliases (e.g. a neighbourhood inside the area)
+  # if you want a wider net.
+  areas:
+    Bukit Bintang: ["Bukit Bintang"]
+    Setapak: ["Setapak"]
+    Titiwangsa: ["Titiwangsa"]
+    Mont Kiara: ["Mont Kiara", "Mont' Kiara", "Montkiara"]
+    Cheras: ["Cheras"]
+  min_built_up_sqft: 1000
+  # Only these property types are evaluated (matched case-insensitively).
+  property_types: ["condominium", "condo", "apartment", "service apartment",
+                   "serviced apartment", "serviced residence", "duplex", "soho",
+                   "penthouse", "residence", "flat"]
+  max_pages_per_keyword: 25        # daily run walks all pages up to this cap
+  backfill_max_pages: 400          # `scrape --backfill` - crawl history
+
+fetch:
+  backend: auto          # http | chrome | auto (http, switch to Chrome when blocked)
+  delay_seconds: [2.5, 5.0]        # random polite delay between requests
+  chrome_profile_dir: "~/.auction-tracker-chrome"   # persistent cookies
+  chrome_headless: false            # visible Chrome lets you solve a captcha once
+  timeout_seconds: 45
+
+portals:
+  # {q} is replaced with the URL-encoded building name. Parameter spelling is
+  # PropertyGuru's own frontend (minPrice / bedrooms[] / listingType ...).
+  # iProperty runs on the same platform, so the same listing often appears
+  # on both - the cleaner de-duplicates them.
+  propertyguru:
+    sale: "https://www.propertyguru.com.my/property-for-sale?freetext={q}&isCommercial=false&listingType=sale&locale=en"
+    rent: "https://www.propertyguru.com.my/property-for-rent?freetext={q}&isCommercial=false&listingType=rent&locale=en"
+  iproperty:
+    sale: "https://www.iproperty.com.my/property-for-sale?freetext={q}&isCommercial=false&listingType=sale&locale=en"
+    rent: "https://www.iproperty.com.my/property-for-rent?freetext={q}&isCommercial=false&listingType=rent&locale=en"
+  pages: 2                 # result pages per search (~20 listings each)
+  cache_days: 21           # market prices move slowly; don't hammer the portals
+
+cleaning:
+  size_band: 0.30          # comps must be within +/-30% of subject built-up
+  min_comps_confident: 4   # below this, valuation is flagged low-confidence
+  mad_threshold: 2.5       # robust z-score cut-off
+  lowball_cut: 0.70        # drop listings < 70% of median psf (bait / auction)
+  sale_psf_range: [150, 3500]
+  rent_psf_range: [0.8, 9.0]
+  max_listing_age_days: 240   # stale ads are often already let/sold or fake
+  # Asking prices are above what actually transacts. Haircut them.
+  sale_asking_haircut: 0.08
+  rent_asking_haircut: 0.05
+  # Listings containing these words are NOT market comps (auction re-posts,
+  # bait prices, room rentals, short-stay).
+  exclude_keywords:
+    common: ["auction", "lelong", "bank lelong", "bidding", "reserve price",
+             "below market", "below value", "bmv", "under value", "undervalue",
+             "10% deposit", "pay 10%", "fire sale"]
+    rent: ["room for rent", "room rental", "per room", "master room",
+           "middle room", "single room", "sharing", "short term", "airbnb",
+           "homestay", "daily", "per night", "weekly"]
+
+finance:
+  loan_margin: 0.90        # auction loans: typically up to 90% of price
+  interest_rate: 0.043     # p.a.
+  tenure_years: 35
+  maintenance_psf: 0.40    # RM/sqft/month incl. sinking fund (KL condo typical)
+  other_monthly: 60        # quit rent + assessment + insurance, RM/month
+  vacancy_months_per_year: 1
+  repair_buffer_psf: 25    # unknown interior condition, RM/sqft one-off
+  arrears_buffer_months: 12   # outstanding maintenance you may inherit
+  valuation_fee: 1500
+  misc_fees: 3000          # auctioneer, searches, utilities reconnection, etc.
+  occupied_buffer: 10000   # legal eviction if the unit is occupied (RM3k-15k typical)
+  dual_key_rent_premium: 0.15  # applied only if listing rent comps lack dual-key data
+
+targets:
+  min_rent_cover: 1.00     # rent must cover installment + maintenance + other
+  min_discount: 0.20       # vs. cleaned market value (unknown condition!)
+  bid_increment: 1000
+  next_round_cut: 0.10     # unsold units usually return ~10% cheaper next round
+  suspicious_discount: 0.45   # deeper than this = "too good to be true", dig in
+
+transit:
+  good_walk_m: 500
+  ok_walk_m: 800
+  max_walk_m: 1200
+  walk_detour_factor: 1.3  # straight line -> real walking distance
+  # Overpass bounding box (south, west, north, east) - Klang Valley rail.
+  bbox: [2.85, 101.45, 3.35, 101.85]
+
+scoring:
+  exclude_bumi_lot: false  # true = hide Bumi/Malay-reserve lots entirely
+  shortlist_min_grade: "B"
+  notify_min_grade: "A"

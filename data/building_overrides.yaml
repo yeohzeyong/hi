@@ -1,0 +1,20 @@
+# Your own knowledge beats scraped data. Anything here overrides the tracker.
+# Building names are matched loosely ("Residensi X" == "X Residence").
+#
+# buildings:
+#   Residensi Danau Kota Suites:
+#     maintenance_psf: 0.38      # from the JMB / management office
+#     rent: 2300                 # what units really let for (whole unit)
+#     market_psf: 470            # e.g. from Brickz / JPPH transacted data
+#     dual_key: true
+#     lat: 3.2051                # pin location if geocoding is wrong
+#     lon: 101.7189
+#     note: "Visited 2026-09; lifts upgraded, good security"
+#   Some Problem Condo:
+#     exclude: true              # never show again
+#
+# listings:                      # per auction listing (id from the URL)
+#   ZXZMN0pCTVNiRXpQVUFGT25OazlOQT09:
+#     rent: 2600
+buildings: {}
+listings: {}

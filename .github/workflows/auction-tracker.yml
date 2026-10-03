@@ -1,0 +1,83 @@
+name: Auction tracker
+
+on:
+  schedule:
+    - cron: "7 23 * * *"        # 07:07 Malaysia time, every day
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Command to run"
+        default: "run"
+        type: choice
+        options: [run, "scrape --backfill", "comps --force", evaluate]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: auction-tracker
+  cancel-in-progress: false
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        run: |
+          pip install -r requirements.txt -r requirements-browser.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run tracker
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m auction_tracker ${{ github.event.inputs.command || 'run' }} --headless
+
+      - name: Save history back to the repo
+        if: always()
+        run: |
+          git config user.name "auction-tracker-bot"
+          git config user.email "auction-tracker-bot@users.noreply.github.com"
+          git add data docs
+          git diff --cached --quiet || git commit -m "Tracker update $(date -u +%F)"
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload dashboard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard
+          path: docs/
+
+      # Publishes docs/ to GitHub Pages. Enable once: Settings -> Pages ->
+      # Source: "GitHub Actions". Skipped quietly if Pages is not enabled.
+      - uses: actions/configure-pages@v5
+        id: pages
+        continue-on-error: true
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.pages.outcome == 'success'
+        with:
+          path: docs/
+      - uses: actions/deploy-pages@v4
+        if: steps.pages.outcome == 'success'
+        continue-on-error: true
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt && python -m pytest -q

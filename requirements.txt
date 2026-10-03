@@ -1,0 +1,4 @@
+requests>=2.31
+beautifulsoup4>=4.12
+pyyaml>=6.0
+curl_cffi>=0.7      # Chrome TLS fingerprint - fewer Cloudflare blocks over plain HTTP
