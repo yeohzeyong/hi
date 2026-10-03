@@ -1,0 +1,38 @@
+[
+ {
+  "name": "Kepong Sentral",
+  "lat": 3.2087148,
+  "lon": 101.6285344,
+  "type": "KTM"
+ },
+ {
+  "name": "UKM",
+  "lat": 2.9395784,
+  "lon": 101.7877867,
+  "type": "KTM"
+ },
+ {
+  "name": "Seputeh",
+  "lat": 3.1136874,
+  "lon": 101.68142,
+  "type": "KTM"
+ },
+ {
+  "name": "KL Sentral",
+  "lat": 3.1341106,
+  "lon": 101.6865153,
+  "type": "LRT"
+ },
+ {
+  "name": "KLCC",
+  "lat": 3.1592469,
+  "lon": 101.7133662,
+  "type": "LRT"
+ },
+ {
+  "name": "Masjid Jamek",
+  "lat": 3.1494076,
+  "lon": 101.696461,
+  "type": "LRT"
+ }
+]
