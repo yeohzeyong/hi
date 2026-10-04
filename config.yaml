@@ -21,12 +21,16 @@ search:
   # Area name -> keywords searched on bplelonglist and matched against the
   # listing title/address. Add aliases (e.g. a neighbourhood inside the area)
   # if you want a wider net.
+  # Neighbourhood names that listings use for places inside / right next to
+  # each area. Remove any you don't want; each name is also searched daily.
   areas:
-    Bukit Bintang: ["Bukit Bintang"]
-    Setapak: ["Setapak"]
-    Titiwangsa: ["Titiwangsa"]
-    Mont Kiara: ["Mont Kiara", "Mont' Kiara", "Montkiara"]
-    Cheras: ["Cheras"]
+    Bukit Bintang: ["Bukit Bintang", "Bukit Ceylon", "Imbi"]
+    Setapak: ["Setapak", "Wangsa Maju", "Danau Kota", "Sri Rampai", "Taman Melati", "Melawati",
+              "Genting Klang"]
+    Titiwangsa: ["Titiwangsa", "Jalan Pahang"]
+    Mont Kiara: ["Mont Kiara", "Mont' Kiara", "Montkiara", "Sri Hartamas", "Dutamas", "Solaris"]
+    Cheras: ["Cheras", "Sri Permaisuri", "Shamelin", "Maluri", "Taman Segar", "Miharja",
+             "Bandar Tun Razak", "Teratai Mewah", "Bukit Anggerik", "Taman Midah", "Taman Connaught"]
   min_built_up_sqft: 1000
   # Only these property types are evaluated (matched case-insensitively).
   property_types: ["condominium", "condo", "apartment", "service apartment",

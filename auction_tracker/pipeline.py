@@ -37,10 +37,15 @@ def save_parsed(conn, lst: bpl.Listing, cfg: dict, seen_now: bool = True) -> str
 
 
 def reparse_if_parser_changed(conn, cfg: dict):
-    if db.get_meta(conn, "parser_version") != str(bpl.PARSER_VERSION):
-        log.info("parser updated - re-parsing stored listings")
+    """Re-parse stored pages when the parser improves or your area list
+    changes, so old records get the new labels without re-scraping."""
+    import hashlib
+    areas = json.dumps([cfg["search"]["areas"], cfg["search"].get("state")], sort_keys=True)
+    version = f"{bpl.PARSER_VERSION}:{hashlib.sha1(areas.encode()).hexdigest()[:8]}"
+    if db.get_meta(conn, "parser_version") != version:
+        log.info("parser or area list changed - re-parsing stored listings")
         reparse(conn, cfg)
-        db.set_meta(conn, "parser_version", bpl.PARSER_VERSION)
+        db.set_meta(conn, "parser_version", version)
         conn.commit()
 
 
