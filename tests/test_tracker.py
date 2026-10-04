@@ -521,7 +521,7 @@ def test_building_match_is_strict():
 
 def test_search_names_and_block_suffix_match():
     assert portals.search_names("Casa Kiara (BLK-B)") == ["Casa Kiara"]
-    assert portals.search_names("Residensi M Vertika") == ["Residensi M Vertika", "M Vertika"]
+    assert portals.search_names("Residensi M Vertika") == ["Residensi M Vertika", "M Vertika", "M Vertika Residence"]
     assert portals.matches_building({"title": "Casa Kiara", "address": "Mont Kiara, Kuala Lumpur"}, "Casa Kiara (BLK-B)")
     assert portals.matches_building({"title": "M Vertika", "address": "Cheras, Kuala Lumpur"}, "Residensi M Vertika")
     assert not portals.matches_building({"title": "M Centura", "address": "Cheras"}, "Residensi M Vertika")
@@ -595,3 +595,35 @@ def test_same_auction_different_names_merge():
              "building": "Residensi Pudu Alam Rekreasi (Parc 3)", "building_key": "pudu alam rekreasi parc 3"}]
     out = pipeline.merge_cross_listed(rows)
     assert len(out) == 1 and out[0]["also_listed"]
+
+
+@pytest.mark.parametrize("address,building", [
+    ("Unit No., Residensi Ascenda No. 3, Jalan Arena 1, Setapak, 53200, Kuala Lumpur", "Residensi Ascenda"),
+    ("Unit No., Tower B, Edgewood (Residensi Skysanctuary 1), Jalan Santuari 1, Setapak", "Edgewood (Residensi Skysanctuary 1)"),
+    ("Unit No., Vogue Tower C, Mont Kiara, Verve Suites, Jalan Kiara 5, Mont Kiara, 50480", "Verve Suites"),
+    ("Unit No., Royal Tower, Mont' Kiara Palma, Jalan Kiara, Mont' Kiara, 50480", "Mont' Kiara Palma"),
+    ("Unit No., (on site is Tower A), Residensi Tun Razak (on site is TR Residence), No. 1",
+     "Residensi Tun Razak (on site is TR Residence)"),
+    ("Unit No., Blok D5, Taman Melati, Setapak, 53100, Kuala Lumpur", ""),
+    ("Unit No., Lorong Bunga Melati 2C/3, Taman Cheras Indah, 56100, Kuala Lumpur", ""),
+    ("Unit No., Berjaya Times Square (East Tower), No. 1, Jalan Imbi, 55100", "Berjaya Times Square (East Tower)"),
+    ("Unit No., Menara Alpha Tower, Jalan Kuching, 51200 Kuala Lumpur", "Menara Alpha Tower"),
+])
+def test_property_name_from_address(address, building):
+    assert bpl.derive_building(address, "") == building
+
+
+def test_search_name_drops_street_number():
+    assert portals.search_names("Residensi Ascenda No. 3") == ["Residensi Ascenda", "Ascenda", "Ascenda Residence"]
+    assert portals.matches_building({"title": "Ascenda Residence", "address": "Setapak, Kuala Lumpur"}, "Residensi Ascenda")
+
+
+def test_psf_fallback_uses_other_sizes_in_same_building(cfg):
+    subject = {"built_up": 1000, "property_type": "Condominium", "bedrooms": 3}
+    comps = [_comp(1, 520000, 1300, beds=4), _comp(2, 430000, 800, beds=2), _comp(3, 650000, 1400, beds=4),
+             _comp(4, 410000, 780, beds=2), _comp(5, 900000, 2000, beds=5)]          # 2000 sqft: beyond +/-50%
+    kept, removed, crit = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "building")
+    assert crit["tier"] == "T3" and {c["id"] for c in kept} == {"1", "2", "3", "4"}
+    assert "per sqft" in crit["text"]
+    kept, _, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "area")
+    assert len(kept) < 4                                    # area-wide stays strict on size

@@ -234,7 +234,8 @@ def dedupe(comps: list[dict]) -> list[dict]:
     return out
 
 
-STOPWORDS = {"the", "residence", "residences", "residensi", "condominium", "condo", "kondominium",
+STOPWORDS = {"the", "residence", "residences", "residensi", "condominium", "condo", "kondominium", "menara",
+             "servis", "residency", "kondo", "apartmen",
              "apartment", "apartments", "pangsapuri", "service", "serviced", "suites", "tower",
              "block", "@", "at", "kuala", "lumpur", "jalan", "taman", "of", "and", "&"}
 
@@ -302,7 +303,8 @@ GENERIC_PREFIX = re.compile(r"^(residensi|kondominium|condominium|pangsapuri(\s+
 def search_names(building: str) -> list[str]:
     """Names to try on the portals, most specific first.
     'Casa Kiara (BLK-B)' -> 'Casa Kiara'; 'Residensi M Vertika' -> also 'M Vertika'."""
-    n = re.sub(r"\(.*?\)", " ", building or "")
+    n = re.sub(r"\s+(?:no\.?|lot)\s*\d+[A-Z]?\s*$", "", building or "", flags=re.I)   # street number
+    n = re.sub(r"\(.*?\)", " ", n)
     n = re.sub(r"\b(blk|blok|block|tower|menara|phase|fasa)\s*[-.]?\s*[A-Z0-9]{1,3}\b", " ", n, flags=re.I)
     n = re.sub(r"\s+", " ", n).strip(" -,@")
     out = [n] if n else []
@@ -310,7 +312,13 @@ def search_names(building: str) -> list[str]:
     short = re.sub(r"\s+(condominium|kondominium|apartment|residences?)$", "", short, flags=re.I).strip()
     if short and short.lower() != n.lower() and len(short) >= 4:
         out.append(short)
-    return out
+    # Malay <-> English: "Residensi Ascenda" is often listed as "Ascenda Residence".
+    m = re.match(r"^(residensi|kondominium|pangsapuri(?:\s+servis)?|menara)\s+(.+)$", n, re.I)
+    if m:
+        eng = {"residensi": "Residence", "kondominium": "Condominium", "pangsapuri": "Apartment",
+               "pangsapuri servis": "Service Apartment", "menara": "Tower"}[re.sub(r"\s+", " ", m.group(1).lower())]
+        out.append(f"{m.group(2)} {eng}")
+    return list(dict.fromkeys(out))
 
 
 def page_url(url: str, page: int) -> str:

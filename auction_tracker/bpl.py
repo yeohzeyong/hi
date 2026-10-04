@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 
 BASE = "https://www.bplelonglist.com"
 # Bump when parsing improves: stored pages are then re-parsed automatically.
-PARSER_VERSION = 4
+PARSER_VERSION = 5
 SQM_TO_SQFT = 10.7639
 
 STATES = ["Kuala Lumpur", "Selangor", "Putrajaya", "Penang", "Pulau Pinang", "Johor",
@@ -238,18 +238,60 @@ FLOOR_RE = re.compile(r"^(\d{1,3}(st|nd|rd|th)?\s*(floor|flr|fl)\b|(floor|level|
 ROAD_WORDS = re.compile(r"^(jalan|jln|lorong|lrg|persiaran|lebuh|lebuhraya|taman|tmn|kampung|kg|off|no\.?|lot|unit|parcel|level|tingkat|block|blok)\b", re.I)
 
 
+# Neighbourhood / district names: they appear in addresses but are never
+# the building ("Blok D5, Taman Melati, Setapak").
+AREA_WORDS = {"setapak", "wangsa maju", "cheras", "mont kiara", "mont' kiara", "mon't kiara", "montkiara",
+              "bukit bintang", "titiwangsa", "sentul", "gombak", "kepong", "ampang", "segambut",
+              "sri hartamas", "dutamas", "bangsar", "brickfields", "pudu", "imbi", "klcc", "kl city centre",
+              "old klang road", "bukit jalil", "sri petaling", "setiawangsa", "keramat", "jalan ipoh",
+              "kuala lumpur", "wilayah persekutuan", "malaysia", "selangor"}
+GENERIC_NAMES = {"residential", "residence", "residences", "residensi", "apartment", "apartments", "condominium",
+                 "kondominium", "condo", "pangsapuri", "rumah pangsa", "flat", "flats", "service apartment",
+                 "serviced apartment", "shop", "shop office", "office", "unit", "property"}
+TOWER_PART_RE = re.compile(r"^\(?\s*(on site is\b|also known as\b|tower|block|blok|menara|wing|phase|fasa)\b"
+                           r"|\btower\s*[A-Z0-9]{1,2}\b|\btower\s*$", re.I)
+STREET_NO_RE = re.compile(r"\s+(?:no\.?|lot|plot)\s*\d+[A-Z]?\s*$", re.I)
+
+
+def clean_building_name(name: str) -> str:
+    """'Residensi Ascenda No. 3' -> 'Residensi Ascenda' (the number belongs to the road)."""
+    n = STREET_NO_RE.sub("", (name or "").strip())
+    n = re.sub(r"^(?:unit\s*no\.?\s*)", "", n, flags=re.I)
+    n = re.sub(r"^(?:[A-Z]?\d+[A-Z]?-)+\d+[A-Z]?\s+", "", n)        # leading unit number
+    return n.strip(" ,-")
+
+
+def _looks_like_building(part: str) -> bool:
+    low = part.lower().strip(" .")
+    if (not part or UNIT_RE.fullmatch(part) or ROAD_WORDS.match(part) or re.search(r"\d{5}", part)
+            or low in STATE_WORDS or FLOOR_RE.match(part) or low in AREA_WORDS or low in GENERIC_NAMES
+            or re.match(r"^(off|bandar|desa|seksyen|section|batu)\b", low)):
+        return False
+    return bool(re.search(r"[A-Za-z]{3,}", part)) and not re.fullmatch(r"[\d\W]+", part)
+
+
 def derive_building(address: str, title: str) -> str:
-    """Best-effort building name from the address ('B-15-07, Residensi X, Jalan..')."""
-    for part in (address or "").split(","):
-        part = part.strip()
-        if (not part or UNIT_RE.fullmatch(part) or ROAD_WORDS.match(part) or re.search(r"\d{5}", part)
-                or part.lower() in STATE_WORDS or FLOOR_RE.match(part)):
+    """Property name from an auction address.
+
+    'Unit No., Residensi Ascenda No. 3, Jalan Arena 1, Setapak'   -> 'Residensi Ascenda'
+    'Unit No., Tower B, Edgewood (Residensi Skysanctuary 1), ...' -> 'Edgewood (Residensi Skysanctuary 1)'
+    'Unit No., Blok D5, Taman Melati, Setapak, ...'              -> ''  (no named building)
+    Tower/block labels are remembered but the development name after them wins.
+    """
+    tower = ""
+    for raw in (address or "").split(","):
+        part = clean_building_name(raw)
+        if not _looks_like_building(part):
             continue
-        if re.search(r"[A-Za-z]{3,}", part) and not re.fullmatch(r"[\d\W]+", part):
-            return re.sub(r"^(?:[A-Z]?\d+[A-Z]?-)+\d+[A-Z]?\s+", "", part)
+        if TOWER_PART_RE.search(part):
+            tower = tower or part
+            continue
+        return part
+    if tower and not re.match(r"^\(|^(tower|block|blok)\b", tower, re.I):
+        return tower                                           # e.g. "Royal Tower" with nothing better after it
     t = re.sub(r"(?i)^lelong\s+auction\s+", "", title or "")
-    if t and not re.search(r"(?i)\bfor\s+RM", t):
-        return t.split(",")[0].strip()
+    if t and not re.search(r"(?i)\bfor\s+RM", t) and _looks_like_building(clean_building_name(t.split(",")[0])):
+        return clean_building_name(t.split(",")[0])
     return ""
 
 
@@ -336,9 +378,10 @@ def parse_detail(html: str, url: str) -> Listing:
     if not lst.building:
         # Address beats the URL slug: slugs on some sites are marketing copy
         # ("Nestled in a prime location Condominium ...").
-        slug_b = slug.get("building", "")
+        slug_b = clean_building_name(slug.get("building", ""))
         lst.building = (derive_building(lst.address, "")
-                        or (slug_b if 0 < len(slug_b.split()) <= 5 else "")
+                        or (slug_b if 0 < len(slug_b.split()) <= 5 and _looks_like_building(slug_b)
+                            and not TOWER_PART_RE.search(slug_b) else "")
                         or derive_building("", title))
     enrich(lst, text)
     lst.raw_text = text[:20000]

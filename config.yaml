@@ -65,6 +65,9 @@ cleaning:
   # first band; widened to the second only when fewer than
   # min_comps_confident units match.
   size_bands: [0.15, 0.25]
+  # If still too few, use other unit sizes in the SAME building, compared on
+  # price per sqft (any bedroom count), within this size range.
+  psf_fallback_band: 0.50
   # Value units on the LOWER end of genuine comparables, not the middle:
   # 0.25 = the price only a quarter of similar units are cheaper than.
   valuation_quantile: 0.25

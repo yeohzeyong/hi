@@ -152,11 +152,13 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
         diff = (c["built_up"] - sqft) / sqft if sqft else None
         return c_group, bedrooms_of(c), diff
 
+    psf_band = cfg.get("psf_fallback_band", 0.5)
     if scope == "building":
         # Within one building agents label the same units "Condominium" or
         # "Service Residence" interchangeably - treat those as one type there.
-        # Duplex/penthouse/SOHO units are still kept apart.
-        tiers = [("T1", bands[0], True), ("T2", bands[-1], True)]
+        # Duplex/penthouse/SOHO units are still kept apart. Last resort T3:
+        # other unit sizes in the same building, compared on price per sqft.
+        tiers = [("T1", bands[0], True), ("T2", bands[-1], True), ("T3", psf_band, True)]
     else:
         tiers = [("T1", bands[0], False), ("T2", bands[-1], False)]
     chosen, chosen_meta = [], None
@@ -171,8 +173,8 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
                 continue
             if s_group and not g and scope == "area":
                 continue              # area-wide comps must prove they're the same type
-            if s_beds and b and b != s_beds:
-                continue
+            if s_beds and b and b != s_beds and name != "T3":
+                continue                  # T3 compares on psf, so bedroom count may differ
             sel.append(c)
         if first_ok is None and len(sel) >= 2:
             first_ok = (name, band, loose_type, sel)
@@ -223,7 +225,8 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
         "tier": name, "size_band": band, "type": s_group, "bedrooms": s_beds,
         "text": " · ".join(x for x in [
             f"{s_group or 'any type'}" + (" (condo/serviced labels merged)" if loose_type and s_group in ("condo", "serviced") else ""),
-            f"{s_beds}BR" if s_beds else "", f"size +/-{band:.0%}", scope] if x),
+            f"{s_beds}BR" if s_beds and name != "T3" else "",
+            f"size +/-{band:.0%}" + (" (other sizes, compared per sqft)" if name == "T3" else ""), scope] if x),
     }
     return kept, removed, criteria
 
