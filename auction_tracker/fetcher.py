@@ -68,6 +68,7 @@ class Fetcher:
         self._ctx = None
         self._browser = None
         self._chrome_proc = None
+        self._reopens = 0
         self._chrome_domains: set[str] = set()
         self._blocked: dict[str, int] = {}      # domain -> hard blocks this run
         self._last: dict[str, float] = {}
@@ -207,7 +208,15 @@ class Fetcher:
                 except Exception:
                     log.info("Google Chrome not found; using Playwright's bundled Chromium")
                     self._ctx = self._pw.chromium.launch_persistent_context(**kwargs)
-        page = self._ctx.new_page()
+        try:
+            page = self._ctx.new_page()
+        except Exception as exc:
+            if ("closed" not in str(exc).lower() and "target" not in str(exc).lower()) or self._reopens >= 2:
+                raise
+            self._reopens += 1
+            log.warning("Chrome window was closed - reopening it")
+            self.close()
+            return self._get_chrome(url)
         try:
             page.goto(url, wait_until="domcontentloaded", timeout=self.timeout * 1000)
             # Wait out a JS challenge (or give a human time to solve it).

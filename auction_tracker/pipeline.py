@@ -186,7 +186,7 @@ def comps_key(r: dict) -> tuple[str, str, str | None]:
     """(cache key, search query, building name to match)"""
     if r["building"] and db.building_key(r["building"]):
         return f"b:{db.building_key(r['building'])}", r["building"], r["building"]
-    return f"a:{r['area_label'].lower()}", f"{r['area_label']} condominium", None
+    return f"a:{r['area_label'].lower()}", r["area_label"], None
 
 
 def refresh_comps(conn, fetcher, cfg: dict, force: bool = False, limit: int | None = None) -> int:
@@ -209,7 +209,9 @@ def refresh_comps(conn, fetcher, cfg: dict, force: bool = False, limit: int | No
         data = dict(fetch(query, building, pages))
         if building and (len(data["sale"]) < 2 or len(data["rent"]) < 2):
             log.info("few building comps for %r; also fetching area-level comps", building)
-            area = fetch(f"{r['area_label']} condominium", None, pages)
+            # Area name alone ("Setapak"): "Setapak condominium" matched a single
+            # building (Prima Setapak Condominium). Types are filtered locally.
+            area = fetch(r["area_label"], None, pages)
             data["area_sale"], data["area_rent"] = area["sale"], area["rent"]
         db.put_comps(conn, key, data)
         conn.commit()

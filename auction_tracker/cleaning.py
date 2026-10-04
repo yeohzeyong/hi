@@ -43,7 +43,9 @@ TYPE_GROUPS = [
     ("apartment", ("apartment", "pangsapuri")),
     ("flat", ("flat", "rumah pangsa")),
 ]
-COMPATIBLE = {frozenset(("condo", "serviced"))}     # close substitutes, used only as a last resort
+COMPATIBLE = {frozenset(("condo", "serviced"))}
+NON_RESIDENTIAL = re.compile(r"shop|office|retail|commercial|land|factory|warehouse|industrial|hotel|"
+                             r"terrace|semi-?d|bungalow|link|cluster|townhouse|villa house", re.I)     # close substitutes, used only as a last resort
 BED_RE = re.compile(r"\b(\d)\s*(?:\+\s*\d\s*)?(?:-|\s)?(?:bed(?:room)?s?|br|rooms?|bilik)\b", re.I)
 
 
@@ -86,6 +88,9 @@ def _hygiene(comps: list[dict], kind: str, cfg: dict) -> tuple[list[dict], list[
             continue
         if not c.get("built_up") or not c.get("price"):
             removed.append({**c, "reason": "missing price/size"})
+            continue
+        if NON_RESIDENTIAL.search(c.get("ptype") or ""):
+            removed.append({**c, "reason": f"not residential ({c['ptype']})"})
             continue
         price = c["price"]
         notes = []
@@ -148,7 +153,10 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
     need = cfg.get("min_comps_confident", 4)
 
     def describe(c):
-        c_group = type_group(f"{c.get('ptype', '')} {c.get('title', '')} {c.get('description', '')[:200]}")
+        # The portal's own property type wins; words in the title ("Shop at
+        # Prima Setapak Condominium") only decide when no type is given.
+        c_group = type_group(c.get("ptype", "")) if c.get("ptype") else \
+            type_group(f"{c.get('title', '')} {c.get('description', '')[:200]}")
         diff = (c["built_up"] - sqft) / sqft if sqft else None
         return c_group, bedrooms_of(c), diff
 

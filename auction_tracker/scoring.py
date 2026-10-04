@@ -230,6 +230,12 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
         status = "excluded_by_you"
     verdict = make_verdict(price, bid.get("max_bid"), disc, low_conf, bstats, targets,
                            has_data=market_value is not None or rent_est is not None)
+    if (sale or {}).get("scope") == "area" and not override.get("market_psf"):
+        verdict = {"action": "VERIFY", "next_round_price": verdict.get("next_round_price"),
+                   "text": "No listings found for this building itself - value is based on the wider area only. "
+                           "Check the building's prices (links below) before deciding. " + verdict.get("text", "")}
+        if grade == "A":
+            grade = "B"
 
     return {
         "status": status, "grade": grade, "score": score, "verdict": verdict, "parts": {k: (round(v, 1) if v is not None else None)

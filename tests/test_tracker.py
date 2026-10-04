@@ -627,3 +627,20 @@ def test_psf_fallback_uses_other_sizes_in_same_building(cfg):
     assert "per sqft" in crit["text"]
     kept, _, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "area")
     assert len(kept) < 4                                    # area-wide stays strict on size
+
+
+def test_portal_type_beats_title_and_shops_excluded(cfg):
+    subject = {"built_up": 1787, "property_type": "Condominium"}
+    comps = [_comp(1, 2700000, 1650, title="Prima Setapak Condominium", ptype="Shop", beds=None),
+             _comp(2, 450000, 1600, title="Prima Setapak Condominium", ptype="Condominium", beds=None)]
+    kept, removed, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "area")
+    assert [c["id"] for c in kept] == ["2"]
+    assert any("not residential" in r["reason"] for r in removed)
+
+
+def test_area_only_valuation_is_verify(cfg):
+    lst = {"built_up": 1216, "reserve_price": 530000, "auction_date": None, "flags": [], "dual_key": False}
+    sale = {"estimate": 900000, "median_psf": 800, "n": 5, "confident": False, "scope": "area"}
+    rent = {"estimate": 4000, "median_psf": 3.3, "n": 5, "confident": True, "scope": "building"}
+    ev = scoring.evaluate(lst, sale, rent, None, {"rounds": 1}, None, {}, cfg)
+    assert ev["verdict"]["action"] == "VERIFY" and "wider area" in ev["verdict"]["text"]
