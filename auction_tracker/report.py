@@ -66,7 +66,11 @@ def write_html(results: list[dict], bstats: dict, cfg: dict, path):
                        "targets": cfg["targets"], "finance": cfg["finance"],
                        "criteria": {"areas": list(cfg["search"]["areas"]),
                                     "min_sqft": cfg["search"]["min_built_up_sqft"]}},
-                      default=str).replace("</", "<\\/")
+                      default=str)
+    # Listing text scraped from portals can contain "<!--", "<script" or
+    # "</script>", which would break the inline <script>. Escape the
+    # characters HTML cares about; JSON/JS read them back unchanged.
+    data = data.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
     path.write_text(TEMPLATE.replace("__DATA__", data), encoding="utf-8")
 
 
@@ -129,6 +133,7 @@ ul{margin:4px 0;padding-left:18px}a{color:var(--accent)}.links{display:flex;flex
 </header>
 <main>
   <div class="kpis" id="kpis"></div>
+  <div class="card" id="banner" hidden style="padding:12px 14px;border-color:var(--c)"></div>
   <div class="bar tabs"><button data-tab="deals" class="on">Deals</button><button data-tab="history">Building auction history</button><button data-tab="method">How it scores</button></div>
   <section id="deals">
     <div class="bar">
@@ -155,6 +160,12 @@ $("#sub").textContent = `Updated ${D.generated} · ${D.criteria.areas.join(", ")
 const cnt = g => R.filter(e => e.grade === g).length;
 $("#kpis").innerHTML = [["A deals", cnt("A")], ["B deals", cnt("B")], ["Active listings evaluated", R.length],
   ["Need data (?)", cnt("?")]].map(([k, v]) => `<div class="kpi"><b>${v}</b><span>${k}</span></div>`).join("");
+const noPrice = cnt("?");
+if (noPrice && noPrice >= R.length / 2) {
+  $("#banner").hidden = false;
+  $("#banner").innerHTML = `<b>Market prices missing for ${noPrice} of ${R.length} units.</b> PropertyGuru/iProperty block GitHub's servers, so rent and value come from your PC: double-click <code>run_local.bat</code> (weekly). Until then units show grade "?" with reserve price, size and MRT distance only.`;
+}
+if (!R.some(e => e.grade === "A" || e.grade === "B")) $("#fGrade").value = "";
 [...new Set(R.map(e => e.listing.area_label))].sort().forEach(a => $("#fArea").insertAdjacentHTML("beforeend", `<option>${esc(a)}</option>`));
 
 function card(e) {
