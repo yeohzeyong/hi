@@ -1,4 +1,12 @@
 {
+ "28th floor, kuala lumpur": null,
+ "28th floor, mont kiara, kuala lumpur": null,
+ "apartment service j.dupion, kuala lumpur": null,
+ "apartment service j.dupion, taman tenaga, kuala lumpur": null,
+ "apartment servis j dupion, cheras, kuala lumpur": null,
+ "apartment servis j dupion, kuala lumpur": null,
+ "berjaya times square (east tower), bukit bintang, kuala lumpur": null,
+ "berjaya times square (east tower), kuala lumpur": null,
  "bplelonglist.com, bukit bintang, kuala lumpur": null,
  "bplelonglist.com, cheras, kuala lumpur": null,
  "bplelonglist.com, kuala lumpur": null,
@@ -7,12 +15,108 @@
  "bplelonglist.com, taman bukit cheras, kuala lumpur": null,
  "bplelonglist.com, taman pinggiran cheras, kuala lumpur": null,
  "bplelonglist.com, titiwangsa, kuala lumpur": null,
+ "casa kiara (blk-b), kuala lumpur": null,
+ "casa kiara (blk-b), mont kiara, kuala lumpur": null,
+ "condo bukit cheras, kuala lumpur": null,
+ "condo bukit cheras, taman bukit cheras, kuala lumpur": null,
+ "glenview villa, kuala lumpur": null,
+ "glenview villa, taman pinggiran cheras, kuala lumpur": null,
+ "j dupion, cheras, kuala lumpur": [
+  3.1135971,
+  101.7268814
+ ],
+ "kiaramas danai, kuala lumpur": [
+  3.166072,
+  101.6419816
+ ],
+ "kiaramas danai, mont kiara, kuala lumpur": null,
+ "kondominium tinggian titiwangsa (the reach), kuala lumpur": null,
+ "kondominium tinggian titiwangsa (the reach), titiwangsa, kuala lumpur": null,
+ "mont' kiara banyan, mont kiara, kuala lumpur": [
+  3.1723564,
+  101.6522817
+ ],
+ "pangsapuri aston kiara 3, kuala lumpur": null,
+ "pangsapuri aston kiara 3, mont kiara, kuala lumpur": null,
+ "pangsapuri damai vista, cheras, kuala lumpur": null,
+ "pangsapuri damai vista, kuala lumpur": null,
+ "parc 3, cheras, kuala lumpur": [
+  3.1216892,
+  101.7304604
+ ],
+ "pavilion hilltop mont' kiara, mont kiara, kuala lumpur": [
+  3.1692807,
+  101.6572898
+ ],
+ "platinum lake condominium, setapak, kuala lumpur": [
+  3.200966,
+  101.7156384
+ ],
+ "pv20 platinum lake condominium, kuala lumpur": null,
+ "pv20 platinum lake condominium, setapak, kuala lumpur": null,
+ "pv6 platinum hill condominium, kuala lumpur": null,
+ "pv6 platinum hill condominium, taman melati utama, kuala lumpur": null,
+ "residensi 222, setapak, kuala lumpur": [
+  3.1962566,
+  101.707297
+ ],
+ "residensi ascenda no. 3, kuala lumpur": null,
+ "residensi ascenda no. 3, setapak, kuala lumpur": null,
+ "residensi bennington, kuala lumpur": null,
+ "residensi bennington, setapak, kuala lumpur": null,
+ "residensi curvo, kuala lumpur": null,
+ "residensi curvo, setapak, kuala lumpur": null,
+ "residensi m vertika, kuala lumpur": null,
+ "residensi m vertika, loke yew, kuala lumpur": null,
  "residensi pv 18, setapak, kuala lumpur": [
   3.1900285,
   101.7312388
  ],
+ "richmond kiara 3, mont kiara, kuala lumpur": [
+  3.1731727,
+  101.6508853
+ ],
+ "richmond mont kiara, mont kiara, kuala lumpur": [
+  3.1731727,
+  101.6508853
+ ],
+ "royal tower, kuala lumpur": null,
+ "royal tower, mont kiara, kuala lumpur": null,
+ "titiwangsa sentral condominium, kuala lumpur": null,
+ "titiwangsa sentral condominium, titiwangsa, kuala lumpur": null,
+ "titiwangsa sentral, kuala lumpur": [
+  3.1713607,
+  101.6965783
+ ],
+ "titiwangsa sentral, titiwangsa, kuala lumpur": null,
  "unit no.": [
   6.0360827,
   116.1300474
- ]
+ ],
+ "unit no., 28th floor, block b, kiara designer suites, no. 18, jalan kiara 3, mont kiara, 50480, kuala lumpur": null,
+ "unit no., apartment service j.dupion, no. 1, jalan sembilang, taman tenaga, cheras, 56000, kuala lumpur": null,
+ "unit no., apartment servis j dupion, jalan sembilang, 56000, kuala lumpur": null,
+ "unit no., apartment servis j dupion, no. 1, jalan sembilang, 56000, kuala lumpur": null,
+ "unit no., berjaya times square (east tower), no. 1, jalan imbi, 55100, kuala lumpur": null,
+ "unit no., block a, pangsapuri damai vista, jalan damai perdana 1/1, bandar damai perdana, 56000, kuala lumpur": null,
+ "unit no., block a2, condo bukit cheras, jalan bukit cheras 18, taman bukit cheras, 56000, kuala lumpur": null,
+ "unit no., block c, residensi m vertika, no. 555, jalan cheras, 56000, kuala lumpur": null,
+ "unit no., blok b, glenview villa, taman pinggiran cheras, jalan 49, off jalan kuari, 56100, kuala lumpur": null,
+ "unit no., casa kiara (blk-b), jalan kiara 3, 50480 mont kiara, kuala lumpur": null,
+ "unit no., kondominium tinggian titiwangsa (the reach), jalan tiara titiwangsa, no. 1, 53200, kuala lumpur": null,
+ "unit no., pangsapuri aston kiara 3, no. 27, jalan kiara 3, mont kiara, 51200, kuala lumpur": null,
+ "unit no., pv20 platinum lake condominium, jalan usahawan 2, off jalan genting klang, setapak, 53200, kuala lumpur": null,
+ "unit no., pv6 platinum hill condominium, no. 3, jalan melati 3, taman melati utama, 53100 setapak, kuala lumpur": null,
+ "unit no., residensi ascenda no. 3, jalan arena 1, setapak, 53200, kuala lumpur": null,
+ "unit no., residensi bennington, no. 1, jalan arena 1, 53200 setapak, kuala lumpur": null,
+ "unit no., residensi bennington, no. 1, jalan arena 1, setapak, 53200, kuala lumpur": null,
+ "unit no., residensi curvo, no. 1, jalan arena 2, setapak, 53200, kuala lumpur": null,
+ "unit no., residensi m vertika, batu 2 1/2, jalan cheras, 56000, kuala lumpur": null,
+ "unit no., royal tower, mont' kiara palma, jalan kiara, mont' kiara, 50480, kuala lumpur": null,
+ "unit no., titiwangsa sentral condominium, no. 1, jalan chemur, 50400, kuala lumpur": null,
+ "vista harmoni, kuala lumpur": [
+  3.2049441,
+  101.6903971
+ ],
+ "vista harmoni, taman bukit cheras, kuala lumpur": null
 }
