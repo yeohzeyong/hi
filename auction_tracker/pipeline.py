@@ -183,15 +183,23 @@ def refresh_comps(conn, fetcher, cfg: dict, force: bool = False, limit: int | No
     done = 0
     pcfg = {k: v for k, v in cfg["portals"].items() if isinstance(v, dict)}
     max_age = cfg["portals"].get("cache_days", 21)
+    memo: dict[tuple, dict] = {}
+
+    def fetch(query, building, pages):
+        key = (query, building)
+        if key not in memo:          # area-level searches repeat across buildings
+            memo[key] = portals.fetch_comps(fetcher, pcfg, query, building, pages)
+        return memo[key]
+
     for r in candidate_listings(conn, cfg):
         key, query, building = comps_key(r)
         if not force and db.get_comps(conn, key, max_age) is not None:
             continue
         pages = cfg["portals"].get("pages", 1)
-        data = portals.fetch_comps(fetcher, pcfg, query, building, pages)
+        data = dict(fetch(query, building, pages))
         if building and (len(data["sale"]) < 2 or len(data["rent"]) < 2):
             log.info("few building comps for %r; also fetching area-level comps", building)
-            area = portals.fetch_comps(fetcher, pcfg, f"{r['area_label']} condominium", None, pages)
+            area = fetch(f"{r['area_label']} condominium", None, pages)
             data["area_sale"], data["area_rent"] = area["sale"], area["rent"]
         db.put_comps(conn, key, data)
         conn.commit()

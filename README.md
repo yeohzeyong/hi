@@ -112,24 +112,32 @@ Occupied units get an RM10k eviction buffer in the cash-needed figure.
 
 **lelongtips** and the other sites on the same engine can be switched on under `sources`. lelongtips hides listing details unless you're logged in, so it is off by default. With an account, run locally with `--backend chrome` and log in once in the Chrome window it opens.
 
-### 2. Run on your own PC with your Chrome (best for PropertyGuru / iProperty)
-PropertyGuru and iProperty use Cloudflare, which often blocks cloud servers
-but rarely blocks a real Chrome on a home connection. The tracker can drive your
-installed Chrome with its own saved profile. If a captcha ever appears, solve it
-once in that window and the cookies are kept.
+### 2. Fetch market prices from your PC (weekly, needed for rent and value)
+PropertyGuru and iProperty **block GitHub's servers**, even with a real
+browser. This was confirmed on the first live runs. A home internet connection
+and your own Chrome get through. The cloud run stops trying after two blocks, so it
+stays fast; prices come from your PC instead and are kept for 21 days.
 
-```bash
-pip install -r requirements.txt -r requirements-browser.txt
-python -m auction_tracker comps --backend chrome   # refresh market data with your Chrome
-python -m auction_tracker evaluate                 # re-score, writes docs/index.html
-```
-- **Windows**: double-click `run_local.bat`, or schedule it in Task Scheduler.
-- **macOS/Linux**: use `run_local.sh` with cron.
+**One-time setup (Windows):**
+1. Install **Python** from python.org. Tick **"Add python.exe to PATH"** during setup.
+2. Install **Git** from git-scm.com (default options).
+3. Get a copy of the repo:
+   1. Open "Command Prompt".
+   2. Run `git clone https://github.com/yeohzeyong/hi.git`.
+   3. Open the new `hi` folder.
 
-A good long-term rhythm:
-- GitHub scrapes auctions daily.
-- Your PC refreshes comps weekly. Comps are cached for 21 days, so only new buildings are fetched.
-- After a local refresh, commit and push `data/tracker.db` so the cloud run uses your fresh comps.
+   Alternatively, use **GitHub Desktop** and **Clone** `yeohzeyong/hi`.
+
+**Every week:** double-click **`run_local.bat`**. It:
+1. pulls the latest auctions from GitHub;
+2. opens Chrome and reads PropertyGuru/iProperty for each building. If a "verify you are human" box appears, click it once;
+3. re-scores every unit;
+4. pushes the results back to GitHub, so your online dashboard and Telegram alerts use the new prices.
+
+If you use GitHub Desktop without Git installed: click **Pull origin** before running, then **Commit** and **Push origin** after.
+
+To automate it, use Windows Task Scheduler → Create Basic Task → Weekly → Start a program → `run_local.bat`.
+macOS/Linux: use `run_local.sh` with cron.
 
 ### Commands
 ```bash
