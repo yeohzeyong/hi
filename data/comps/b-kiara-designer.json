@@ -1,6 +1,7 @@
 {
  "key": "b:kiara designer",
- "fetched_at": "2026-10-04T03:33:04+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:53:43+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 0.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,6 +260,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -266,6 +280,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -285,6 +300,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -304,6 +320,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -323,6 +340,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -342,6 +360,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -361,6 +380,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -380,6 +400,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -399,6 +420,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -418,6 +440,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -437,6 +460,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -456,6 +480,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -475,6 +500,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -494,6 +520,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -513,6 +540,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -532,6 +560,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -551,6 +580,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -570,6 +600,127 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "501092365",
+    "title": "Kiara Designer Suites",
+    "description": " Project Highlights",
+    "price": 570000.0,
+    "built_up": 1128.0,
+    "url": "https://www.propertyguru.com.my/property-listing/kiara-designer-suites-for-sale-by-alan-wong-501092365",
+    "agent": "Alan Wong",
+    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1787575464,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "",
+    "built_year": 2007,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "501226396",
+    "title": "Kiara Designer Suites",
+    "description": " Project Highlights",
+    "price": 660000.0,
+    "built_up": 1259.0,
+    "url": "https://www.propertyguru.com.my/property-listing/kiara-designer-suites-for-sale-by-bao-jie-501226396",
+    "agent": "Bao Jie",
+    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1787017819,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "",
+    "built_year": 2007,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "501525805",
+    "title": "Kiara Designer Suites",
+    "description": " Project Highlights",
+    "price": 600000.0,
+    "built_up": 1088.0,
+    "url": "https://www.propertyguru.com.my/property-listing/kiara-designer-suites-for-sale-by-sonia-501525805",
+    "agent": "Sonia .",
+    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786557456,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "",
+    "built_year": 2007,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "35628184",
+    "title": "Kiara Designer Suites",
+    "description": " Project Highlights",
+    "price": 730000.0,
+    "built_up": 1260.0,
+    "url": "https://www.propertyguru.com.my/property-listing/kiara-designer-suites-for-sale-by-gabriel-yap-35628184",
+    "agent": "Gabriel Yap",
+    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786069381,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2007,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "41207016",
+    "title": "Kiara Designer Suites",
+    "description": " Project Highlights",
+    "price": 800000.0,
+    "built_up": 1428.0,
+    "url": "https://www.propertyguru.com.my/property-listing/kiara-designer-suites-for-sale-by-martin-lee-41207016",
+    "agent": "Martin Lee",
+    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1785980286,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2007,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "102241511",
+    "title": "Kiara Designer Suites",
+    "description": " Project Highlights",
+    "price": 718000.0,
+    "built_up": 1250.0,
+    "url": "https://www.propertyguru.com.my/property-listing/kiara-designer-suites-for-sale-by-kin-keong-woo-102241511",
+    "agent": "Kin Keong Woo",
+    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1785896391,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -589,6 +740,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -608,6 +760,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -627,6 +780,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -646,6 +800,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -665,6 +820,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -684,6 +840,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -703,6 +860,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -724,6 +882,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -743,6 +902,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -762,6 +922,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -781,6 +942,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -800,6 +962,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -819,6 +982,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -838,6 +1002,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -857,6 +1022,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -876,6 +1042,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -895,6 +1062,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -914,6 +1082,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -933,6 +1102,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -952,6 +1122,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -971,6 +1142,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -990,6 +1162,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1009,6 +1182,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1028,6 +1202,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1047,6 +1222,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1066,6 +1242,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1085,6 +1262,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1104,6 +1282,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1123,6 +1302,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1142,6 +1322,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1161,6 +1342,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1180,6 +1362,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1199,6 +1382,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1218,6 +1402,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1237,6 +1422,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1256,6 +1442,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1275,9 +1462,19 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 530.09,
+   "sale_n": 43,
+   "rent_psf": 2.57,
+   "rent_n": 30
+  }
+ ]
 }

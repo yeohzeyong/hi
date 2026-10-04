@@ -1,6 +1,7 @@
 {
  "key": "b:mont kiara banyan",
- "fetched_at": "2026-10-04T03:33:41+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:54:50+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,44 +260,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
-    "portal": "propertyguru",
-    "kind": "sale"
-   },
-   {
-    "id": "501059327",
-    "title": "Mont Kiara Bayu",
-    "description": " Project Highlights",
-    "price": 650000.0,
-    "built_up": 1068.0,
-    "url": "https://www.propertyguru.com.my/property-listing/mont-kiara-bayu-for-sale-by-edward-low-501059327",
-    "agent": "Edward Low",
-    "address": "2 No. 2, Jalan Mont Kiara 2, Mont Kiara, Kuala Lumpur",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1788852441,
-    "mrt": null,
-    "bedrooms": 2.0,
-    "ptype": "Condominium",
-    "furnishing": "",
-    "portal": "propertyguru",
-    "kind": "sale"
-   },
-   {
-    "id": "500898199",
-    "title": "Aston Kiara 3",
-    "description": " Project Highlights",
-    "price": 1800000.0,
-    "built_up": 3205.0,
-    "url": "https://www.propertyguru.com.my/property-listing/aston-kiara-3-for-sale-by-jeremy-500898199",
-    "agent": "Jeremy .",
-    "address": "Jalan Kiara 3, Mont Kiara, Kuala Lumpur",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1789239511,
-    "mrt": null,
-    "bedrooms": 4.0,
-    "ptype": "Condominium",
-    "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -304,6 +280,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -323,6 +300,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -342,6 +320,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -361,6 +340,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -380,6 +360,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -399,6 +380,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -418,6 +400,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -437,6 +420,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -456,6 +440,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -475,6 +460,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -496,6 +482,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -515,6 +502,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -534,6 +522,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -553,6 +542,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -572,6 +562,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2007,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -591,6 +582,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -610,6 +602,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -629,6 +622,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -648,9 +642,19 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 674.65,
+   "sale_n": 23,
+   "rent_psf": 3.1,
+   "rent_n": 9
+  }
+ ]
 }

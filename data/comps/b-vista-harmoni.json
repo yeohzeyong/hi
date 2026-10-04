@@ -1,6 +1,7 @@
 {
  "key": "b:vista harmoni",
- "fetched_at": "2026-10-04T03:39:19+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T05:04:12+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,25 +180,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
-    "portal": "propertyguru",
-    "kind": "sale"
-   },
-   {
-    "id": "501844455",
-    "title": "Taman Harmoni Vista, Pagoh",
-    "description": " Project Highlights",
-    "price": 360000.0,
-    "built_up": 1300.0,
-    "url": "https://www.propertyguru.com.my/property-listing/taman-harmoni-vista-pagoh-for-sale-by-lisa-chen-501844455",
-    "agent": "Lisa Chen",
-    "address": "Pagoh, Johor",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1790927558,
-    "mrt": null,
-    "bedrooms": 3.0,
-    "ptype": "2-storey Terraced House",
-    "furnishing": "",
+    "built_year": 2024,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,25 +200,7 @@
     "bedrooms": 5.0,
     "ptype": "Townhouse",
     "furnishing": "",
-    "portal": "propertyguru",
-    "kind": "sale"
-   },
-   {
-    "id": "501970188",
-    "title": "Taman Belimbing Setia",
-    "description": " Project Highlights",
-    "price": 438000.0,
-    "built_up": 2200.0,
-    "url": "https://www.propertyguru.com.my/property-listing/taman-belimbing-setia-for-sale-by-tim-piong-501970188",
-    "agent": "Tim Piong",
-    "address": "Taman Belimbing Setia, Taman Vista Belimbing, Taman Nuri, Belimbing Harmoni, Vista Tropika, Taman Belimbing Setia, Durian Tunggal, Melaka",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1787565672,
-    "mrt": null,
-    "bedrooms": 4.0,
-    "ptype": "Bungalow House",
-    "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,6 +220,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -266,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -285,82 +260,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "partly",
-    "portal": "iproperty",
-    "kind": "sale"
-   },
-   {
-    "id": "501735695",
-    "title": "Taman Harmoni Vista Teluk Kumbar The cheapest in Teluk Kumbar, Teluk Kumbar",
-    "description": " Project Highlights",
-    "price": 300000.0,
-    "built_up": 850.0,
-    "url": "https://www.iproperty.com.my/property/teluk-kumbar/taman-harmoni-vista-teluk-kumbar-the-cheapest-in-teluk-kumbar/sale-501735695/",
-    "agent": "Yunkeat",
-    "address": "Taman Harmoni Vista Teluk Kumbar The cheapest in Teluk Kumbar, Teluk Kumbar, Penang",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1789578638,
-    "mrt": null,
-    "bedrooms": 0.0,
-    "ptype": "Residential Land",
-    "furnishing": "",
-    "portal": "iproperty",
-    "kind": "sale"
-   },
-   {
-    "id": "200160212",
-    "title": "S2 heights rimbun harmoni irama impian, S2 Heights, Seremban 2",
-    "description": " Project Highlights",
-    "price": 610000.0,
-    "built_up": 2550.0,
-    "url": "https://www.iproperty.com.my/property/seremban-2/s-2-heights-rimbun-harmoni-irama-impian/sale-200160212/",
-    "agent": "Terence Lok",
-    "address": "S2 heights,seremban 2,rimbun irama,harmoni,impian,vista,alam,aman summer,sakura,melody,tropika santana, S2 Heights, Seremban 2, Negeri Sembilan",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1786952269,
-    "mrt": null,
-    "bedrooms": 4.0,
-    "ptype": "2-storey Terraced House",
-    "furnishing": "partly",
-    "portal": "iproperty",
-    "kind": "sale"
-   },
-   {
-    "id": "501946080",
-    "title": "S2 heights melody, S2 Heights, Seremban 2",
-    "description": " Project Highlights",
-    "price": 549000.0,
-    "built_up": 2000.0,
-    "url": "https://www.iproperty.com.my/property/seremban-2/s-2-heights-melody/sale-501946080/",
-    "agent": "Terence Lok",
-    "address": "S2 heights,seremban 2,summer melody rimbun irama,harmoni,impian,vista,alam,aman summer,sakura,melody,tropika santana, S2 Heights, Seremban 2, Negeri Sembilan",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1789623221,
-    "mrt": null,
-    "bedrooms": 4.0,
-    "ptype": "2-storey Terraced House",
-    "furnishing": "partly",
-    "portal": "iproperty",
-    "kind": "sale"
-   },
-   {
-    "id": "100332915",
-    "title": "S2 HEIGHTS AVIVA GREEN SEMI D CORNER, S2 Heights, Seremban 2",
-    "description": " Project Highlights",
-    "price": 2300000.0,
-    "built_up": 3500.0,
-    "url": "https://www.iproperty.com.my/property/seremban-2/s-2-heights-aviva-green-semi-d-corner/sale-100332915/",
-    "agent": "Terence Lok",
-    "address": "S2 heights,seremban 2,aviva green,carcosa rimbun irama,harmoni,impian,vista,alam,aman summer,sakura,melody,tropika santana, S2 Heights, Seremban 2, Negeri Sembilan",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1788172172,
-    "mrt": null,
-    "bedrooms": 5.0,
-    "ptype": "Semi-Detached House",
-    "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -382,6 +282,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -401,6 +302,7 @@
     "bedrooms": -1.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -420,6 +322,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -439,6 +342,7 @@
     "bedrooms": -1.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -458,6 +362,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -477,6 +382,7 @@
     "bedrooms": -1.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -496,6 +402,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -515,6 +422,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -534,6 +442,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -553,6 +462,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -572,6 +482,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -591,6 +502,7 @@
     "bedrooms": -1.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -610,6 +522,7 @@
     "bedrooms": -1.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -629,6 +542,7 @@
     "bedrooms": -1.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -648,9 +562,19 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 347.48,
+   "sale_n": 13,
+   "rent_psf": 2.17,
+   "rent_n": 15
+  }
+ ]
 }

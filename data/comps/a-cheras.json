@@ -1,11 +1,9 @@
 {
- "key": "b:glenview villa",
+ "key": "a:cheras",
  "schema": 2,
- "fetched_at": "2026-10-04T05:02:27+00:00",
+ "fetched_at": "2026-10-04T05:05:56+00:00",
  "data": {
-  "sale": [],
-  "rent": [],
-  "area_sale": [
+  "sale": [
    {
     "id": "501192030",
     "title": "Sering Akasia condominium",
@@ -1867,7 +1865,7 @@
     "kind": "sale"
    }
   ],
-  "area_rent": [
+  "rent": [
    {
     "id": "501876273",
     "title": "Miharja Condominium",
@@ -2352,7 +2350,11 @@
  },
  "history": [
   {
-   "date": "2026-10-04"
+   "date": "2026-10-04",
+   "sale_psf": 379.35,
+   "sale_n": 93,
+   "rent_psf": 1.63,
+   "rent_n": 24
   }
  ]
 }

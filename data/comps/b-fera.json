@@ -1,9 +1,50 @@
 {
- "key": "b:pv20 platinum lake",
+ "key": "b:fera",
  "schema": 2,
- "fetched_at": "2026-10-04T04:44:27+00:00",
+ "fetched_at": "2026-10-04T04:36:09+00:00",
  "data": {
-  "sale": [],
+  "sale": [
+   {
+    "id": "502142157",
+    "title": "Serviced Residence @ Fera Residence @ The Quartz WM",
+    "description": " Project Highlights",
+    "price": 569500.0,
+    "built_up": 1302.0,
+    "url": "https://www.propertyguru.com.my/property-listing/serviced-residence-fera-residence-the-quartz-wm-for-sale-by-fifi-natasya-502142157",
+    "agent": "Fifi Natasya",
+    "address": "Jalan 34/26, Seksyen 10 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790223135,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "502182155",
+    "title": "Serviced Residence @ Fera Residence @ The Quartz WM",
+    "description": " Project Highlights",
+    "price": 569000.0,
+    "built_up": 1302.0,
+    "url": "https://www.propertyguru.com.my/property-listing/serviced-residence-fera-residence-the-quartz-wm-for-sale-by-leslie-low-502182155",
+    "agent": "Leslie Low",
+    "address": "Jalan 34/26, Seksyen 10 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790841078,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   }
+  ],
   "rent": [],
   "area_sale": [
    {
@@ -1432,7 +1473,9 @@
  },
  "history": [
   {
-   "date": "2026-10-04"
+   "date": "2026-10-04",
+   "sale_psf": 437.4,
+   "sale_n": 2
   }
  ]
 }

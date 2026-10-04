@@ -1,6 +1,7 @@
 {
  "key": "b:titiwangsa sentral",
- "fetched_at": "2026-10-04T03:29:26+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:49:59+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,6 +260,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -266,6 +280,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -285,6 +300,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -304,6 +320,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -325,6 +342,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -344,6 +362,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -363,6 +382,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -382,6 +402,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -401,6 +422,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -420,6 +442,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -439,6 +462,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -458,6 +482,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -477,6 +502,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -496,6 +522,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2011,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -515,6 +542,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -534,6 +562,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -553,6 +582,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -572,9 +602,19 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 466.67,
+   "sale_n": 16,
+   "rent_psf": 2.45,
+   "rent_n": 14
+  }
+ ]
 }

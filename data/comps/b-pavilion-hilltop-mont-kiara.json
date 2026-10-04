@@ -1,6 +1,7 @@
 {
  "key": "b:pavilion hilltop mont kiara",
- "fetched_at": "2026-10-04T03:30:21+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:51:11+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 6.0,
     "ptype": "Twin Villas",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,6 +260,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -266,6 +280,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -285,6 +300,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -304,6 +320,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -323,6 +340,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -342,6 +360,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -361,6 +380,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -380,6 +400,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -399,6 +420,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -418,6 +440,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -437,6 +460,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -456,6 +480,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -475,6 +500,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -494,6 +520,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -513,6 +540,167 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "502131269",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 1600000.0,
+    "built_up": 1496.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-gwen-chan-502131269",
+    "agent": "Gwen Chan",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790068291,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "43354999",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 3900000.0,
+    "built_up": 3671.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-jarrod-joshua-43354999",
+    "agent": "Jarrod Joshua",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790011863,
+    "mrt": null,
+    "bedrooms": 5.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "500854147",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 4200000.0,
+    "built_up": 2767.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-jovie-lim-500854147",
+    "agent": "Jovie Lim",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789947793,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "501748948",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 3300000.0,
+    "built_up": 2702.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-jovie-lim-501748948",
+    "agent": "Jovie Lim",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789947791,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "105298067",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 1258000.0,
+    "built_up": 1200.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-vanny-lum-105298067",
+    "agent": "Vanny Lum",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789719022,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "105760548",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 4480000.0,
+    "built_up": 3700.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-rinna-khoo-105760548",
+    "agent": "Rinna Khoo",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789714971,
+    "mrt": null,
+    "bedrooms": 5.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "106225721",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 3800000.0,
+    "built_up": 2702.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-chester-tan-106225721",
+    "agent": "Chester Tan",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789711190,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "502091379",
+    "title": "Pavilion Hilltop",
+    "description": " Project Highlights",
+    "price": 1699000.0,
+    "built_up": 1496.0,
+    "url": "https://www.propertyguru.com.my/property-listing/pavilion-hilltop-for-sale-by-gerald-ng-502091379",
+    "agent": "Gerald Ng",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789456067,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -532,25 +720,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
-    "portal": "iproperty",
-    "kind": "sale"
-   },
-   {
-    "id": "106434106",
-    "title": "Pavilion Hilltop, Mont Kiara",
-    "description": " Project Highlights",
-    "price": 3800000.0,
-    "built_up": 2702.0,
-    "url": "https://www.iproperty.com.my/property/mont-kiara/pavilion-hilltop/sale-106434106/",
-    "agent": "Darren Lai",
-    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1790590356,
-    "mrt": null,
-    "bedrooms": 4.0,
-    "ptype": "Condominium",
-    "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -570,6 +740,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -589,6 +760,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -608,6 +780,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -627,6 +800,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -646,6 +820,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -665,6 +840,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -684,6 +860,47 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "502148140",
+    "title": "Pavilion Hilltop, Mont Kiara",
+    "description": " Project Highlights",
+    "price": 1688888.0,
+    "built_up": 1496.0,
+    "url": "https://www.iproperty.com.my/property/mont-kiara/pavilion-hilltop/sale-502148140/",
+    "agent": "Michelle Lee",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790309999,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "501630212",
+    "title": "Pavilion Hilltop, Mont Kiara",
+    "description": " Project Highlights",
+    "price": 3800000.0,
+    "built_up": 2767.0,
+    "url": "https://www.iproperty.com.my/property/mont-kiara/pavilion-hilltop/sale-501630212/",
+    "agent": "Charlene Choo",
+    "address": "Lot 67209 Jalan Kiara, Mont Kiara, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790148717,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -705,6 +922,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -724,6 +942,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -743,6 +962,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -762,6 +982,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -781,6 +1002,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -800,6 +1022,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -819,6 +1042,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -838,6 +1062,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -857,6 +1082,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -876,6 +1102,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -895,6 +1122,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -914,6 +1142,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -933,6 +1162,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -952,6 +1182,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -971,6 +1202,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -990,6 +1222,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1009,6 +1242,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1028,6 +1262,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1047,6 +1282,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1066,6 +1302,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1085,6 +1322,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -1104,6 +1342,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1123,6 +1362,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1142,6 +1382,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1161,9 +1402,19 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 1109.11,
+   "sale_n": 45,
+   "rent_psf": 4.64,
+   "rent_n": 25
+  }
+ ]
 }

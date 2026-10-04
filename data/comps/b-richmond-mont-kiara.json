@@ -1,6 +1,7 @@
 {
  "key": "b:richmond mont kiara",
- "fetched_at": "2026-10-04T03:21:32+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:30:05+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -192,6 +202,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -211,6 +222,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -230,6 +242,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -249,6 +262,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -268,9 +282,19 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 330.85,
+   "sale_n": 9,
+   "rent_psf": 1.69,
+   "rent_n": 5
+  }
+ ]
 }

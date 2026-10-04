@@ -1,6 +1,7 @@
 {
  "key": "b:curvo",
- "fetched_at": "2026-10-04T03:25:55+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:41:18+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    }
@@ -60,6 +63,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -79,6 +83,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -98,6 +103,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -117,6 +123,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -136,6 +143,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -155,6 +163,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -174,6 +183,7 @@
     "bedrooms": 7.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -193,6 +203,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -212,6 +223,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -231,6 +243,7 @@
     "bedrooms": 8.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -250,6 +263,7 @@
     "bedrooms": 7.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -269,6 +283,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -288,6 +303,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -307,6 +323,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -326,6 +343,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -345,6 +363,7 @@
     "bedrooms": 0.0,
     "ptype": "Shop",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -366,6 +385,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -385,6 +405,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -404,6 +425,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -423,6 +445,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -442,6 +465,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -461,6 +485,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -480,6 +505,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -499,6 +525,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -518,6 +545,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -537,6 +565,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2023,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -556,6 +585,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2017,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -575,6 +605,7 @@
     "bedrooms": 0.0,
     "ptype": "Shop / Office",
     "furnishing": "",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -594,6 +625,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -613,6 +645,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -632,6 +665,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -651,6 +685,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -670,6 +705,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -689,6 +725,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -708,6 +745,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -727,6 +765,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -746,6 +785,7 @@
     "bedrooms": 3.0,
     "ptype": "Apartment",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -765,6 +805,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -784,6 +825,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -803,6 +845,7 @@
     "bedrooms": 1.0,
     "ptype": "Apartment",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -822,6 +865,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -841,6 +885,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -860,6 +905,7 @@
     "bedrooms": 1.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -879,6 +925,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -898,6 +945,7 @@
     "bedrooms": -1.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -917,6 +965,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -936,6 +985,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -955,6 +1005,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -974,6 +1025,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -993,6 +1045,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1012,6 +1065,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1031,6 +1085,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1050,6 +1105,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1069,6 +1125,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1088,6 +1145,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1107,9 +1165,317 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502017911",
+    "title": "Flora Residency, Setapak",
+    "description": " Project Highlights",
+    "price": 1600.0,
+    "built_up": 801.0,
+    "url": "https://www.iproperty.com.my/property/setapak/flora-residency/rent-502017911/",
+    "agent": "Bernard Cheah",
+    "address": "Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788355849,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502017893",
+    "title": "Residensi Rampai (The Parc Tower), Setapak",
+    "description": " Project Highlights",
+    "price": 1900.0,
+    "built_up": 1075.0,
+    "url": "https://www.iproperty.com.my/property/setapak/residensi-rampai-the-parc-tower/rent-502017893/",
+    "agent": "Bernard Cheah",
+    "address": "Jalan 1/27, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788355608,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502095659",
+    "title": "The Veo, Setapak",
+    "description": " Project Highlights",
+    "price": 3300.0,
+    "built_up": 1400.0,
+    "url": "https://www.iproperty.com.my/property/setapak/the-veo/rent-502095659/",
+    "agent": "Fatin Ismail",
+    "address": "Jalan Melati Kuarza 2, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790606070,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502073586",
+    "title": "The Veo, Setapak",
+    "description": " Project Highlights",
+    "price": 3500.0,
+    "built_up": 1400.0,
+    "url": "https://www.iproperty.com.my/property/setapak/the-veo/rent-502073586/",
+    "agent": "Fatin Ismail",
+    "address": "Jalan Melati Kuarza 2, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790315361,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502018062",
+    "title": "Sky Awani Residensi 4, Kampung Baru Ayer Panas, Setapak",
+    "description": " Project Highlights",
+    "price": 1900.0,
+    "built_up": 800.0,
+    "url": "https://www.iproperty.com.my/property/setapak/sky-awani-residensi-4/rent-502018062/",
+    "agent": "Bernard Cheah",
+    "address": "Jalan Santuari Utama, Kampung Baru Ayer Panas, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788357395,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "501907929",
+    "title": "Platinum Lake PV 10, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 2200.0,
+    "built_up": 1200.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-10/rent-501907929/",
+    "agent": "Sam Jamal",
+    "address": "Jalan Danau Saujana 2, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790341381,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "501662440",
+    "title": "Wangsa Metroview, Seksyen 2 Wangsa Maju, Wangsa Maju",
+    "description": " Project Highlights",
+    "price": 1500.0,
+    "built_up": 1150.0,
+    "url": "https://www.iproperty.com.my/property/wangsa-maju/wangsa-metroview/rent-501662440/",
+    "agent": "Elaine Yap",
+    "address": "Jalan Metro Wangsa, Seksyen 2 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788670531,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "501891613",
+    "title": "Residensi Platinum Teratai, Setapak",
+    "description": " Project Highlights",
+    "price": 2000.0,
+    "built_up": 928.0,
+    "url": "https://www.iproperty.com.my/property/setapak/residensi-platinum-teratai/rent-501891613/",
+    "agent": "Nicole Goh",
+    "address": "Jalan Langkawi, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786454130,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502095134",
+    "title": "M Astra, Setapak",
+    "description": " Project Highlights",
+    "price": 2800.0,
+    "built_up": 851.0,
+    "url": "https://www.iproperty.com.my/property/setapak/m-astra/rent-502095134/",
+    "agent": "Tiffany Yang",
+    "address": "Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789493928,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502007411",
+    "title": "Platinum Lake PV 12, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 2300.0,
+    "built_up": 1207.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-12/rent-502007411/",
+    "agent": "Eason Hiew",
+    "address": "6 No.6, Jalan Langkawi, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788229546,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "501848205",
+    "title": "Platinum Lake PV 21, Setapak",
+    "description": " Project Highlights",
+    "price": 2200.0,
+    "built_up": 1040.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-21/rent-501848205/",
+    "agent": "Eason Hiew",
+    "address": "Jalan Usahawan, Off Jalan Genting Kelang, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786599558,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Service Residence",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "100512220",
+    "title": "100 Residency, Taman Teratai Mewah, Setapak",
+    "description": " Project Highlights",
+    "price": 3000.0,
+    "built_up": 1447.0,
+    "url": "https://www.iproperty.com.my/property/setapak/100-residency/rent-100512220/",
+    "agent": "Huading Tan",
+    "address": "No. 3 Jalan Prima Setapak, Taman Teratai Mewah, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786343651,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "501602386",
+    "title": "Residensi Platinum Teratai, Setapak",
+    "description": " Project Highlights",
+    "price": 2000.0,
+    "built_up": 945.0,
+    "url": "https://www.iproperty.com.my/property/setapak/residensi-platinum-teratai/rent-501602386/",
+    "agent": "Jayden Loke",
+    "address": "Jalan Langkawi, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790085805,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "502041631",
+    "title": "PV9 Residences, Taman Melati, Setapak",
+    "description": " Project Highlights",
+    "price": 3300.0,
+    "built_up": 1300.0,
+    "url": "https://www.iproperty.com.my/property/setapak/pv-9-residences/rent-502041631/",
+    "agent": "Kin CK",
+    "address": "Jalan Kampung Wira Jaya, Taman Melati, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788761871,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "rent"
+   },
+   {
+    "id": "501657676",
+    "title": "Residensi Platinum Teratai, Setapak",
+    "description": " Project Highlights",
+    "price": 1900.0,
+    "built_up": 945.0,
+    "url": "https://www.iproperty.com.my/property/setapak/residensi-platinum-teratai/rent-501657676/",
+    "agent": "Desmond Tang",
+    "address": "Jalan Langkawi, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789378042,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 513.98,
+   "sale_n": 2
+  }
+ ]
 }
