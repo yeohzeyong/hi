@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS listings (
     building TEXT, address TEXT, unit TEXT, built_up REAL,
     tenure TEXT, title_type TEXT, bumi INTEGER, dual_key INTEGER, occupied INTEGER,
     auctioneer TEXT, bank TEXT, flags TEXT, raw_text TEXT,
-    first_seen TEXT, last_seen TEXT, reserve_price REAL, auction_date TEXT, source TEXT
+    first_seen TEXT, last_seen TEXT, reserve_price REAL, auction_date TEXT, source TEXT, bedrooms INTEGER
 );
 CREATE INDEX IF NOT EXISTS ix_listings_fp ON listings(fingerprint);
 CREATE INDEX IF NOT EXISTS ix_listings_bk ON listings(building_key);
@@ -68,13 +68,15 @@ def connect(path: Path | None = None) -> sqlite3.Connection:
     cols = {r["name"] for r in conn.execute("PRAGMA table_info(listings)")}
     if "source" not in cols:                       # migrate older databases
         conn.execute("ALTER TABLE listings ADD COLUMN source TEXT")
+    if "bedrooms" not in cols:
+        conn.execute("ALTER TABLE listings ADD COLUMN bedrooms INTEGER")
     return conn
 
 
 LISTING_COLS = ["listing_id", "url", "fingerprint", "building_key", "title", "property_type", "area_label",
                 "area", "state", "building", "address", "unit", "built_up", "tenure", "title_type", "bumi",
                 "dual_key", "occupied", "auctioneer", "bank", "flags", "raw_text", "first_seen", "last_seen",
-                "reserve_price", "auction_date", "source"]
+                "reserve_price", "auction_date", "source", "bedrooms"]
 
 
 def today() -> str:
@@ -91,7 +93,8 @@ def upsert_listing(conn, lst: dict, area_label: str, seen_now: bool = True):
     row = {**lst, "fingerprint": fp, "building_key": building_key(lst["building"]), "area_label": area_label,
            "flags": json.dumps(lst.get("flags", [])), "bumi": int(lst["bumi"]),
            "dual_key": int(lst["dual_key"]), "occupied": int(lst["occupied"]),
-           "first_seen": first, "last_seen": last, "source": lst.get("source", "")}
+           "first_seen": first, "last_seen": last, "source": lst.get("source", ""),
+           "bedrooms": lst.get("bedrooms")}
     conn.execute(f"INSERT OR REPLACE INTO listings ({','.join(LISTING_COLS)}) "
                  f"VALUES ({','.join(':' + c for c in LISTING_COLS)})", row)
     if seen_now:

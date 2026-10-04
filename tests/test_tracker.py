@@ -88,7 +88,7 @@ def test_cleaning_removes_fakes(cfg):
     raw = [c for c in raw if portals.matches_building(c, "Residensi Danau Kota Suites")]
     kept, removed = cleaning.clean_comps(raw, "sale", 1184, cfg["cleaning"])
     reasons = " ".join(r["reason"] for r in removed)
-    assert "keyword" in reasons and "lowball" in reasons and "different unit size" in reasons
+    assert "keyword" in reasons and "lowball" in reasons and "size +103%" in reasons
     assert {c["price"] for c in kept} == {560000, 580000, 540000, 600000, 570000}
     s = cleaning.summarize(kept, 1184, "sale", cfg["cleaning"])
     assert s["confident"] and 470000 < s["estimate"] < 560000
@@ -439,3 +439,63 @@ def test_reparse_keeps_sighting_history(tmp_path, cfg):
     pipeline.reparse(conn, cfg)
     assert conn.execute("SELECT last_seen FROM listings").fetchone()[0] == "2026-01-01"
     assert conn.execute("SELECT COUNT(*) FROM observations").fetchone()[0] == 0
+
+
+# ----------------------------------------------------- like-for-like comps ----
+def _comp(i, price, sqft, title="Residensi X", ptype="Condominium", beds=3, furn=""):
+    return {"id": str(i), "price": price, "built_up": sqft, "title": title, "ptype": ptype,
+            "bedrooms": beds, "furnishing": furn, "description": "", "url": f"u{i}"}
+
+
+def test_type_groups():
+    assert cleaning.type_group("Duplex Service Apartment") == "duplex/penthouse"
+    assert cleaning.type_group("Service Apartment") == "serviced"
+    assert cleaning.type_group("Pangsapuri Vista") == "apartment"
+    assert cleaning.type_group("Kondominium Kiara") == "condo"
+
+
+def test_like_for_like_selection(cfg):
+    subject = {"built_up": 1100, "property_type": "Condominium", "bedrooms": 3}
+    comps = [_comp(1, 550000, 1100), _comp(2, 560000, 1150), _comp(3, 540000, 1050), _comp(4, 570000, 1180),
+             _comp(5, 900000, 1500),                                     # size +36%
+             _comp(6, 500000, 1100, ptype="Service Apartment"),         # other type
+             _comp(7, 450000, 1100, beds=2),                            # other bedrooms
+             _comp(8, 615000, 1250)]                                    # +14%: inside T1
+    kept, removed, crit = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"])
+    assert {c["id"] for c in kept} == {"1", "2", "3", "4", "8"}
+    assert crit["tier"] == "T1" and crit["size_band"] == 0.15
+    why = {c["id"]: c["reason"] for c in removed}
+    assert "size +36%" in why["5"] and "different type" in why["6"] and "2 bedrooms" in why["7"]
+    assert "same building" in kept[0]["match"] and "3BR" in kept[0]["match"]
+
+
+def test_band_widens_only_when_needed(cfg):
+    subject = {"built_up": 1000, "property_type": "Condominium"}
+    comps = [_comp(1, 500000, 1000, beds=None), _comp(2, 600000, 1200, beds=None),
+             _comp(3, 612000, 1220, beds=None), _comp(4, 398000, 800, beds=None)]
+    kept, _, crit = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"])
+    assert crit["tier"] == "T2" and len(kept) == 4
+
+
+def test_furnished_rent_adjusted(cfg):
+    subject = {"built_up": 1000, "property_type": "Condominium"}
+    comps = [_comp(i, 3000 + i * 20, 1000, furn="fully" if i == 1 else "", beds=None) for i in range(1, 5)]
+    kept, _, _ = cleaning.select_comparables(comps, "rent", subject, cfg["cleaning"])
+    k1 = next(c for c in kept if c["id"] == "1")
+    assert k1["adj_price"] == round(3020 * 0.9) and "furnished" in k1["match"]
+
+
+def test_area_scope_requires_known_type(cfg):
+    subject = {"built_up": 1000, "property_type": "Condominium"}
+    comps = [_comp(1, 500000, 1000, ptype="", title="Nice unit", beds=None)]
+    kept, removed, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "area")
+    assert not kept and "type not stated" in removed[0]["reason"]
+
+
+def test_subject_bedrooms_parsed():
+    t = telegram.parse_post_listings({"channel": "trinity", "post_id": 9, "text": TRINITY + "\nBedroom: 3 Rooms"})
+    assert t[0].bedrooms == 3
+
+
+def test_floor_is_not_a_building():
+    assert bpl.derive_building("Unit No., 28th Floor, Kiara 1888, Jalan Kiara, 50480, Kuala Lumpur", "") == "Kiara 1888"

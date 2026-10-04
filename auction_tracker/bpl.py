@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 
 BASE = "https://www.bplelonglist.com"
 # Bump when parsing improves: stored pages are then re-parsed automatically.
-PARSER_VERSION = 2
+PARSER_VERSION = 4
 SQM_TO_SQFT = 10.7639
 
 STATES = ["Kuala Lumpur", "Selangor", "Putrajaya", "Penang", "Pulau Pinang", "Johor",
@@ -53,6 +53,7 @@ class Listing:
     building: str = ""
     address: str = ""
     unit: str = ""
+    bedrooms: int | None = None
     reserve_price: float | None = None
     built_up: float | None = None
     auction_date: str | None = None    # ISO yyyy-mm-dd
@@ -233,6 +234,7 @@ def parse_built_up(text: str) -> float | None:
 
 
 STATE_WORDS = {s.lower() for s in STATES} | {"wilayah persekutuan", "w.p. kuala lumpur", "wp kuala lumpur", "malaysia"}
+FLOOR_RE = re.compile(r"^(\d{1,3}(st|nd|rd|th)?\s*(floor|flr|fl)\b|(floor|level|tingkat|lantai)\s*\d|ground floor|mezzanine)", re.I)
 ROAD_WORDS = re.compile(r"^(jalan|jln|lorong|lrg|persiaran|lebuh|lebuhraya|taman|tmn|kampung|kg|off|no\.?|lot|unit|parcel|level|tingkat|block|blok)\b", re.I)
 
 
@@ -241,7 +243,7 @@ def derive_building(address: str, title: str) -> str:
     for part in (address or "").split(","):
         part = part.strip()
         if (not part or UNIT_RE.fullmatch(part) or ROAD_WORDS.match(part) or re.search(r"\d{5}", part)
-                or part.lower() in STATE_WORDS):
+                or part.lower() in STATE_WORDS or FLOOR_RE.match(part)):
             continue
         if re.search(r"[A-Za-z]{3,}", part) and not re.fullmatch(r"[\d\W]+", part):
             return re.sub(r"^(?:[A-Z]?\d+[A-Z]?-)+\d+[A-Z]?\s+", "", part)
@@ -362,6 +364,11 @@ def enrich(lst: Listing, text: str) -> Listing:
     lst.bumi = bool(re.search(r"(?<!non-)(?<!non )(?<!not )(?<!non)\bbumi(putera)?\s*lot|(?<!non-)(?<!non )bumiputera\s*(only|status)"
                               r"|malay\s*reserv|rizab\s*melayu", low))
     lst.dual_key = lst.dual_key or bool(re.search(r"dual[\s-]*key", low))
+    if not lst.bedrooms:
+        bm = (re.search(r"bed\s*rooms?\s*:?\s*(\d)", text, re.I)
+              or re.search(r"\b(\d)\s*(?:\+\s*\d\s*)?(?:-|\s)?(?:bed\s*rooms?|br|bilik)\b", text, re.I))
+        if bm and 0 < int(bm.group(1)) < 10:
+            lst.bedrooms = int(bm.group(1))
     lst.occupied = (bool(re.search(r"\b(tenanted|occupied by|occupants?)\b|status\s*:\s*occupied", low))
                     and "vacant" not in low)
     if not lst.unit:

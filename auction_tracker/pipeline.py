@@ -8,7 +8,7 @@ import logging
 from datetime import date, timedelta
 
 from . import bpl, db, history, portals, scoring, telegram, transit
-from .cleaning import clean_comps, summarize
+from .cleaning import select_comparables, summarize
 from .config import DATA_DIR, load_yaml
 
 log = logging.getLogger(__name__)
@@ -236,19 +236,20 @@ def _summaries(conn, r: dict, cfg: dict, manual: dict) -> tuple[dict | None, dic
     out = []
     for kind in ("sale", "rent"):
         raw = data.get(kind, []) + extra.get(kind, [])
-        kept, removed = clean_comps(raw, kind, r["built_up"], cfg["cleaning"])
+        kept, removed, crit = select_comparables(raw, kind, r, cfg["cleaning"], "building")
         scope = "building"
         if len(kept) < 2 and data.get(f"area_{kind}"):
-            kept, removed2 = clean_comps(data[f"area_{kind}"], kind, r["built_up"], cfg["cleaning"])
+            kept, removed2, crit = select_comparables(data[f"area_{kind}"], kind, r, cfg["cleaning"], "area")
             removed += removed2
             scope = "area"
         summ = summarize(kept, r["built_up"], kind, cfg["cleaning"])
         if summ:
             summ["scope"] = scope
-            if scope == "area":
+            summ["criteria"] = crit["text"]
+            if scope == "area" or crit["tier"] == "T3":
                 summ["confident"] = False
         out.append(summ)
-        debug[kind] = {"kept": kept[:30], "removed": removed[:30], "raw_count": len(raw)}
+        debug[kind] = {"kept": kept[:30], "removed": removed[:30], "raw_count": len(raw), "criteria": crit["text"]}
     return out[0], out[1], debug
 
 
@@ -290,7 +291,7 @@ def evaluate_all(conn, cfg: dict, geocode: bool = True) -> list[dict]:
         uh = history.unit_history(events, r["fingerprint"])
         ev = scoring.evaluate(r, sale, rent, station, uh, bstats.get(r["building_key"]), ov, cfg)
         ev["listing"] = {k: r[k] for k in ("listing_id", "url", "title", "property_type", "area_label", "area",
-                                           "building", "address", "unit", "built_up", "reserve_price",
+                                           "building", "address", "unit", "bedrooms", "built_up", "reserve_price",
                                            "auction_date", "tenure", "title_type", "bumi", "dual_key",
                                            "occupied", "auctioneer", "bank", "first_seen", "last_seen",
                                            "source")}

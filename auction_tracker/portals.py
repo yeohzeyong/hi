@@ -104,6 +104,9 @@ def _pg_listing(ld: dict, base_url: str) -> dict | None:
     agent = ld.get("agent") or {}
     posted = ld.get("postedOn") or {}
     blob = json.dumps(ld).lower()
+    prop = ld.get("property") if isinstance(ld.get("property"), dict) else {}
+    furn = ("fully" if "fully furnished" in blob else "partly" if "partially furnished" in blob
+            else "unfurnished" if "unfurnished" in blob else "")
     return {
         "id": str(ld.get("id") or ""),
         "title": _text(ld.get("localizedTitle") or ld.get("title") or ""),
@@ -117,6 +120,9 @@ def _pg_listing(ld: dict, base_url: str) -> dict | None:
         "verified": bool(ld.get("isVerified")),
         "posted_unix": posted.get("unix") if isinstance(posted, dict) else None,
         "mrt": parse_mrt_text(_text((ld.get("mrt") or {}).get("nearbyText", "")) if isinstance(ld.get("mrt"), dict) else ""),
+        "bedrooms": _to_number(ld.get("bedrooms")),
+        "ptype": _text(prop.get("subTypeText") or prop.get("typeText") or ld.get("propertyType") or ""),
+        "furnishing": furn,
     }
 
 
@@ -155,6 +161,8 @@ def listings_from_json(data, base_url: str) -> list[dict]:
                     "agent": _text(agent.get("name", "")) if isinstance(agent, dict) else "",
                     "address": _text(node.get("address") or node.get("location") or ""),
                     "dual_key": "dual key" in json.dumps(node).lower(),
+                    "bedrooms": _first(node, ("bedrooms", "beds", "bedroom", "noOfBedrooms"), _to_number),
+                    "ptype": _text(_first(node, ("propertyType", "subType", "subTypeText", "type")) or ""),
                 })
             for v in node.values():
                 walk(v)
