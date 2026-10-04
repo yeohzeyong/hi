@@ -117,20 +117,48 @@ def set_meta(conn, key: str, value):
     conn.execute("INSERT OR REPLACE INTO meta VALUES (?,?)", (key, str(value)))
 
 
-def get_comps(conn, key: str, max_age_days: int):
+# Market comps live in small JSON files (data/comps/<building>.json), not in
+# the SQLite file. The cloud run owns tracker.db; your PC owns the comps
+# (portals block the cloud). Separate text files mean the two never clash
+# when syncing through GitHub.
+COMPS_DIR = DATA_DIR / "comps"
+
+
+def _comps_file(key: str) -> Path:
+    return COMPS_DIR / (re.sub(r"[^a-z0-9]+", "-", key.lower()).strip("-") + ".json")
+
+
+def _has_comps(data: dict) -> bool:
+    return any(data.get(k) for k in ("sale", "rent", "area_sale", "area_rent"))
+
+
+def load_comps(conn, key: str) -> tuple[dict | None, str | None]:
+    """(data, fetched_at) from the comps file, else the legacy DB table."""
+    f = _comps_file(key)
+    if f.exists():
+        try:
+            blob = json.loads(f.read_text(encoding="utf-8"))
+            return blob.get("data"), blob.get("fetched_at")
+        except (OSError, json.JSONDecodeError):
+            pass
     row = conn.execute("SELECT fetched_at, data FROM comps WHERE query_key=?", (key,)).fetchone()
-    if not row:
-        return None
-    age = (datetime.now(timezone.utc) - datetime.fromisoformat(row["fetched_at"])).days
-    data = json.loads(row["data"])
-    if not any(data.get(k) for k in ("sale", "rent", "area_sale", "area_rent")):
-        return None                     # an empty result (blocked?) is retried next run
+    return (json.loads(row["data"]), row["fetched_at"]) if row else (None, None)
+
+
+def get_comps(conn, key: str, max_age_days: int):
+    data, fetched = load_comps(conn, key)
+    if not data or not fetched or not _has_comps(data):
+        return None                     # missing or empty (blocked?) - retry next run
+    age = (datetime.now(timezone.utc) - datetime.fromisoformat(fetched)).days
     return data if age <= max_age_days else None
 
 
 def put_comps(conn, key: str, data: dict):
-    conn.execute("INSERT OR REPLACE INTO comps VALUES (?,?,?)",
-                 (key, datetime.now(timezone.utc).isoformat(timespec="seconds"), json.dumps(data)))
+    if not _has_comps(data):
+        return                          # never overwrite good prices with a blocked, empty result
+    COMPS_DIR.mkdir(parents=True, exist_ok=True)
+    blob = {"key": key, "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "data": data}
+    _comps_file(key).write_text(json.dumps(blob, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 def listing_rows(conn):

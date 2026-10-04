@@ -229,8 +229,7 @@ def manual_comps() -> dict[str, dict[str, list]]:
 
 def _summaries(conn, r: dict, cfg: dict, manual: dict) -> tuple[dict | None, dict | None, dict]:
     key, _, _ = comps_key(r)
-    row = conn.execute("SELECT data FROM comps WHERE query_key=?", (key,)).fetchone()
-    data = json.loads(row["data"]) if row else {"sale": [], "rent": []}
+    data = db.load_comps(conn, key)[0] or {"sale": [], "rent": []}
     extra = manual.get(db.building_key(r["building"] or ""), {})
     debug = {}
     out = []
