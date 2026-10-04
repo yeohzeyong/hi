@@ -1,6 +1,7 @@
 {
  "key": "b:parc 3",
- "fetched_at": "2026-10-04T03:21:04+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:29:37+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,6 +260,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -266,6 +280,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -285,6 +300,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -304,6 +320,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -323,6 +340,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -342,6 +360,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -361,6 +380,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -380,6 +400,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -399,6 +420,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -418,6 +440,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -437,6 +460,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -456,6 +480,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -475,6 +500,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -494,6 +520,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -513,6 +540,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -534,6 +562,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -553,6 +582,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -572,6 +602,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -591,6 +622,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -610,6 +642,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -629,6 +662,27 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
+    "portal": "propertyguru",
+    "kind": "rent"
+   },
+   {
+    "id": "502108636",
+    "title": "Parc 3",
+    "description": " Project Highlights",
+    "price": 3900.0,
+    "built_up": 1000.0,
+    "url": "https://www.propertyguru.com.my/property-listing/parc-3-for-rent-by-may-liong-502108636",
+    "agent": "May Liong",
+    "address": "5 Jalan Pudu Perdana, Taman Pertama, Cheras, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1791086258,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Service Residence",
+    "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -648,6 +702,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -667,6 +722,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -686,6 +742,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -705,6 +762,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -724,6 +782,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -743,25 +802,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "",
-    "portal": "propertyguru",
-    "kind": "rent"
-   },
-   {
-    "id": "502030687",
-    "title": "Parc 3",
-    "description": " Project Highlights",
-    "price": 2300.0,
-    "built_up": 570.0,
-    "url": "https://www.propertyguru.com.my/property-listing/parc-3-for-rent-by-luff-lee-502030687",
-    "agent": "Luff Lee",
-    "address": "5 Jalan Pudu Perdana, Taman Pertama, Cheras, Kuala Lumpur",
-    "dual_key": false,
-    "verified": false,
-    "posted_unix": 1790163365,
-    "mrt": null,
-    "bedrooms": 1.0,
-    "ptype": "Service Residence",
-    "furnishing": "",
+    "built_year": 2021,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -781,6 +822,7 @@
     "bedrooms": 4.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -800,6 +842,7 @@
     "bedrooms": 1.0,
     "ptype": "Service Residence",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -819,9 +862,19 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 751.45,
+   "sale_n": 27,
+   "rent_psf": 3.54,
+   "rent_n": 16
+  }
+ ]
 }

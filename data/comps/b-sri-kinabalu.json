@@ -1,9 +1,90 @@
 {
- "key": "b:pv20 platinum lake",
+ "key": "b:sri kinabalu",
  "schema": 2,
- "fetched_at": "2026-10-04T04:44:27+00:00",
+ "fetched_at": "2026-10-04T04:46:29+00:00",
  "data": {
-  "sale": [],
+  "sale": [
+   {
+    "id": "501865471",
+    "title": "Sri Kinabalu",
+    "description": " Project Highlights",
+    "price": 450000.0,
+    "built_up": 1206.0,
+    "url": "https://www.propertyguru.com.my/property-listing/sri-kinabalu-for-sale-by-yew-foong-wong-501865471",
+    "agent": "Yew Foong Wong",
+    "address": "Jalan 4/27e, Seksyen 10 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786072742,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Apartment",
+    "furnishing": "",
+    "built_year": null,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "502174315",
+    "title": "Sri Kinabalu",
+    "description": " Project Highlights",
+    "price": 390000.0,
+    "built_up": 1200.0,
+    "url": "https://www.propertyguru.com.my/property-listing/sri-kinabalu-for-sale-by-firdaus-salleh-502174315",
+    "agent": "Firdaus Salleh",
+    "address": "Jalan 4/27e, Seksyen 10 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790748692,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Apartment",
+    "furnishing": "",
+    "built_year": null,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "502105754",
+    "title": "Sri Kinabalu",
+    "description": " Project Highlights",
+    "price": 380000.0,
+    "built_up": 1206.0,
+    "url": "https://www.propertyguru.com.my/property-listing/sri-kinabalu-for-sale-by-abid-sabarudin-502105754",
+    "agent": "Abid Sabarudin",
+    "address": "Jalan 4/27e, Seksyen 10 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1789658397,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Apartment",
+    "furnishing": "",
+    "built_year": null,
+    "portal": "propertyguru",
+    "kind": "sale"
+   },
+   {
+    "id": "501893767",
+    "title": "Sri Kinabalu, Seksyen 10 Wangsa Maju, Wangsa Maju",
+    "description": " Project Highlights",
+    "price": 370000.0,
+    "built_up": 1205.0,
+    "url": "https://www.iproperty.com.my/property/wangsa-maju/sri-kinabalu/sale-501893767/",
+    "agent": "Sharil Routh",
+    "address": "Jalan 4/27e, Seksyen 10 Wangsa Maju, Wangsa Maju, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786501378,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Apartment",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   }
+  ],
   "rent": [],
   "area_sale": [
    {
@@ -1432,7 +1513,9 @@
  },
  "history": [
   {
-   "date": "2026-10-04"
+   "date": "2026-10-04",
+   "sale_psf": 325.0,
+   "sale_n": 4
   }
  ]
 }

@@ -1,6 +1,7 @@
 {
  "key": "b:kiaramas danai",
- "fetched_at": "2026-10-04T03:35:25+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:58:20+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -247,6 +260,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -266,6 +280,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -285,6 +300,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -304,6 +320,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -323,6 +340,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -342,6 +360,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -361,6 +380,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -380,6 +400,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -399,6 +420,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -418,6 +440,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -437,6 +460,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -456,6 +480,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -475,6 +500,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -494,6 +520,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -513,6 +540,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -532,6 +560,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -553,6 +582,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -572,6 +602,7 @@
     "bedrooms": 2.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -591,6 +622,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -610,6 +642,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -629,6 +662,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -648,6 +682,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -667,6 +702,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -686,9 +722,19 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 879.01,
+   "sale_n": 28,
+   "rent_psf": 3.46,
+   "rent_n": 8
+  }
+ ]
 }

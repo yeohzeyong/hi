@@ -1,6 +1,7 @@
 {
  "key": "b:platinum lake",
- "fetched_at": "2026-10-04T03:27:18+00:00",
+ "schema": 2,
+ "fetched_at": "2026-10-04T04:43:14+00:00",
  "data": {
   "sale": [
    {
@@ -19,6 +20,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -38,6 +40,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -57,6 +60,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -76,6 +80,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2012,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -95,6 +100,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -114,6 +120,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -133,6 +140,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -152,6 +160,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2012,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -171,6 +180,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2016,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -190,6 +200,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -209,6 +220,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2012,
     "portal": "propertyguru",
     "kind": "sale"
    },
@@ -228,6 +240,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -247,6 +260,7 @@
     "bedrooms": 5.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -266,6 +280,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -285,6 +300,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -304,6 +320,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -323,6 +340,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -342,6 +360,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -361,6 +380,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -380,6 +400,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "unfurnished",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -399,6 +420,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -418,6 +440,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -437,6 +460,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -456,6 +480,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -475,6 +500,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -494,6 +520,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -513,6 +540,7 @@
     "bedrooms": 3.0,
     "ptype": "Service Residence",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -532,6 +560,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -551,6 +580,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    },
@@ -570,6 +600,307 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "502028711",
+    "title": "Platinum Lake PV 13, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 880000.0,
+    "built_up": 3047.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-13/sale-502028711/",
+    "agent": "Tan Zheng Hong",
+    "address": "Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790650806,
+    "mrt": null,
+    "bedrooms": 5.0,
+    "ptype": "2-storey Terraced House",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "200305496",
+    "title": "Platinum Lake PV 21, Setapak",
+    "description": " Project Highlights",
+    "price": 350000.0,
+    "built_up": 882.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-21/sale-200305496/",
+    "agent": "Naomi Ong",
+    "address": "Jalan Usahawan, Off Jalan Genting Kelang, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788532667,
+    "mrt": null,
+    "bedrooms": 2.0,
+    "ptype": "Service Residence",
+    "furnishing": "unfurnished",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "100586218",
+    "title": "Platinum Lake PV 13, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 570000.0,
+    "built_up": 1438.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-13/sale-100586218/",
+    "agent": "David Chew",
+    "address": "Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786927062,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "fully",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "501482078",
+    "title": "Platinum Lake PV 21, Setapak",
+    "description": " Project Highlights",
+    "price": 335000.0,
+    "built_up": 900.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-21/sale-501482078/",
+    "agent": "Amanda Lock",
+    "address": "Jalan Usahawan, Off Jalan Genting Kelang, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1785998963,
+    "mrt": null,
+    "bedrooms": 2.0,
+    "ptype": "Service Residence",
+    "furnishing": "unfurnished",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "105884751",
+    "title": "Platinum Lake PV 20, Setapak",
+    "description": " Project Highlights",
+    "price": 520000.0,
+    "built_up": 1343.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-20/sale-105884751/",
+    "agent": "Steven Tan",
+    "address": "No. 5 Jalan Usahawan Jalan Usahawan 2 off Jalan Genting Kelang, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1788713159,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "200496948",
+    "title": "Platinum Lake PV 15, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 460000.0,
+    "built_up": 1453.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-15/sale-200496948/",
+    "agent": "Eddie Chan",
+    "address": "No. 2A Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1786000799,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "501981844",
+    "title": "Platinum Lake PV 15, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 460000.0,
+    "built_up": 1313.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-15/sale-501981844/",
+    "agent": "ZX KHO",
+    "address": "No. 2A Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790660655,
+    "mrt": null,
+    "bedrooms": 5.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "501903391",
+    "title": "Platinum Lake PV 20, Setapak",
+    "description": " Project Highlights",
+    "price": 380000.0,
+    "built_up": 1333.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-20/sale-501903391/",
+    "agent": "Danny Fong",
+    "address": "No. 5 Jalan Usahawan Jalan Usahawan 2 off Jalan Genting Kelang, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1791077755,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "502023557",
+    "title": "Platinum Lake PV 13, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 500000.0,
+    "built_up": 1313.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-13/sale-502023557/",
+    "agent": "Aaron Ong",
+    "address": "Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1791073956,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "502008267",
+    "title": "Platinum Lake PV 15, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 490000.0,
+    "built_up": 1473.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-15/sale-502008267/",
+    "agent": "Aaron Ong",
+    "address": "No. 2A Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1791073932,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "500547728",
+    "title": "Platinum Lake PV 12, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 620000.0,
+    "built_up": 1800.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-12/sale-500547728/",
+    "agent": "Jack Lew",
+    "address": "6 No.6, Jalan Langkawi, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1791021826,
+    "mrt": null,
+    "bedrooms": 3.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "502193775",
+    "title": "Platinum Lake PV 15, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 485000.0,
+    "built_up": 1500.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-15/sale-502193775/",
+    "agent": "Nicole Goh",
+    "address": "No. 2A Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1791012181,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "501516380",
+    "title": "Platinum Lake PV 10, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 390000.0,
+    "built_up": 1272.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-10/sale-501516380/",
+    "agent": "Aaron Ong",
+    "address": "Jalan Danau Saujana 2, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790991008,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "unfurnished",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "200353936",
+    "title": "Platinum Lake PV 13, Taman Danau Kota, Setapak",
+    "description": " Project Highlights",
+    "price": 479000.0,
+    "built_up": 1313.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-13/sale-200353936/",
+    "agent": "Eddie Chan",
+    "address": "Jalan Danau Saujana 1, Taman Danau Kota, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790984940,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
+    "portal": "iproperty",
+    "kind": "sale"
+   },
+   {
+    "id": "104300654",
+    "title": "Platinum Lake PV 20, Setapak",
+    "description": " Project Highlights",
+    "price": 455000.0,
+    "built_up": 1333.0,
+    "url": "https://www.iproperty.com.my/property/setapak/platinum-lake-pv-20/sale-104300654/",
+    "agent": "Jacqie Goh",
+    "address": "No. 5 Jalan Usahawan Jalan Usahawan 2 off Jalan Genting Kelang, Setapak, Kuala Lumpur",
+    "dual_key": false,
+    "verified": false,
+    "posted_unix": 1790951433,
+    "mrt": null,
+    "bedrooms": 4.0,
+    "ptype": "Condominium",
+    "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "sale"
    }
@@ -591,6 +922,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2013,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -610,6 +942,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2012,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -629,6 +962,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -648,6 +982,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -667,6 +1002,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -686,6 +1022,7 @@
     "bedrooms": -1.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2012,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -705,6 +1042,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -724,6 +1062,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2008,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -743,6 +1082,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -762,6 +1102,7 @@
     "bedrooms": 2.0,
     "ptype": "Service Residence",
     "furnishing": "",
+    "built_year": 2016,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -781,6 +1122,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "",
+    "built_year": 2014,
     "portal": "propertyguru",
     "kind": "rent"
    },
@@ -800,6 +1142,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -819,6 +1162,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -838,6 +1182,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -857,6 +1202,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -876,6 +1222,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -895,6 +1242,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -914,6 +1262,7 @@
     "bedrooms": 1.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -933,6 +1282,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -952,6 +1302,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -971,6 +1322,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -990,6 +1342,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1009,6 +1362,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1028,6 +1382,7 @@
     "bedrooms": 3.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1047,6 +1402,7 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "partly",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    },
@@ -1066,9 +1422,19 @@
     "bedrooms": 4.0,
     "ptype": "Condominium",
     "furnishing": "fully",
+    "built_year": null,
     "portal": "iproperty",
     "kind": "rent"
    }
   ]
- }
+ },
+ "history": [
+  {
+   "date": "2026-10-04",
+   "sale_psf": 344.83,
+   "sale_n": 45,
+   "rent_psf": 1.61,
+   "rent_n": 26
+  }
+ ]
 }
