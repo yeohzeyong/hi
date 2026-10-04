@@ -122,6 +122,15 @@ def parse_thread(html: str, url: str) -> dict:
     return {"title": title, "url": url, "posts": posts, "last_offset": max(pages) if pages else 0}
 
 
+def _save_debug(name: str, html: str):
+    """Keep one search page that found no Lowyat threads, to diagnose layout changes."""
+    d = DATA_DIR / "debug"
+    d.mkdir(parents=True, exist_ok=True)
+    f = d / f"{name}.html"
+    if not f.exists():
+        f.write_text(html[:300_000], encoding="utf-8")
+
+
 def classify(text: str) -> tuple[list[str], str]:
     low = text.lower()
     topics = [t for t, rx in TOPICS.items() if re.search(rx, low)]
@@ -147,18 +156,23 @@ def collect(fetcher, building: str, max_threads: int = 3, max_snippets: int = 12
     for name in names:
         for url in search_urls(name):
             try:
-                threads = topic_links(fetcher.get(url))
+                page = fetcher.get(url)
             except Exception as exc:
                 log.info("forum search failed (%s): %s", url.split("/")[2], exc)
                 continue
+            threads = topic_links(page)
             if threads:
                 break
+            _save_debug(f"forum_search_{url.split('/')[2].split('.')[-2]}", page)
         if threads:
             break
     snippets, titles = [], []
     for t in threads[:max_threads]:
         try:
-            first = parse_thread(fetcher.get(t), t)
+            page = fetcher.get(t)
+            first = parse_thread(page, t)
+            if not first["posts"]:
+                _save_debug("forum_thread", page)
         except Exception as exc:
             log.info("lowyat thread failed %s: %s", t, exc)
             continue
