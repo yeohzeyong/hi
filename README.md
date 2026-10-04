@@ -54,14 +54,21 @@ Asking prices are then haircut (−8% sale, −5% rent) toward what actually tra
 The estimate blends 70% median and 30% 25th percentile, so it errs low. With
 fewer than 4 clean comps, a listing is marked low-confidence and capped at grade B.
 
+### Conservative valuation, rental demand and resale potential
+- **Market value uses the cheaper end of similar units**: listings are fetched cheapest-first, and the value is the lower quartile, not the middle. Each unit also shows the **cheapest similar unit already for sale**. If that is cheaper than the auction reserve, the unit is flagged, since you'd take on auction risk for no gain.
+- **Rental demand (15 pts)**: building rental yield, number of similar units for rent, rent vs similar units in the area, unit size, rail access.
+- **Resale potential (10 pts)**: building age, freehold, building price vs the area (room to catch up), and the building's price trend. The trend comes from snapshots taken on every price refresh, so it appears after about two months.
+- **Lowyat comments**: each card shows what owners and tenants say on Lowyat PropertyTalk (quotes and links), tagged by topic (water, lifts, security, management, flood, parking, rental demand, defects) and tone. Repeated complaints about water, flooding, security, lifts or management are flagged on the unit. These are read on your PC with `run_local.bat` and cached for 30 days.
+
 ### Grading
 Score out of 100:
 - rent cover: 30
 - discount to market: 25
-- walk to rail: 15
-- rentability: 15
+- rental demand: 15
+- resale potential: 10
+- walk to rail: 10
 - dual key: 5
-- auction history: 10
+- auction history: 5
 
 **A** needs all of these:
 - score ≥ 70

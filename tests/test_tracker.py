@@ -458,7 +458,7 @@ def test_like_for_like_selection(cfg):
     subject = {"built_up": 1100, "property_type": "Condominium", "bedrooms": 3}
     comps = [_comp(1, 550000, 1100), _comp(2, 560000, 1150), _comp(3, 540000, 1050), _comp(4, 570000, 1180),
              _comp(5, 900000, 1500),                                     # size +36%
-             _comp(6, 500000, 1100, ptype="Service Apartment"),         # other type
+             _comp(6, 500000, 1100, ptype="Duplex"),                    # other type
              _comp(7, 450000, 1100, beds=2),                            # other bedrooms
              _comp(8, 615000, 1250)]                                    # +14%: inside T1
     kept, removed, crit = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"])
@@ -499,3 +499,99 @@ def test_subject_bedrooms_parsed():
 
 def test_floor_is_not_a_building():
     assert bpl.derive_building("Unit No., 28th Floor, Kiara 1888, Jalan Kiara, 50480, Kuala Lumpur", "") == "Kiara 1888"
+
+
+def test_condo_serviced_labels_merge_only_within_building(cfg):
+    subject = {"built_up": 1100, "property_type": "Service Apartment", "bedrooms": 3}
+    comps = [_comp(1, 500000, 1100, ptype="Condominium"), _comp(2, 505000, 1100, ptype="Service Residence"),
+             _comp(3, 510000, 1120, ptype="Condominium"), _comp(4, 498000, 1090, ptype="Service Residence")]
+    kept, _, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "building")
+    assert len(kept) == 4
+    kept, removed, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "area")
+    assert {c["id"] for c in kept} == {"2", "4"}
+
+
+def test_building_match_is_strict():
+    assert not portals.matches_building({"title": "Royal Lexis", "address": "Jalan Sultan Ismail, KL"}, "Royal Tower")
+    assert portals.matches_building({"title": "Royal Tower", "address": "Mont Kiara, Kuala Lumpur"}, "Royal Tower")
+    assert not portals.matches_building({"title": "Royal Tower", "address": "Danga Bay, Johor Bahru"},
+                                        "Royal Tower", "Kuala Lumpur")
+    assert portals.matches_building({"title": "Danau Kota Suites Setapak"}, "Residensi Danau Kota Suites")
+
+
+def test_search_names_and_block_suffix_match():
+    assert portals.search_names("Casa Kiara (BLK-B)") == ["Casa Kiara"]
+    assert portals.search_names("Residensi M Vertika") == ["Residensi M Vertika", "M Vertika"]
+    assert portals.matches_building({"title": "Casa Kiara", "address": "Mont Kiara, Kuala Lumpur"}, "Casa Kiara (BLK-B)")
+    assert portals.matches_building({"title": "M Vertika", "address": "Cheras, Kuala Lumpur"}, "Residensi M Vertika")
+    assert not portals.matches_building({"title": "M Centura", "address": "Cheras"}, "Residensi M Vertika")
+
+
+# ------------------------------------------------------------------ Lowyat ----
+from auction_tracker import forum
+
+DDG_PAGE = ('<a class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fforum.lowyat.net%2Ftopic%2F4512345'
+            '%2F%2B40&rut=x">Parc 3 Cheras discussion</a><a href="https://forum.lowyat.net/topic/4512345">dup</a>'
+            '<a href="https://forum.lowyat.net/topic/999">other</a>')
+THREAD_PAGE = """<html><head><title>Parc 3 @ Cheras owners & tenants - Lowyat.NET</title></head><body>
+<table><tr><td><span class="postdetails">Sep 12 2026, 10:01 PM</span>
+<div class="postcolor">Water supply problem again this week, the lifts also always down. Management very slow to respond.</div></td></tr></table>
+<table><tr><td><span class="postdetails">Sep 20 2026, 08:00 AM</span>
+<div class="postcolor"><div class="quotemain">quoted text should be skipped water</div>Easy to rent, my tenant pays 3.3k, high demand from expats near the MRT.</div></td></tr></table>
+<table><tr><td><div class="postcolor">hello</div></td></tr></table>
+<a href="/topic/4512345/+20">2</a><a href="/topic/4512345/+40">3</a></body></html>"""
+
+
+def test_lowyat_links_and_thread_parsing():
+    assert forum.topic_links(DDG_PAGE) == ["https://forum.lowyat.net/topic/4512345", "https://forum.lowyat.net/topic/999"]
+    t = forum.parse_thread(THREAD_PAGE, "https://forum.lowyat.net/topic/4512345")
+    assert t["title"] == "Parc 3 @ Cheras owners & tenants" and t["last_offset"] == 40
+    assert len(t["posts"]) == 2 and "quoted" not in t["posts"][1]["text"]
+    topics, tone = forum.classify(t["posts"][0]["text"])
+    assert {"water", "lifts", "management"} <= set(topics) and tone == "negative"
+    topics, tone = forum.classify(t["posts"][1]["text"])
+    assert "rental demand" in topics and tone == "positive"
+
+
+def test_lowyat_collect_and_flag(cfg):
+    class F:
+        def get(self, url):
+            if "duckduckgo" in url:
+                return DDG_PAGE
+            return THREAD_PAGE
+    data = forum.collect(F(), "Parc 3", max_threads=1)
+    assert data["threads"][0]["title"].startswith("Parc 3") and data["snippets"][0]["tone"] == "negative"
+    data["snippets"].append({**data["snippets"][0], "text": "flood again, water leak in lobby"})
+    summ = forum.summary(data)
+    lst = {"built_up": 1100, "reserve_price": 400000, "auction_date": None, "flags": [], "dual_key": False}
+    ev = scoring.evaluate(lst, None, None, None, {"rounds": 1}, None, {}, cfg, {"forum": summ})
+    assert any("Lowyat owners/tenants repeatedly complain about water" in c for c in ev["cons"])
+
+
+def test_valuation_uses_lower_quartile_and_cheapest(cfg):
+    kept = [{"price": p, "built_up": 1000, "psf": p / 1000, "url": f"u{p}"} for p in (400000, 450000, 500000, 550000, 600000)]
+    s = cleaning.summarize(kept, 1000, "sale", cfg["cleaning"])
+    hc = 1 - cfg["cleaning"]["sale_asking_haircut"]
+    assert s["estimate"] == round(450000 * hc) and s["cheapest_equiv"] == round(400000 * hc)
+
+
+def test_rental_demand_and_resale_scores():
+    sale = {"median_psf": 400, "n": 10}
+    rent = {"median_psf": 2.2, "n": 9}
+    pts, pros, _ = scoring.rental_demand(sale, rent, {"area_rent_psf": 2.0}, 1100, 400, 800)
+    assert pts == 15 and any("yield" in p for p in pros)
+    pts, pros, _ = scoring.resale_potential({"tenure": "Freehold"}, sale,
+                                            {"built_year": date.today().year - 3, "area_sale_psf": 480,
+                                             "trend": {"pct": 0.05, "days": 90}})
+    assert pts == 10
+
+
+def test_same_auction_different_names_merge():
+    base = dict(area_label="Cheras", built_up=1453.0, reserve_price=729000.0, auction_date="2026-10-07",
+                dual_key=False, occupied=False, flags=[], address="", unit="", tenure="")
+    rows = [{**base, "listing_id": "a", "url": "bpl", "source": "bplelonglist", "building": "Parc 3",
+             "building_key": "parc 3"},
+            {**base, "listing_id": "b", "url": "tg", "source": "telegram:x",
+             "building": "Residensi Pudu Alam Rekreasi (Parc 3)", "building_key": "pudu alam rekreasi parc 3"}]
+    out = pipeline.merge_cross_listed(rows)
+    assert len(out) == 1 and out[0]["also_listed"]

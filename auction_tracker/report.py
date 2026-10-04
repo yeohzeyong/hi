@@ -23,7 +23,7 @@ def _slim(ev: dict) -> dict:
                       "src": c.get("portal", ""), "m": c.get("match", "")} for c in d.get("kept", [])[:12]],
             "removed": [{"p": c.get("price"), "s": c.get("built_up"), "t": c.get("title", "")[:60],
                          "r": c.get("reason", "")} for c in d.get("removed", [])[:12]],
-        } for kind, d in dbg.items()
+        } for kind, d in dbg.items() if kind in ("sale", "rent") and isinstance(d, dict)
     }
     return out
 
@@ -168,6 +168,14 @@ if (noPrice && noPrice >= R.length / 2) {
 if (!R.some(e => e.grade === "A" || e.grade === "B")) $("#fGrade").value = "";
 [...new Set(R.map(e => e.listing.area_label))].sort().forEach(a => $("#fArea").insertAdjacentHTML("beforeend", `<option>${esc(a)}</option>`));
 
+function lowyat(e) {
+  const f = e.forum;
+  if (!f) return "";
+  if (!f.snippets.length) return `<h3 style="margin-top:12px">What owners say on Lowyat</h3><div class="m">No Lowyat discussion found for this building.</div>`;
+  const icon = { negative: "🔴", positive: "🟢", neutral: "⚪" };
+  return `<h3 style="margin-top:12px">What owners say on Lowyat</h3><ul>${f.snippets.map(s =>
+    `<li>${icon[s.tone] || ""} <span class="m">[${esc(s.topics.join(", "))}${s.date ? " · " + esc(s.date) : ""}]</span> “${esc(s.text)}” <a href="${esc(s.url)}" target="_blank" rel="noopener">thread</a></li>`).join("")}</ul>`;
+}
 function card(e) {
   const l = e.listing, f = e.finance || {}, st = e.station, b = e.max_bid || {};
   const g = e.grade === "?" ? "Q" : e.grade, v = e.verdict || {};
@@ -175,6 +183,9 @@ function card(e) {
   if (f.rent_cover != null) chips.push([`cover ${f.rent_cover.toFixed(2)}x`, f.rent_cover >= D.targets.min_rent_cover]);
   if (f.discount != null) chips.push([`${pct(f.discount)} below mkt`, f.discount >= D.targets.min_discount]);
   if (st) chips.push([`${st.walk_m}m ${st.type} ${st.name}`, st.walk_m <= 800]);
+  const pd = e.parts || {};
+  if (pd.rental_demand != null) chips.push([`rental demand ${pd.rental_demand >= 10 ? "high" : pd.rental_demand >= 6 ? "medium" : "low"}`, pd.rental_demand >= 6]);
+  if (pd.resale != null) chips.push([`resale ${pd.resale >= 7 ? "good" : pd.resale >= 4 ? "fair" : "weak"}`, pd.resale >= 4]);
   if (l.dual_key) chips.push(["dual key", true]);
   if ((e.unit_history || {}).rounds > 1) chips.push([`round ${e.unit_history.rounds}`, true]);
   if (e.low_confidence) chips.push(["low data confidence", false]);
@@ -198,16 +209,23 @@ function card(e) {
         <tr><td>Maintenance + sinking</td><td>${rm(f.maintenance)}</td></tr><tr><td>Quit rent / assessment / insurance</td><td>${rm(f.other_monthly)}</td></tr>
         <tr><td>Cash flow after 1-mth vacancy</td><td>${rm(f.monthly_cashflow)}</td></tr>
         <tr><td>Gross / net yield</td><td>${pct(f.gross_yield)} / ${pct(f.net_yield)}</td></tr></table>
-        <h3>Valuation</h3><table><tr><td>Market value (cleaned, haircut)</td><td>${rm(e.market_value)}</td></tr>
+        <h3>Valuation</h3><table><tr><td>Market value (cheaper ${Math.round(((e.sale_comps || {}).valuation_quantile || .25) * 100)}% of similar units)</td><td>${rm(e.market_value)}</td></tr>
+        ${(e.sale_comps || {}).cheapest_equiv ? `<tr><td>Cheapest similar unit on market (size-adjusted)</td><td><a href="${esc(e.sale_comps.cheapest.url)}" target="_blank" rel="noopener">${rm(e.sale_comps.cheapest_equiv)}</a></td></tr>` : ""}
         <tr><td>Walk-away bid</td><td><b>${rm(b.max_bid)}</b> (${esc(b.binding || "-")})</td></tr>
         ${Object.entries(b.caps || {}).map(([k, v]) => `<tr><td>&nbsp;cap by ${k}</td><td>${rm(v)}</td></tr>`).join("")}</table></div>
       <div><h3>Cash needed</h3><table>${Object.entries(up).map(([k, v]) => `<tr><td>${k.replace(/_/g, " ")}</td><td>${rm(v)}</td></tr>`).join("")}
         <tr><td><b>Total</b></td><td><b>${rm(f.cash_needed)}</b></td></tr><tr><td>10% deposit on auction day</td><td>${rm(f.deposit_on_auction_day)}</td></tr></table>
         <h3>Auction history (this unit)</h3>${ev.length ? `<ul>${ev.map(x => `<li>${esc(x.date)} · ${rm(x.price)} · ${esc(x.outcome || "")}</li>`).join("")}</ul>` : "<i>first time seen</i>"}</div>
       <div><h3>Sale comps</h3>${audit("sale")}<h3>Rent comps</h3>${audit("rent")}
+        ${(() => { const m = e.market_ctx || {}; const bits = [];
+          if (m.built_year) bits.push(`built ${m.built_year}`);
+          if (m.area_sale_psf) bits.push(`area sale RM${m.area_sale_psf.toFixed(0)} psf`);
+          if (m.area_rent_psf) bits.push(`area rent RM${m.area_rent_psf.toFixed(2)} psf`);
+          if (m.trend) bits.push(`price trend ${(m.trend.pct * 100).toFixed(1)}% / ${m.trend.days}d`);
+          return bits.length ? `<h3>Building vs area</h3><div class="m">${bits.map(esc).join(" · ")}</div>` : ""; })()}
         <h3>Listing</h3><div class="m">${esc(l.address)}<br>${esc(l.title_type)} ${l.bumi ? "· Bumi lot" : ""}<br>${esc(l.bank)} ${esc(l.auctioneer)}
         ${(l.also_listed || []).length ? `<br>Also listed: ${l.also_listed.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener">${i + 1}</a>`).join(" ")}` : ""}</div></div>
-    </div><div class="links" style="margin-top:10px">${Object.entries(e.links || {}).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${k.replace(/_/g, " ")}</a>`).join("")}</div></div></div>`;
+    </div>${lowyat(e)}<div class="links" style="margin-top:10px">${Object.entries(e.links || {}).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${k.replace(/_/g, " ")}</a>`).join("")}</div></div></div>`;
 }
 function render() {
   const g = $("#fGrade").value, a = $("#fArea").value, t = $("#fText").value.toLowerCase();
@@ -226,7 +244,9 @@ document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
   ["deals", "history", "method"].forEach(id => $("#" + id).hidden = id !== b.dataset.tab); });
 const H = Object.entries(D.buildings).sort((a, b) => b[1].events - a[1].events);
 $("#hist").innerHTML = H.length ? `<table><tr><th>Building</th><th>Auction events</th><th>Units</th><th>Last 12m</th><th>Median reserve psf</th><th>Likely-sold psf</th><th>Sell-through</th></tr>${H.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.events}</td><td>${v.units}</td><td>${v.last_12m}</td><td>${v.median_reserve_psf ?? "-"}</td><td>${v.sold_psf ?? "-"}</td><td>${v.sell_through == null ? "-" : pct(v.sell_through)}</td></tr>`).join("")}</table>` : `<div class="empty">History builds up with every daily run (run <code>scrape --backfill</code> once to seed it).</div>`;
-$("#meth").innerHTML = `<p><b>Score (0-100)</b> = rent cover (30) + discount to cleaned market value (25) + walk to MRT/LRT/Monorail (15) + rentability (15) + dual key (5) + auction history (10).</p>
+$("#meth").innerHTML = `<p><b>Score (0-100)</b> = rent cover (30) + discount to market (25) + rental demand (15) + resale potential (10) + walk to MRT/LRT/Monorail (10) + dual key (5) + auction history (5).</p>
+<p><b>Market value</b> is set on the <i>cheaper end</i> of genuinely similar units (lower quartile, same type, bedrooms and size), and each unit shows the cheapest similar unit already for sale - an auction should beat it, since you take on unknown condition.</p>
+<p><b>Rental demand</b>: building rental yield, how many similar units are offered for rent, rent vs the area, unit size, rail access. <b>Resale potential</b>: building age, freehold, building price vs the area (catch-up room) and the tracked price trend. <b>Lowyat</b> comments are shown on each card; repeated complaints about water, flooding, security, lifts or management are flagged.</p>
 <p><b>A</b> needs score ≥ 70 <i>and</i> rent ≥ ${D.targets.min_rent_cover}× (installment + maintenance + other) <i>and</i> ≥ ${pct(D.targets.min_discount)} below market <i>and</i> enough clean comps. Otherwise B ≥ 55, C ≥ 40.</p>
 <p><b>Market data hygiene</b>: portal listings mentioning auction/lelong/below-market, room rentals, stale ads, duplicates across agents and portals, wrong unit sizes, bait lowballs and statistical outliers are removed; asking prices are haircut toward transacted levels. Open any deal and expand "see comps" to audit what was kept and dropped.</p>
 <p><b>Verdict</b>: <b>BID</b> = targets met at reserve, bid up to the walk-away price. <b>WAIT</b> = not worth it now, but a typical 10% cut next round would make it work. <b>PASS</b> = doesn't work even after a cut. <b>VERIFY</b> = looks good but the data is thin or the discount is suspiciously deep.</p>

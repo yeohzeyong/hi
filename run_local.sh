@@ -15,6 +15,7 @@ if [ -d .git ]; then
   git config user.email >/dev/null || git config user.email "auction-tracker@users.noreply.github.com"
   git config user.name >/dev/null || git config user.name "Auction tracker (PC)"
   git add data/comps
+  [ -d data/forum ] && git add data/forum
   [ -d data/debug ] && git add data/debug
   git commit -q -m "Local price refresh $(date +%F)" || true
   git pull --rebase --autostash -q

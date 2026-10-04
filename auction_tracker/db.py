@@ -122,6 +122,7 @@ def set_meta(conn, key: str, value):
 # (portals block the cloud). Separate text files mean the two never clash
 # when syncing through GitHub.
 COMPS_DIR = DATA_DIR / "comps"
+COMPS_SCHEMA = 2      # 2 = cheapest-first fetch + bedrooms/type/build year; older files are refetched once
 
 
 def _comps_file(key: str) -> Path:
@@ -146,6 +147,12 @@ def load_comps(conn, key: str) -> tuple[dict | None, str | None]:
 
 
 def get_comps(conn, key: str, max_age_days: int):
+    f = _comps_file(key)
+    try:
+        if f.exists() and json.loads(f.read_text(encoding="utf-8")).get("schema", 1) < COMPS_SCHEMA:
+            return None                 # fetched by an older version - refresh (still used until then)
+    except (OSError, json.JSONDecodeError):
+        return None
     data, fetched = load_comps(conn, key)
     if not data or not fetched or not _has_comps(data):
         return None                     # missing or empty (blocked?) - retry next run
@@ -157,8 +164,31 @@ def put_comps(conn, key: str, data: dict):
     if not _has_comps(data):
         return                          # never overwrite good prices with a blocked, empty result
     COMPS_DIR.mkdir(parents=True, exist_ok=True)
-    blob = {"key": key, "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "data": data}
-    _comps_file(key).write_text(json.dumps(blob, ensure_ascii=False, indent=1), encoding="utf-8")
+    f = _comps_file(key)
+    history = []
+    if f.exists():
+        try:
+            history = json.loads(f.read_text(encoding="utf-8")).get("history", [])
+        except (OSError, json.JSONDecodeError):
+            history = []
+    snap = {"date": today()}
+    for kind in ("sale", "rent"):
+        psfs = sorted(c["price"] / c["built_up"] for c in data.get(kind, []) if c.get("price") and c.get("built_up"))
+        if psfs:
+            snap[f"{kind}_psf"] = round(psfs[len(psfs) // 2], 2)
+            snap[f"{kind}_n"] = len(psfs)
+    history = [h for h in history if h.get("date") != snap["date"]] + [snap]
+    blob = {"key": key, "schema": COMPS_SCHEMA, "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "data": data, "history": history[-60:]}
+    f.write_text(json.dumps(blob, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def comps_history(key: str) -> list[dict]:
+    f = _comps_file(key)
+    try:
+        return json.loads(f.read_text(encoding="utf-8")).get("history", []) if f.exists() else []
+    except (OSError, json.JSONDecodeError):
+        return []
 
 
 def listing_rows(conn):

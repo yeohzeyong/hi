@@ -36,8 +36,8 @@ if not exist .venv (
 )
 
 echo.
-echo Fetching market prices. A Chrome window will open - if it shows a
-echo "verify you are human" check, just click it once.
+echo Fetching market prices and Lowyat comments. A Chrome window will open -
+echo if it shows a "verify you are human" check, just click it once.
 .venv\Scripts\python -m auction_tracker comps --backend chrome
 .venv\Scripts\python -m auction_tracker evaluate
 
@@ -47,6 +47,7 @@ if "%HAVEGIT%"=="1" (
     git config user.email >nul 2>nul || git config user.email "auction-tracker@users.noreply.github.com"
     git config user.name >nul 2>nul || git config user.name "Auction tracker (PC)"
     git add data/comps
+    if exist data\forum git add data/forum
     if exist data\debug git add data/debug
     git commit -q -m "Local price refresh %date%"
     git pull --rebase --autostash -q

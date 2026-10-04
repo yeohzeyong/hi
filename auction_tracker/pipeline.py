@@ -7,7 +7,7 @@ import json
 import logging
 from datetime import date, timedelta
 
-from . import bpl, db, history, portals, scoring, telegram, transit
+from . import bpl, db, forum, history, portals, scoring, telegram, transit
 from .cleaning import select_comparables, summarize
 from .config import DATA_DIR, load_yaml
 
@@ -37,10 +37,15 @@ def save_parsed(conn, lst: bpl.Listing, cfg: dict, seen_now: bool = True) -> str
 
 
 def reparse_if_parser_changed(conn, cfg: dict):
-    if db.get_meta(conn, "parser_version") != str(bpl.PARSER_VERSION):
-        log.info("parser updated - re-parsing stored listings")
+    """Re-parse stored pages when the parser improves or your area list
+    changes, so old records get the new labels without re-scraping."""
+    import hashlib
+    areas = json.dumps([cfg["search"]["areas"], cfg["search"].get("state")], sort_keys=True)
+    version = f"{bpl.PARSER_VERSION}:{hashlib.sha1(areas.encode()).hexdigest()[:8]}"
+    if db.get_meta(conn, "parser_version") != version:
+        log.info("parser or area list changed - re-parsing stored listings")
         reparse(conn, cfg)
-        db.set_meta(conn, "parser_version", bpl.PARSER_VERSION)
+        db.set_meta(conn, "parser_version", version)
         conn.commit()
 
 
@@ -155,10 +160,15 @@ def merge_cross_listed(rows: list[dict]) -> list[dict]:
     def completeness(r):
         return (sum(bool(r.get(k)) for k in ("built_up", "auction_date", "address", "building", "unit", "tenure")),
                 r.get("source") == "bplelonglist")
+    # Same auction = same area, size, reserve and date - even if one site
+    # calls it "Parc 3" and another "Residensi Pudu Alam Rekreasi (Parc 3)".
     groups: dict[tuple, list[dict]] = {}
     for r in rows:
-        key = (r["building_key"] or r["area_label"], round((r["built_up"] or 0) / 10),
-               round(r["reserve_price"] or 0, -2), r["auction_date"] or r["listing_id"])
+        if r["auction_date"] and r["built_up"] and r["reserve_price"]:
+            key = (r["area_label"], round(r["built_up"] / 10), round(r["reserve_price"], -3), r["auction_date"])
+        else:
+            key = (r["building_key"] or r["area_label"], round((r["built_up"] or 0) / 10),
+                   round(r["reserve_price"] or 0, -2), r["auction_date"] or r["listing_id"])
         groups.setdefault(key, []).append(r)
     out = []
     for grp in groups.values():
@@ -188,7 +198,7 @@ def refresh_comps(conn, fetcher, cfg: dict, force: bool = False, limit: int | No
     def fetch(query, building, pages):
         key = (query, building)
         if key not in memo:          # area-level searches repeat across buildings
-            memo[key] = portals.fetch_comps(fetcher, pcfg, query, building, pages)
+            memo[key] = portals.fetch_comps(fetcher, pcfg, query, building, pages, cfg["search"].get("state"))
         return memo[key]
 
     for r in candidate_listings(conn, cfg):
@@ -203,6 +213,26 @@ def refresh_comps(conn, fetcher, cfg: dict, force: bool = False, limit: int | No
             data["area_sale"], data["area_rent"] = area["sale"], area["rent"]
         db.put_comps(conn, key, data)
         conn.commit()
+        done += 1
+        if limit and done >= limit:
+            break
+    return done
+
+
+def refresh_forum(conn, fetcher, cfg: dict, force: bool = False, limit: int | None = None) -> int:
+    """Read Lowyat discussion for each candidate building (cached 30 days)."""
+    done, seen = 0, set()
+    for r in candidate_listings(conn, cfg):
+        b = r.get("building")
+        if not b or not db.building_key(b) or db.building_key(b) in seen:
+            continue
+        seen.add(db.building_key(b))
+        key = f"b:{db.building_key(b)}"
+        if not force and forum.is_fresh(key, cfg.get("forum", {}).get("cache_days", 30)):
+            continue
+        data = forum.collect(fetcher, b)
+        forum.save(key, data)
+        log.info("lowyat %r: %d threads, %d comments", b, len(data["threads"]), len(data["snippets"]))
         done += 1
         if limit and done >= limit:
             break
@@ -233,22 +263,43 @@ def _summaries(conn, r: dict, cfg: dict, manual: dict) -> tuple[dict | None, dic
     extra = manual.get(db.building_key(r["building"] or ""), {})
     debug = {}
     out = []
+    state = r.get("state") or cfg["search"].get("state")
     for kind in ("sale", "rent"):
-        raw = data.get(kind, []) + extra.get(kind, [])
+        raw = data.get(kind, [])
+        if r.get("building"):
+            # Re-check stored comps with the current (stricter) building match.
+            raw = [c for c in raw if portals.matches_building(c, r["building"], state)]
+        raw = raw + extra.get(kind, [])
         kept, removed, crit = select_comparables(raw, kind, r, cfg["cleaning"], "building")
         scope = "building"
         if len(kept) < 2 and data.get(f"area_{kind}"):
-            kept, removed2, crit = select_comparables(data[f"area_{kind}"], kind, r, cfg["cleaning"], "area")
+            area_raw = [c for c in data[f"area_{kind}"] if not portals.wrong_state(c, state)]
+            kept, removed2, crit = select_comparables(area_raw, kind, r, cfg["cleaning"], "area")
             removed += removed2
             scope = "area"
         summ = summarize(kept, r["built_up"], kind, cfg["cleaning"])
         if summ:
             summ["scope"] = scope
             summ["criteria"] = crit["text"]
-            if scope == "area" or crit["tier"] == "T3":
+            if scope == "area":
                 summ["confident"] = False
         out.append(summ)
         debug[kind] = {"kept": kept[:30], "removed": removed[:30], "raw_count": len(raw), "criteria": crit["text"]}
+        # Area benchmark (same type & size band) to judge the building against.
+        if data.get(f"area_{kind}"):
+            area_raw = [c for c in data[f"area_{kind}"] if not portals.wrong_state(c, state)]
+            a_kept, _, _ = select_comparables(area_raw, kind, r, cfg["cleaning"], "area")
+            a_sum = summarize(a_kept, r["built_up"], kind, cfg["cleaning"])
+            debug[f"area_{kind}_psf"] = a_sum["median_psf"] if a_sum and a_sum["n"] >= 3 else None
+        debug[f"{kind}_listings"] = len({(round(c["price"], -2), round(c["built_up"])) for c in data.get(kind, [])})
+    years = sorted(c["built_year"] for k in ("sale", "rent") for c in data.get(k, []) if c.get("built_year"))
+    debug["built_year"] = years[len(years) // 2] if years else None
+    hist = db.comps_history(key)
+    debug["trend"] = None
+    if len(hist) >= 2 and hist[0].get("sale_psf") and hist[-1].get("sale_psf"):
+        days = (date.fromisoformat(hist[-1]["date"]) - date.fromisoformat(hist[0]["date"])).days
+        if days >= 60:
+            debug["trend"] = {"pct": round(hist[-1]["sale_psf"] / hist[0]["sale_psf"] - 1, 4), "days": days}
     return out[0], out[1], debug
 
 
@@ -288,7 +339,11 @@ def evaluate_all(conn, cfg: dict, geocode: bool = True) -> list[dict]:
         if station is None:
             station = station_from_comps(debug)
         uh = history.unit_history(events, r["fingerprint"])
-        ev = scoring.evaluate(r, sale, rent, station, uh, bstats.get(r["building_key"]), ov, cfg)
+        ctx = {k: debug.get(k) for k in ("area_sale_psf", "area_rent_psf", "built_year", "trend",
+                                          "sale_listings", "rent_listings")}
+        fdata = forum.load(f"b:{db.building_key(r['building'] or '')}") if r.get("building") else None
+        ctx["forum"] = forum.summary(fdata)
+        ev = scoring.evaluate(r, sale, rent, station, uh, bstats.get(r["building_key"]), ov, cfg, ctx)
         ev["listing"] = {k: r[k] for k in ("listing_id", "url", "title", "property_type", "area_label", "area",
                                            "building", "address", "unit", "bedrooms", "built_up", "reserve_price",
                                            "auction_date", "tenure", "title_type", "bumi", "dual_key",
@@ -297,6 +352,9 @@ def evaluate_all(conn, cfg: dict, geocode: bool = True) -> list[dict]:
         ev["listing"]["also_listed"] = r.get("also_listed", [])
         ev["location"] = list(loc) if loc else None
         ev["comps_debug"] = debug
+        ev["market_ctx"] = ctx
+        ev["forum"] = {"threads": (fdata or {}).get("threads", []),
+                       "snippets": (fdata or {}).get("snippets", [])[:8]} if fdata else None
         ev["links"] = research_links(r)
         conn.execute("INSERT OR REPLACE INTO evaluations VALUES (?,?,?,?,?)",
                      (r["listing_id"], run_date, ev["grade"], ev["score"], json.dumps(ev, default=str)))
@@ -331,4 +389,5 @@ def research_links(r: dict) -> dict:
         "iproperty_rent": f"https://www.iproperty.com.my/property-for-rent?freetext={q}",
         "brickz_transactions": f"https://www.brickz.my/transactions/residential/?q={q}",
         "google_maps": f"https://www.google.com/maps/search/?api=1&query={quote_plus((r['building'] or '') + ' ' + (r['area'] or r['area_label']) + ' Kuala Lumpur')}",
+        "lowyat_discussions": f"https://www.google.com/search?q=site%3Aforum.lowyat.net+{q}",
     }

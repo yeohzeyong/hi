@@ -32,8 +32,61 @@ def is_residential_type(ptype: str, title: str, allowed: list[str]) -> bool:
     return any(a in t for a in allowed)
 
 
+def rental_demand(sale, rent, ctx, sqft, walk, ok_walk) -> tuple[float, list[str], list[str]]:
+    """[15] Will tenants want it? Building yield, how active its rental market
+    is, rent vs the area, unit size, rail access."""
+    pts, pros, cons = 0.0, [], []
+    if sale and rent and sale.get("median_psf"):
+        y = rent["median_psf"] * 12 / sale["median_psf"]
+        pts += 6 if y >= 0.06 else 4 if y >= 0.05 else 2 if y >= 0.04 else 0
+        (pros if y >= 0.05 else cons).append(f"Building rental yield ~{y:.1%} (rent vs asking price of similar units)")
+    if rent:
+        pts += 3 if rent["n"] >= 8 else 2 if rent["n"] >= 4 else 1
+    a_rent = ctx.get("area_rent_psf")
+    if rent and a_rent:
+        rel = rent["median_psf"] / a_rent
+        pts += 3 if rel >= 1.05 else 2 if rel >= 0.95 else 0
+        if rel >= 1.05:
+            pros.append(f"Rents {rel - 1:.0%} above similar units in the area - sought-after building")
+        elif rel < 0.9:
+            cons.append(f"Rents {1 - rel:.0%} below similar units in the area")
+    elif rent:
+        pts += 1
+    if sqft:
+        pts += 2 if 900 <= sqft <= 1300 else 1 if sqft <= 1600 else 0
+    if walk is not None and walk <= ok_walk:
+        pts += 1
+    return min(pts, 15.0), pros, cons
+
+
+def resale_potential(lst, sale, ctx) -> tuple[float, list[str], list[str]]:
+    """[10] Can it sell higher later? Building age, tenure, priced below the
+    area (catch-up room) and the building's own price trend."""
+    pts, pros, cons = 0.0, [], []
+    by = ctx.get("built_year")
+    if by:
+        age = date.today().year - by
+        pts += 4 if age <= 5 else 3 if age <= 10 else 2 if age <= 15 else 1 if age <= 20 else 0
+        (pros if age <= 10 else cons if age > 20 else []).append(f"Building completed {by} ({age} years old)")
+    if "freehold" in (lst.get("tenure") or "").lower():
+        pts += 2
+    a_sale = ctx.get("area_sale_psf")
+    if sale and a_sale:
+        rel = sale["median_psf"] / a_sale
+        pts += 2 if rel <= 0.9 else 1 if rel <= 1.0 else 0
+        if rel <= 0.9:
+            pros.append(f"Building trades {1 - rel:.0%} below similar units in the area - room to catch up")
+    tr = ctx.get("trend")
+    if tr:
+        pts += 2 if tr["pct"] >= 0.03 else 1 if tr["pct"] >= 0 else 0
+        (pros if tr["pct"] >= 0 else cons).append(
+            f"Asking prices here {tr['pct']:+.0%} over the last {tr['days']} days (tracked)")
+    return min(pts, 10.0), pros, cons
+
+
 def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | None,
-             unit_hist: dict, bstats: dict | None, override: dict, cfg: dict) -> dict:
+             unit_hist: dict, bstats: dict | None, override: dict, cfg: dict, ctx: dict | None = None) -> dict:
+    ctx = ctx or {}
     fin_cfg = {**cfg["finance"]}
     if override.get("maintenance_psf"):
         fin_cfg["maintenance_psf"] = override["maintenance_psf"]
@@ -84,18 +137,15 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
     disc = fin.get("discount")
     parts["discount"] = _lerp(disc, 0.0, 0.35, 0, 25)                         # [25]
     walk = station["walk_m"] if station else None
-    parts["transit"] = (_lerp(-walk, -1500, -tcfg["good_walk_m"], 0, 15)      # [15]
-                        if walk is not None else 5)
-    liq = 0.0                                                                 # [15]
-    if rent:
-        liq += min(rent["n"], 10) / 10 * 7
-    if sqft:
-        liq += 5 if sqft <= 1300 else 3 if sqft <= 1600 else 1
-    if walk is not None and walk <= tcfg["ok_walk_m"]:
-        liq += 3
-    parts["rentability"] = liq
+    parts["transit"] = (_lerp(-walk, -1500, -tcfg["good_walk_m"], 0, 10)      # [10]
+                        if walk is not None else 3)
+    parts["rental_demand"], d_pros, d_cons = rental_demand(                   # [15]
+        sale, rent, ctx, sqft, walk, tcfg["ok_walk_m"])
+    parts["resale"], r_pros, r_cons = resale_potential(lst, sale, ctx)       # [10]
+    pros += d_pros + r_pros
+    cons += d_cons + r_cons
     parts["dual_key"] = 5 if lst.get("dual_key") else 0                       # [5]
-    hist = 0.0                                                                # [10]
+    hist = 0.0                                                                # [5]
     rounds = unit_hist.get("rounds", 1)
     hist += min(rounds - 1, 3) * 2
     if bstats:
@@ -105,7 +155,7 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
         if bstats.get("sold_psf") and price and sqft and price / sqft <= bstats["sold_psf"]:
             hist += 4
             pros.append(f"Reserve psf at/below past auction sale psf (RM{bstats['sold_psf']})")
-    parts["history"] = max(-5.0, min(hist, 10.0))
+    parts["history"] = max(-5.0, min(hist, 5.0))
     score = round(sum(v for v in parts.values() if v is not None), 1)
 
     # ---- explanation ---------------------------------------------------
@@ -115,9 +165,24 @@ def evaluate(lst: dict, sale: dict | None, rent: dict | None, station: dict | No
     else:
         cons.append("No reliable rent data yet")
     if disc is not None:
-        (pros if disc >= targets["min_discount"] else cons).append(f"{disc:.0%} below cleaned market value")
+        q = int((sale or {}).get("valuation_quantile", 0.25) * 100)
+        (pros if disc >= targets["min_discount"] else cons).append(
+            f"{disc:.0%} below market (valued on the cheaper {q}% of similar units)")
     else:
         cons.append("No reliable sale comps yet")
+    fsum = ctx.get("forum") or {}
+    serious = {t: n for t, n in (fsum.get("negative_topics") or {}).items()
+               if t in ("water", "flood", "security", "management", "lifts") and n >= 2}
+    if serious:
+        cons.append("Lowyat owners/tenants repeatedly complain about "
+                    + ", ".join(f"{t} ({n})" for t, n in sorted(serious.items(), key=lambda x: -x[1]))
+                    + " - read the comments before bidding")
+    elif fsum.get("found"):
+        notes.append(f"Lowyat: {fsum['threads']} thread(s), {fsum['comments']} relevant comment(s) - see card")
+    cheap = (sale or {}).get("cheapest_equiv")
+    if cheap and price and price >= cheap:
+        cons.append(f"A similar unit is already listed for ~RM{cheap:,} (size-adjusted) - "
+                    "cheaper than this auction, with no auction risk")
     if station:
         msg = f"{station['walk_m']} m (~{station['walk_min']} min) to {station['type']} {station['name']}"
         (pros if walk <= tcfg["ok_walk_m"] else cons).append(msg)
