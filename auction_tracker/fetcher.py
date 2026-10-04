@@ -55,6 +55,8 @@ class Fetcher:
         self._pw = None
         self._ctx = None
         self._chrome_domains: set[str] = set()
+        self._blocked: dict[str, int] = {}      # domain -> hard blocks this run
+        self.max_blocks = 2
         self._last: dict[str, float] = {}
 
     # -- lifecycle ---------------------------------------------------------
@@ -77,6 +79,10 @@ class Fetcher:
     # -- public ------------------------------------------------------------
     def get(self, url: str) -> str:
         domain = urlparse(url).netloc
+        if self._blocked.get(domain, 0) >= self.max_blocks:
+            # Cloud servers get a hard "no" from some portals; don't burn
+            # half a minute per request finding that out again.
+            raise FetchError(f"Skipped {domain}: blocked earlier this run")
         self._throttle(domain)
         use_chrome = self.backend == "chrome" or domain in self._chrome_domains
         if not use_chrome:
@@ -125,6 +131,7 @@ class Fetcher:
         raise FetchError(f"Network error for {url}: {last_exc}")
 
     def _get_chrome(self, url: str) -> str:
+        domain = urlparse(url).netloc
         if self._ctx is None:
             try:
                 from playwright.sync_api import sync_playwright  # type: ignore
@@ -155,6 +162,10 @@ class Fetcher:
                 pass
             html = page.content()
             if looks_blocked(200, html):
+                self._blocked[domain] = self._blocked.get(domain, 0) + 1
+                if self._blocked[domain] == self.max_blocks:
+                    log.error("%s blocks this machine - skipping it for the rest of the run. "
+                              "Run run_local.bat on your PC to fetch its prices.", domain)
                 raise FetchError(f"Still blocked in Chrome at {url}")
             return html
         finally:
