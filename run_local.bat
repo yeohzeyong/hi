@@ -43,6 +43,9 @@ echo "verify you are human" check, just click it once.
 
 if "%HAVEGIT%"=="1" (
     echo Uploading market prices to GitHub...
+    REM A fresh Git install has no name/email and refuses to commit.
+    git config user.email >nul 2>nul || git config user.email "auction-tracker@users.noreply.github.com"
+    git config user.name >nul 2>nul || git config user.name "Auction tracker (PC)"
     git add data/comps
     if exist data\debug git add data/debug
     git commit -q -m "Local price refresh %date%"
