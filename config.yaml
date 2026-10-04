@@ -57,7 +57,11 @@ portals:
   cache_days: 21           # market prices move slowly; don't hammer the portals
 
 cleaning:
-  size_band: 0.30          # comps must be within +/-30% of subject built-up
+  # Like-for-like matching: same property type and bedrooms, size within the
+  # first band; widened to the second only when fewer than
+  # min_comps_confident units match.
+  size_bands: [0.15, 0.25]
+  furnished_rent_premium: 0.10   # auction units are unfurnished: fully-furnished rents x 0.9
   min_comps_confident: 4   # below this, valuation is flagged low-confidence
   mad_threshold: 2.5       # robust z-score cut-off
   lowball_cut: 0.70        # drop listings < 70% of median psf (bait / auction)

@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS listings (
     building TEXT, address TEXT, unit TEXT, built_up REAL,
     tenure TEXT, title_type TEXT, bumi INTEGER, dual_key INTEGER, occupied INTEGER,
     auctioneer TEXT, bank TEXT, flags TEXT, raw_text TEXT,
-    first_seen TEXT, last_seen TEXT, reserve_price REAL, auction_date TEXT, source TEXT
+    first_seen TEXT, last_seen TEXT, reserve_price REAL, auction_date TEXT, source TEXT, bedrooms INTEGER
 );
 CREATE INDEX IF NOT EXISTS ix_listings_fp ON listings(fingerprint);
 CREATE INDEX IF NOT EXISTS ix_listings_bk ON listings(building_key);
@@ -68,13 +68,15 @@ def connect(path: Path | None = None) -> sqlite3.Connection:
     cols = {r["name"] for r in conn.execute("PRAGMA table_info(listings)")}
     if "source" not in cols:                       # migrate older databases
         conn.execute("ALTER TABLE listings ADD COLUMN source TEXT")
+    if "bedrooms" not in cols:
+        conn.execute("ALTER TABLE listings ADD COLUMN bedrooms INTEGER")
     return conn
 
 
 LISTING_COLS = ["listing_id", "url", "fingerprint", "building_key", "title", "property_type", "area_label",
                 "area", "state", "building", "address", "unit", "built_up", "tenure", "title_type", "bumi",
                 "dual_key", "occupied", "auctioneer", "bank", "flags", "raw_text", "first_seen", "last_seen",
-                "reserve_price", "auction_date", "source"]
+                "reserve_price", "auction_date", "source", "bedrooms"]
 
 
 def today() -> str:
@@ -91,7 +93,8 @@ def upsert_listing(conn, lst: dict, area_label: str, seen_now: bool = True):
     row = {**lst, "fingerprint": fp, "building_key": building_key(lst["building"]), "area_label": area_label,
            "flags": json.dumps(lst.get("flags", [])), "bumi": int(lst["bumi"]),
            "dual_key": int(lst["dual_key"]), "occupied": int(lst["occupied"]),
-           "first_seen": first, "last_seen": last, "source": lst.get("source", "")}
+           "first_seen": first, "last_seen": last, "source": lst.get("source", ""),
+           "bedrooms": lst.get("bedrooms")}
     conn.execute(f"INSERT OR REPLACE INTO listings ({','.join(LISTING_COLS)}) "
                  f"VALUES ({','.join(':' + c for c in LISTING_COLS)})", row)
     if seen_now:
@@ -114,20 +117,48 @@ def set_meta(conn, key: str, value):
     conn.execute("INSERT OR REPLACE INTO meta VALUES (?,?)", (key, str(value)))
 
 
-def get_comps(conn, key: str, max_age_days: int):
+# Market comps live in small JSON files (data/comps/<building>.json), not in
+# the SQLite file. The cloud run owns tracker.db; your PC owns the comps
+# (portals block the cloud). Separate text files mean the two never clash
+# when syncing through GitHub.
+COMPS_DIR = DATA_DIR / "comps"
+
+
+def _comps_file(key: str) -> Path:
+    return COMPS_DIR / (re.sub(r"[^a-z0-9]+", "-", key.lower()).strip("-") + ".json")
+
+
+def _has_comps(data: dict) -> bool:
+    return any(data.get(k) for k in ("sale", "rent", "area_sale", "area_rent"))
+
+
+def load_comps(conn, key: str) -> tuple[dict | None, str | None]:
+    """(data, fetched_at) from the comps file, else the legacy DB table."""
+    f = _comps_file(key)
+    if f.exists():
+        try:
+            blob = json.loads(f.read_text(encoding="utf-8"))
+            return blob.get("data"), blob.get("fetched_at")
+        except (OSError, json.JSONDecodeError):
+            pass
     row = conn.execute("SELECT fetched_at, data FROM comps WHERE query_key=?", (key,)).fetchone()
-    if not row:
-        return None
-    age = (datetime.now(timezone.utc) - datetime.fromisoformat(row["fetched_at"])).days
-    data = json.loads(row["data"])
-    if not any(data.get(k) for k in ("sale", "rent", "area_sale", "area_rent")):
-        return None                     # an empty result (blocked?) is retried next run
+    return (json.loads(row["data"]), row["fetched_at"]) if row else (None, None)
+
+
+def get_comps(conn, key: str, max_age_days: int):
+    data, fetched = load_comps(conn, key)
+    if not data or not fetched or not _has_comps(data):
+        return None                     # missing or empty (blocked?) - retry next run
+    age = (datetime.now(timezone.utc) - datetime.fromisoformat(fetched)).days
     return data if age <= max_age_days else None
 
 
 def put_comps(conn, key: str, data: dict):
-    conn.execute("INSERT OR REPLACE INTO comps VALUES (?,?,?)",
-                 (key, datetime.now(timezone.utc).isoformat(timespec="seconds"), json.dumps(data)))
+    if not _has_comps(data):
+        return                          # never overwrite good prices with a blocked, empty result
+    COMPS_DIR.mkdir(parents=True, exist_ok=True)
+    blob = {"key": key, "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "data": data}
+    _comps_file(key).write_text(json.dumps(blob, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 def listing_rows(conn):

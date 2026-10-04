@@ -25,7 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
+      # Check out the branch tip, not the commit that triggered the run: a
+      # queued run must start from the data the previous run just saved.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
@@ -51,7 +55,15 @@ jobs:
           mkdir -p docs
           git add data docs
           git diff --cached --quiet || git commit -m "Tracker update $(date -u +%F)"
-          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          # tracker.db and docs/ can't be merged line by line. If someone
+          # pushed meanwhile, keep this run's copy of those (-X theirs = the
+          # commit being replayed); market comps are separate per-building
+          # files written by your PC, so they merge cleanly.
+          if ! git pull --rebase -X theirs origin "${GITHUB_REF_NAME}"; then
+            git rebase --abort || true
+            echo "::error::Could not sync results with GitHub - nothing was saved"
+            exit 1
+          fi
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Upload dashboard and database

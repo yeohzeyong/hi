@@ -18,8 +18,9 @@ def _slim(ev: dict) -> dict:
     out["audit"] = {
         kind: {
             "raw": d.get("raw_count", 0),
+            "crit": d.get("criteria", ""),
             "kept": [{"p": c["price"], "s": c["built_up"], "t": c.get("title", "")[:60], "u": c.get("url", ""),
-                      "src": c.get("portal", "")} for c in d.get("kept", [])[:12]],
+                      "src": c.get("portal", ""), "m": c.get("match", "")} for c in d.get("kept", [])[:12]],
             "removed": [{"p": c.get("price"), "s": c.get("built_up"), "t": c.get("title", "")[:60],
                          "r": c.get("reason", "")} for c in d.get("removed", [])[:12]],
         } for kind, d in dbg.items()
@@ -168,12 +169,12 @@ function card(e) {
   if (e.low_confidence) chips.push(["low data confidence", false]);
   const up = f.upfront || {};
   const audit = k => { const a = (e.audit || {})[k]; if (!a) return "<i>none fetched</i>";
-    return `${a.kept.length} kept of ${a.raw} raw<br><details><summary>see comps</summary><b>Kept</b><ul>${a.kept.map(c => `<li>${rm(c.p)} · ${c.s} sqft · <a href="${esc(c.u)}" target="_blank">${esc(c.t || c.src)}</a></li>`).join("")}</ul><b>Removed</b><ul>${a.removed.map(c => `<li>${rm(c.p)} · ${c.s ?? "?"} sqft · ${esc(c.r)}</li>`).join("")}</ul></details>`; };
+    return `${a.kept.length} similar of ${a.raw} found${a.crit ? `<br><span class="m">matched on: ${esc(a.crit)}</span>` : ""}<br><details><summary>see comps</summary><b>Kept</b><ul>${a.kept.map(c => `<li>${rm(c.p)} · ${c.s} sqft · <a href="${esc(c.u)}" target="_blank">${esc(c.t || c.src)}</a>${c.m ? `<br><span class="m">${esc(c.m)}</span>` : ""}</li>`).join("")}</ul><b>Removed</b><ul>${a.removed.map(c => `<li>${rm(c.p)} · ${c.s ?? "?"} sqft · ${esc(c.r)}</li>`).join("")}</ul></details>`; };
   const ev = (e.unit_history || {}).events || [];
   return `<div class="card"><div class="row" onclick="this.parentNode.classList.toggle('open')">
     <div class="g g${g}">${e.grade}</div>
     <div><div class="t">${esc(l.building || l.title)} <span class="m">· ${esc(l.area_label)} · ${esc(l.property_type)}</span></div>
-      <div class="m">${Math.round(l.built_up || 0).toLocaleString()} sqft · ${esc(l.tenure || "tenure ?")} · auction ${esc(l.auction_date || "TBC")} · score ${e.score}</div>
+      <div class="m">${Math.round(l.built_up || 0).toLocaleString()} sqft${l.bedrooms ? ` · ${l.bedrooms}BR` : ""} · ${esc(l.tenure || "tenure ?")} · auction ${esc(l.auction_date || "TBC")} · score ${e.score}</div>
       <div class="chips">${chips.map(([t, ok]) => `<span class="chip ${ok ? "good" : "bad"}">${esc(t)}</span>`).join("")}</div></div>
     <div class="nums"><div class="t">${rm(l.reserve_price)}</div><div class="m">${f.price_psf ? "RM" + f.price_psf + " psf" : ""}</div>
       <div class="m">max bid <b>${rm(b.max_bid)}</b></div></div></div>
