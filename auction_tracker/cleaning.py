@@ -136,7 +136,8 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
     Tries progressively looser tiers and stops at the first that yields
     enough comps:  T1 same type + same bedrooms + size +/-15%
                    T2 same type + same bedrooms + size +/-25%
-                   T3 compatible type (condo<->serviced) + size +/-25%  (building scope only)
+    In the same building condo/serviced labels count as one type (agents mix
+    them up); area-wide comps must match the type exactly.
     Returns (kept, removed, criteria).
     """
     pool, removed = _hygiene(comps, kind, cfg)
@@ -151,9 +152,13 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
         diff = (c["built_up"] - sqft) / sqft if sqft else None
         return c_group, bedrooms_of(c), diff
 
-    tiers = [("T1", bands[0], False), ("T2", bands[-1], False)]
     if scope == "building":
-        tiers.append(("T3", bands[-1], True))
+        # Within one building agents label the same units "Condominium" or
+        # "Service Residence" interchangeably - treat those as one type there.
+        # Duplex/penthouse/SOHO units are still kept apart.
+        tiers = [("T1", bands[0], True), ("T2", bands[-1], True)]
+    else:
+        tiers = [("T1", bands[0], False), ("T2", bands[-1], False)]
     chosen, chosen_meta = [], None
     first_ok = first_any = None
     for name, band, loose_type in tiers:
@@ -217,7 +222,7 @@ def select_comparables(comps: list[dict], kind: str, subject: dict, cfg: dict,
     criteria = {
         "tier": name, "size_band": band, "type": s_group, "bedrooms": s_beds,
         "text": " · ".join(x for x in [
-            f"{s_group or 'any type'}" + (" (+condo/serviced)" if loose_type else ""),
+            f"{s_group or 'any type'}" + (" (condo/serviced labels merged)" if loose_type and s_group in ("condo", "serviced") else ""),
             f"{s_beds}BR" if s_beds else "", f"size +/-{band:.0%}", scope] if x),
     }
     return kept, removed, criteria

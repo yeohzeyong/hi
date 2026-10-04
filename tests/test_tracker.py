@@ -458,7 +458,7 @@ def test_like_for_like_selection(cfg):
     subject = {"built_up": 1100, "property_type": "Condominium", "bedrooms": 3}
     comps = [_comp(1, 550000, 1100), _comp(2, 560000, 1150), _comp(3, 540000, 1050), _comp(4, 570000, 1180),
              _comp(5, 900000, 1500),                                     # size +36%
-             _comp(6, 500000, 1100, ptype="Service Apartment"),         # other type
+             _comp(6, 500000, 1100, ptype="Duplex"),                    # other type
              _comp(7, 450000, 1100, beds=2),                            # other bedrooms
              _comp(8, 615000, 1250)]                                    # +14%: inside T1
     kept, removed, crit = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"])
@@ -499,3 +499,21 @@ def test_subject_bedrooms_parsed():
 
 def test_floor_is_not_a_building():
     assert bpl.derive_building("Unit No., 28th Floor, Kiara 1888, Jalan Kiara, 50480, Kuala Lumpur", "") == "Kiara 1888"
+
+
+def test_condo_serviced_labels_merge_only_within_building(cfg):
+    subject = {"built_up": 1100, "property_type": "Service Apartment", "bedrooms": 3}
+    comps = [_comp(1, 500000, 1100, ptype="Condominium"), _comp(2, 505000, 1100, ptype="Service Residence"),
+             _comp(3, 510000, 1120, ptype="Condominium"), _comp(4, 498000, 1090, ptype="Service Residence")]
+    kept, _, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "building")
+    assert len(kept) == 4
+    kept, removed, _ = cleaning.select_comparables(comps, "sale", subject, cfg["cleaning"], "area")
+    assert {c["id"] for c in kept} == {"2", "4"}
+
+
+def test_building_match_is_strict():
+    assert not portals.matches_building({"title": "Royal Lexis", "address": "Jalan Sultan Ismail, KL"}, "Royal Tower")
+    assert portals.matches_building({"title": "Royal Tower", "address": "Mont Kiara, Kuala Lumpur"}, "Royal Tower")
+    assert not portals.matches_building({"title": "Royal Tower", "address": "Danga Bay, Johor Bahru"},
+                                        "Royal Tower", "Kuala Lumpur")
+    assert portals.matches_building({"title": "Danau Kota Suites Setapak"}, "Residensi Danau Kota Suites")

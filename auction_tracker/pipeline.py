@@ -188,7 +188,7 @@ def refresh_comps(conn, fetcher, cfg: dict, force: bool = False, limit: int | No
     def fetch(query, building, pages):
         key = (query, building)
         if key not in memo:          # area-level searches repeat across buildings
-            memo[key] = portals.fetch_comps(fetcher, pcfg, query, building, pages)
+            memo[key] = portals.fetch_comps(fetcher, pcfg, query, building, pages, cfg["search"].get("state"))
         return memo[key]
 
     for r in candidate_listings(conn, cfg):
@@ -233,19 +233,25 @@ def _summaries(conn, r: dict, cfg: dict, manual: dict) -> tuple[dict | None, dic
     extra = manual.get(db.building_key(r["building"] or ""), {})
     debug = {}
     out = []
+    state = r.get("state") or cfg["search"].get("state")
     for kind in ("sale", "rent"):
-        raw = data.get(kind, []) + extra.get(kind, [])
+        raw = data.get(kind, [])
+        if r.get("building"):
+            # Re-check stored comps with the current (stricter) building match.
+            raw = [c for c in raw if portals.matches_building(c, r["building"], state)]
+        raw = raw + extra.get(kind, [])
         kept, removed, crit = select_comparables(raw, kind, r, cfg["cleaning"], "building")
         scope = "building"
         if len(kept) < 2 and data.get(f"area_{kind}"):
-            kept, removed2, crit = select_comparables(data[f"area_{kind}"], kind, r, cfg["cleaning"], "area")
+            area_raw = [c for c in data[f"area_{kind}"] if not portals.wrong_state(c, state)]
+            kept, removed2, crit = select_comparables(area_raw, kind, r, cfg["cleaning"], "area")
             removed += removed2
             scope = "area"
         summ = summarize(kept, r["built_up"], kind, cfg["cleaning"])
         if summ:
             summ["scope"] = scope
             summ["criteria"] = crit["text"]
-            if scope == "area" or crit["tier"] == "T3":
+            if scope == "area":
                 summ["confident"] = False
         out.append(summ)
         debug[kind] = {"kept": kept[:30], "removed": removed[:30], "raw_count": len(raw), "criteria": crit["text"]}

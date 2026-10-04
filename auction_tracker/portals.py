@@ -241,12 +241,38 @@ def name_tokens(name: str) -> set[str]:
     return {t for t in re.findall(r"[a-z0-9]+", name.lower()) if t not in STOPWORDS and len(t) > 1}
 
 
-def matches_building(comp: dict, building: str) -> bool:
+STATE_NAMES = ["kuala lumpur", "selangor", "johor", "penang", "pulau pinang", "perak", "negeri sembilan",
+               "melaka", "malacca", "pahang", "kedah", "kelantan", "terengganu", "perlis", "sabah",
+               "sarawak", "putrajaya", "labuan"]
+
+
+def wrong_state(comp: dict, state: str | None) -> bool:
+    """True when the comp's address names a different state."""
+    if not state:
+        return False
+    addr = f"{comp.get('address', '')} {comp.get('title', '')}".lower()
+    want = state.lower()
+    others = [s for s in STATE_NAMES if s != want and not (want == "penang" and s == "pulau pinang")]
+    return want not in addr and any(s in addr for s in others)
+
+
+def matches_building(comp: dict, building: str, state: str | None = None) -> bool:
+    """Same building? Every distinctive word must appear ("Royal Tower" must
+    not match "Royal Lexis"), and the comp must not be in another state."""
+    if wrong_state(comp, state):
+        return False
     want = name_tokens(building)
     if not want:
         return True
-    have = name_tokens(" ".join([comp.get("title", ""), comp.get("address", ""), comp.get("description", "")[:200]]))
-    return len(want & have) / len(want) >= 0.6
+    text = " ".join([comp.get("title", ""), comp.get("address", "")])
+    have = name_tokens(text)
+    if len(want) == 1:
+        # One distinctive word left (e.g. "royal" from "Royal Tower") is too
+        # generic: require the full name, generic words included.
+        full = [t for t in re.findall(r"[a-z0-9]+", building.lower()) if len(t) > 1]
+        return " ".join(full) in " ".join(re.findall(r"[a-z0-9]+", text.lower()))
+    need = len(want) if len(want) <= 3 else int(len(want) * 0.8 + 0.5)
+    return len(want & have) >= need
 
 
 def _save_debug(portal: str, kind: str, html: str):
@@ -268,7 +294,8 @@ def page_url(url: str, page: int) -> str:
     return f"{path.rstrip('/')}/{page}" + (f"?{query}" if query else "")
 
 
-def fetch_comps(fetcher, portals_cfg: dict, query: str, building: str | None, pages: int = 1) -> dict:
+def fetch_comps(fetcher, portals_cfg: dict, query: str, building: str | None, pages: int = 1,
+                state: str | None = None) -> dict:
     """Return {"sale": [...], "rent": [...]} from all configured portals."""
     result = {"sale": [], "rent": []}
     for portal, urls in portals_cfg.items():
@@ -294,7 +321,7 @@ def fetch_comps(fetcher, portals_cfg: dict, query: str, building: str | None, pa
                 if len(found) < 15:      # last page
                     break
             if building:
-                comps = [c for c in comps if matches_building(c, building)]
+                comps = [c for c in comps if matches_building(c, building, state)]
             for c in comps:
                 c["portal"] = portal
                 c["kind"] = kind
