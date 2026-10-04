@@ -34,5 +34,1157 @@
   "lat": 3.1494076,
   "lon": 101.696461,
   "type": "LRT"
+ },
+ {
+  "name": "Cheras",
+  "lat": 3.1126982,
+  "lon": 101.7143008,
+  "type": "LRT"
+ },
+ {
+  "name": "Pudu",
+  "lat": 3.1349395,
+  "lon": 101.7120169,
+  "type": "LRT"
+ },
+ {
+  "name": "Maluri",
+  "lat": 3.1232677,
+  "lon": 101.7269439,
+  "type": "LRT"
+ },
+ {
+  "name": "Miharja",
+  "lat": 3.1209691,
+  "lon": 101.7178353,
+  "type": "LRT"
+ },
+ {
+  "name": "Hang Tuah",
+  "lat": 3.139901,
+  "lon": 101.7062938,
+  "type": "LRT"
+ },
+ {
+  "name": "Titiwangsa",
+  "lat": 3.1735561,
+  "lon": 101.6952467,
+  "type": "LRT"
+ },
+ {
+  "name": "Bandar Tun Razak",
+  "lat": 3.0896364,
+  "lon": 101.712446,
+  "type": "LRT"
+ },
+ {
+  "name": "KL Sentral",
+  "lat": 3.1327328,
+  "lon": 101.6878637,
+  "type": "Monorail"
+ },
+ {
+  "name": "Chan Sow Lin",
+  "lat": 3.1277724,
+  "lon": 101.7155851,
+  "type": "LRT"
+ },
+ {
+  "name": "Putra",
+  "lat": 3.1655602,
+  "lon": 101.6907926,
+  "type": "KTM"
+ },
+ {
+  "name": "Kerinchi",
+  "lat": 3.1154894,
+  "lon": 101.668495,
+  "type": "LRT"
+ },
+ {
+  "name": "Sultan Ismail",
+  "lat": 3.1612044,
+  "lon": 101.6941256,
+  "type": "LRT"
+ },
+ {
+  "name": "Plaza Rakyat",
+  "lat": 3.144247,
+  "lon": 101.7020879,
+  "type": "LRT"
+ },
+ {
+  "name": "Titiwangsa",
+  "lat": 3.1731884,
+  "lon": 101.6960027,
+  "type": "Monorail"
+ },
+ {
+  "name": "Tun Sambanthan",
+  "lat": 3.1314534,
+  "lon": 101.6908714,
+  "type": "Monorail"
+ },
+ {
+  "name": "Sentul East",
+  "lat": 3.1859133,
+  "lon": 101.6953081,
+  "type": "LRT"
+ },
+ {
+  "name": "Sri Petaling",
+  "lat": 3.0614029,
+  "lon": 101.6870728,
+  "type": "LRT"
+ },
+ {
+  "name": "Sri Rampai",
+  "lat": 3.1990889,
+  "lon": 101.7373493,
+  "type": "LRT"
+ },
+ {
+  "name": "Maharajarela",
+  "lat": 3.1389681,
+  "lon": 101.6991877,
+  "type": "Monorail"
+ },
+ {
+  "name": "Damai",
+  "lat": 3.1644733,
+  "lon": 101.724408,
+  "type": "LRT"
+ },
+ {
+  "name": "PWTC",
+  "lat": 3.1665656,
+  "lon": 101.6935889,
+  "type": "LRT"
+ },
+ {
+  "name": "Bangsar",
+  "lat": 3.1274505,
+  "lon": 101.6790186,
+  "type": "LRT"
+ },
+ {
+  "name": "Universiti",
+  "lat": 3.1145476,
+  "lon": 101.6617021,
+  "type": "LRT"
+ },
+ {
+  "name": "Abdullah Hukum (LRT)",
+  "lat": 3.1187406,
+  "lon": 101.6729333,
+  "type": "LRT"
+ },
+ {
+  "name": "Bukit Jalil",
+  "lat": 3.0581376,
+  "lon": 101.6922071,
+  "type": "LRT"
+ },
+ {
+  "name": "Segambut",
+  "lat": 3.1864397,
+  "lon": 101.6641992,
+  "type": "KTM"
+ },
+ {
+  "name": "Bukit Nanas",
+  "lat": 3.1561131,
+  "lon": 101.7048611,
+  "type": "Monorail"
+ },
+ {
+  "name": "Bandar Tasik Selatan",
+  "lat": 3.0762917,
+  "lon": 101.7110875,
+  "type": "KTM"
+ },
+ {
+  "name": "Salak Selatan",
+  "lat": 3.1020955,
+  "lon": 101.7062893,
+  "type": "LRT"
+ },
+ {
+  "name": "Chow Kit",
+  "lat": 3.1674017,
+  "lon": 101.6983802,
+  "type": "Monorail"
+ },
+ {
+  "name": "Pandan Jaya",
+  "lat": 3.1302179,
+  "lon": 101.7389625,
+  "type": "LRT"
+ },
+ {
+  "name": "Bukit Bintang",
+  "lat": 3.1460734,
+  "lon": 101.7114817,
+  "type": "Monorail"
+ },
+ {
+  "name": "Raja Chulan",
+  "lat": 3.1508873,
+  "lon": 101.7104342,
+  "type": "Monorail"
+ },
+ {
+  "name": "Imbi",
+  "lat": 3.1428027,
+  "lon": 101.7094226,
+  "type": "Monorail"
+ },
+ {
+  "name": "Wangsa Maju",
+  "lat": 3.2057525,
+  "lon": 101.7319088,
+  "type": "LRT"
+ },
+ {
+  "name": "Medan Tuanku",
+  "lat": 3.1592854,
+  "lon": 101.6989209,
+  "type": "Monorail"
+ },
+ {
+  "name": "Kepong",
+  "lat": 3.2028155,
+  "lon": 101.6374084,
+  "type": "KTM"
+ },
+ {
+  "name": "City Hall",
+  "lat": 3.1555152,
+  "lon": 101.694423,
+  "type": "LRT"
+ },
+ {
+  "name": "Sungai Besi",
+  "lat": 3.0639375,
+  "lon": 101.7080113,
+  "type": "LRT"
+ },
+ {
+  "name": "Pasar Seni",
+  "lat": 3.1424176,
+  "lon": 101.6962895,
+  "type": "MRT"
+ },
+ {
+  "name": "Kampung Dato Harun",
+  "lat": 3.0844578,
+  "lon": 101.6322971,
+  "type": "KTM"
+ },
+ {
+  "name": "Seri Setia",
+  "lat": 3.0845129,
+  "lon": 101.6219551,
+  "type": "KTM"
+ },
+ {
+  "name": "Setia Jaya",
+  "lat": 3.083153,
+  "lon": 101.6113536,
+  "type": "KTM"
+ },
+ {
+  "name": "Shah Alam",
+  "lat": 3.0563692,
+  "lon": 101.5253393,
+  "type": "KTM"
+ },
+ {
+  "name": "Asia Jaya",
+  "lat": 3.1043547,
+  "lon": 101.6377344,
+  "type": "LRT"
+ },
+ {
+  "name": "Taman Bahagia",
+  "lat": 3.1106931,
+  "lon": 101.6127159,
+  "type": "LRT"
+ },
+ {
+  "name": "Kelana Jaya",
+  "lat": 3.1124539,
+  "lon": 101.6044979,
+  "type": "LRT"
+ },
+ {
+  "name": "ERL Bandar Tasik Selatan",
+  "lat": 3.0763048,
+  "lon": 101.7103241,
+  "type": "Rail"
+ },
+ {
+  "name": "Taman Jaya",
+  "lat": 3.1040588,
+  "lon": 101.6453155,
+  "type": "LRT"
+ },
+ {
+  "name": "Taman Melati",
+  "lat": 3.2195267,
+  "lon": 101.7218671,
+  "type": "LRT"
+ },
+ {
+  "name": "Gombak",
+  "lat": 3.2311835,
+  "lon": 101.7244254,
+  "type": "LRT"
+ },
+ {
+  "name": "Jelatek",
+  "lat": 3.1672507,
+  "lon": 101.7353159,
+  "type": "LRT"
+ },
+ {
+  "name": "Setiawangsa",
+  "lat": 3.1757386,
+  "lon": 101.735886,
+  "type": "LRT"
+ },
+ {
+  "name": "Pasar Seni",
+  "lat": 3.1424372,
+  "lon": 101.6953065,
+  "type": "LRT"
+ },
+ {
+  "name": "Dato' Keramat",
+  "lat": 3.1650625,
+  "lon": 101.7318554,
+  "type": "LRT"
+ },
+ {
+  "name": "Taman Paramount",
+  "lat": 3.1047017,
+  "lon": 101.623181,
+  "type": "LRT"
+ },
+ {
+  "name": "Kuang",
+  "lat": 3.2582621,
+  "lon": 101.5546786,
+  "type": "KTM"
+ },
+ {
+  "name": "Mid Valley",
+  "lat": 3.1186772,
+  "lon": 101.6788758,
+  "type": "KTM"
+ },
+ {
+  "name": "Bukit Badak",
+  "lat": 3.0362631,
+  "lon": 101.4703034,
+  "type": "KTM"
+ },
+ {
+  "name": "Pandan Indah",
+  "lat": 3.1347603,
+  "lon": 101.7466946,
+  "type": "LRT"
+ },
+ {
+  "name": "Serdang",
+  "lat": 3.0235201,
+  "lon": 101.7159334,
+  "type": "KTM"
+ },
+ {
+  "name": "Bangi",
+  "lat": 2.9039959,
+  "lon": 101.7861047,
+  "type": "KTM"
+ },
+ {
+  "name": "Sentul",
+  "lat": 3.1785674,
+  "lon": 101.6954871,
+  "type": "LRT"
+ },
+ {
+  "name": "Padang Jawa",
+  "lat": 3.0524601,
+  "lon": 101.4927427,
+  "type": "KTM"
+ },
+ {
+  "name": "Batu Tiga",
+  "lat": 3.0758417,
+  "lon": 101.5595766,
+  "type": "KTM"
+ },
+ {
+  "name": "Subang Jaya",
+  "lat": 3.0845938,
+  "lon": 101.5874263,
+  "type": "KTM"
+ },
+ {
+  "name": "Templer Road",
+  "lat": 3.0834687,
+  "lon": 101.656498,
+  "type": "KTM"
+ },
+ {
+  "name": "Pantai Dalam",
+  "lat": 3.09563,
+  "lon": 101.6700512,
+  "type": "KTM"
+ },
+ {
+  "name": "Bank Negara",
+  "lat": 3.1544418,
+  "lon": 101.6929171,
+  "type": "KTM"
+ },
+ {
+  "name": "Sentul",
+  "lat": 3.1822147,
+  "lon": 101.6887631,
+  "type": "KTM"
+ },
+ {
+  "name": "Batu Kentonmen",
+  "lat": 3.1982826,
+  "lon": 101.6812153,
+  "type": "KTM"
+ },
+ {
+  "name": "Kampung Batu",
+  "lat": 3.2047999,
+  "lon": 101.6756422,
+  "type": "KTM"
+ },
+ {
+  "name": "Taman Wahyu",
+  "lat": 3.2144933,
+  "lon": 101.6721874,
+  "type": "KTM"
+ },
+ {
+  "name": "Cempaka",
+  "lat": 3.1384763,
+  "lon": 101.7530302,
+  "type": "LRT"
+ },
+ {
+  "name": "Cahaya",
+  "lat": 3.1406139,
+  "lon": 101.7565915,
+  "type": "LRT"
+ },
+ {
+  "name": "Ampang",
+  "lat": 3.1503538,
+  "lon": 101.7602159,
+  "type": "LRT"
+ },
+ {
+  "name": "Kinrara BK 5",
+  "lat": 3.0504472,
+  "lon": 101.6442677,
+  "type": "LRT"
+ },
+ {
+  "name": "Muhibbah",
+  "lat": 3.0619303,
+  "lon": 101.6626027,
+  "type": "LRT"
+ },
+ {
+  "name": "Awan Besar",
+  "lat": 3.0620838,
+  "lon": 101.6706318,
+  "type": "LRT"
+ },
+ {
+  "name": "Putra Heights",
+  "lat": 2.996048,
+  "lon": 101.5755793,
+  "type": "LRT"
+ },
+ {
+  "name": "Alam Sutera",
+  "lat": 3.0546596,
+  "lon": 101.6565436,
+  "type": "LRT"
+ },
+ {
+  "name": "IOI Puchong Jaya",
+  "lat": 3.0481329,
+  "lon": 101.621076,
+  "type": "LRT"
+ },
+ {
+  "name": "Pusat Bandar Puchong",
+  "lat": 3.033231,
+  "lon": 101.6160905,
+  "type": "LRT"
+ },
+ {
+  "name": "Taman Perindustrian Puchong",
+  "lat": 3.0227201,
+  "lon": 101.6135362,
+  "type": "LRT"
+ },
+ {
+  "name": "Bandar Puteri",
+  "lat": 3.0169474,
+  "lon": 101.6129338,
+  "type": "LRT"
+ },
+ {
+  "name": "Puchong Prima",
+  "lat": 2.9999055,
+  "lon": 101.5966629,
+  "type": "LRT"
+ },
+ {
+  "name": "Alam Megah",
+  "lat": 3.0230902,
+  "lon": 101.5721096,
+  "type": "LRT"
+ },
+ {
+  "name": "USJ21",
+  "lat": 3.0297333,
+  "lon": 101.5818089,
+  "type": "LRT"
+ },
+ {
+  "name": "Wawasan",
+  "lat": 3.0350281,
+  "lon": 101.5881737,
+  "type": "LRT"
+ },
+ {
+  "name": "Taipan",
+  "lat": 3.0479115,
+  "lon": 101.5902763,
+  "type": "LRT"
+ },
+ {
+  "name": "SS15",
+  "lat": 3.0756959,
+  "lon": 101.5861786,
+  "type": "LRT"
+ },
+ {
+  "name": "Puchong Perdana",
+  "lat": 3.0078283,
+  "lon": 101.6052792,
+  "type": "LRT"
+ },
+ {
+  "name": "Subang Alam",
+  "lat": 3.0096033,
+  "lon": 101.5721183,
+  "type": "LRT"
+ },
+ {
+  "name": "USJ7",
+  "lat": 3.054519,
+  "lon": 101.592005,
+  "type": "LRT"
+ },
+ {
+  "name": "SS18",
+  "lat": 3.0670274,
+  "lon": 101.5861891,
+  "type": "LRT"
+ },
+ {
+  "name": "LRT Subang Jaya",
+  "lat": 3.0848857,
+  "lon": 101.5872851,
+  "type": "LRT"
+ },
+ {
+  "name": "Ara Damansara",
+  "lat": 3.1084319,
+  "lon": 101.5865847,
+  "type": "LRT"
+ },
+ {
+  "name": "Glenmarie",
+  "lat": 3.095923,
+  "lon": 101.5902722,
+  "type": "LRT"
+ },
+ {
+  "name": "Lembah Subang",
+  "lat": 3.1120647,
+  "lon": 101.5913035,
+  "type": "LRT"
+ },
+ {
+  "name": "Rawang",
+  "lat": 3.3189044,
+  "lon": 101.5750187,
+  "type": "KTM"
+ },
+ {
+  "name": "Sungai Buloh (MRT)",
+  "lat": 3.2062652,
+  "lon": 101.5818412,
+  "type": "MRT"
+ },
+ {
+  "name": "Kampung Selamat",
+  "lat": 3.1971698,
+  "lon": 101.5784104,
+  "type": "MRT"
+ },
+ {
+  "name": "Surian",
+  "lat": 3.1495987,
+  "lon": 101.5937078,
+  "type": "MRT"
+ },
+ {
+  "name": "Mutiara Damansara",
+  "lat": 3.1551901,
+  "lon": 101.6088243,
+  "type": "MRT"
+ },
+ {
+  "name": "Bandar Utama",
+  "lat": 3.1466484,
+  "lon": 101.6188097,
+  "type": "MRT"
+ },
+ {
+  "name": "Taman Tun Dr Ismail",
+  "lat": 3.1360288,
+  "lon": 101.6308574,
+  "type": "MRT"
+ },
+ {
+  "name": "Phileo Damansara",
+  "lat": 3.1292146,
+  "lon": 101.6429562,
+  "type": "MRT"
+ },
+ {
+  "name": "Pusat Bandar Damansara",
+  "lat": 3.1432776,
+  "lon": 101.6623778,
+  "type": "MRT"
+ },
+ {
+  "name": "Semantan",
+  "lat": 3.1509609,
+  "lon": 101.6653576,
+  "type": "MRT"
+ },
+ {
+  "name": "Kwasa Damansara",
+  "lat": 3.1763094,
+  "lon": 101.5723992,
+  "type": "MRT"
+ },
+ {
+  "name": "Kwasa Sentral",
+  "lat": 3.1698329,
+  "lon": 101.5648383,
+  "type": "MRT"
+ },
+ {
+  "name": "Kota Damansara",
+  "lat": 3.1501787,
+  "lon": 101.5787352,
+  "type": "MRT"
+ },
+ {
+  "name": "Merdeka",
+  "lat": 3.1429034,
+  "lon": 101.7021933,
+  "type": "MRT"
+ },
+ {
+  "name": "Petaling",
+  "lat": 3.0860738,
+  "lon": 101.6642299,
+  "type": "Rail"
+ },
+ {
+  "name": "Taman Pertama",
+  "lat": 3.112639,
+  "lon": 101.7293032,
+  "type": "MRT"
+ },
+ {
+  "name": "Taman Midah",
+  "lat": 3.1044287,
+  "lon": 101.7322409,
+  "type": "MRT"
+ },
+ {
+  "name": "Taman Mutiara",
+  "lat": 3.0913032,
+  "lon": 101.7403909,
+  "type": "MRT"
+ },
+ {
+  "name": "Taman Connaught",
+  "lat": 3.0791861,
+  "lon": 101.7451397,
+  "type": "MRT"
+ },
+ {
+  "name": "Taman Suntex",
+  "lat": 3.0716075,
+  "lon": 101.7634796,
+  "type": "MRT"
+ },
+ {
+  "name": "Sri Raya",
+  "lat": 3.0621768,
+  "lon": 101.7729998,
+  "type": "MRT"
+ },
+ {
+  "name": "Bandar Tun Hussein Onn",
+  "lat": 3.0483592,
+  "lon": 101.7750126,
+  "type": "MRT"
+ },
+ {
+  "name": "Batu 11 Cheras",
+  "lat": 3.0413042,
+  "lon": 101.7733437,
+  "type": "MRT"
+ },
+ {
+  "name": "Bukit Dukung",
+  "lat": 3.0263872,
+  "lon": 101.7710937,
+  "type": "MRT"
+ },
+ {
+  "name": "Sungai Jernih",
+  "lat": 3.0008386,
+  "lon": 101.7841249,
+  "type": "MRT"
+ },
+ {
+  "name": "Stadium Kajang",
+  "lat": 2.9940559,
+  "lon": 101.7861989,
+  "type": "MRT"
+ },
+ {
+  "name": "Kajang",
+  "lat": 2.9831036,
+  "lon": 101.7903287,
+  "type": "MRT"
+ },
+ {
+  "name": "Abdullah Hukum (KTM)",
+  "lat": 3.1188639,
+  "lon": 101.6732759,
+  "type": "KTM"
+ },
+ {
+  "name": "Maluri",
+  "lat": 3.1245331,
+  "lon": 101.7272139,
+  "type": "MRT"
+ },
+ {
+  "name": "National Museum",
+  "lat": 3.1371348,
+  "lon": 101.687336,
+  "type": "MRT"
+ },
+ {
+  "name": "Kepong Sentral",
+  "lat": 3.2086475,
+  "lon": 101.6284142,
+  "type": "KTM"
+ },
+ {
+  "name": "KL Sentral",
+  "lat": 3.134283,
+  "lon": 101.686385,
+  "type": "LRT"
+ },
+ {
+  "name": "Salak South",
+  "lat": 3.0983106,
+  "lon": 101.7049873,
+  "type": "KTM"
+ },
+ {
+  "name": "Cochrane",
+  "lat": 3.1324788,
+  "lon": 101.7230028,
+  "type": "MRT"
+ },
+ {
+  "name": "Tun Razak Exchange",
+  "lat": 3.1428078,
+  "lon": 101.7199624,
+  "type": "MRT"
+ },
+ {
+  "name": "Kentonmen",
+  "lat": 3.195486,
+  "lon": 101.6796063,
+  "type": "MRT"
+ },
+ {
+  "name": "Kampung Batu",
+  "lat": 3.2059992,
+  "lon": 101.6751322,
+  "type": "MRT"
+ },
+ {
+  "name": "Sri Delima",
+  "lat": 3.2072098,
+  "lon": 101.6655647,
+  "type": "MRT"
+ },
+ {
+  "name": "Jinjang",
+  "lat": 3.2095233,
+  "lon": 101.655804,
+  "type": "MRT"
+ },
+ {
+  "name": "Kepong Baru",
+  "lat": 3.2116797,
+  "lon": 101.6481916,
+  "type": "MRT"
+ },
+ {
+  "name": "Metro Prima",
+  "lat": 3.2145079,
+  "lon": 101.6403908,
+  "type": "MRT"
+ },
+ {
+  "name": "Sri Damansara Timur",
+  "lat": 3.2076245,
+  "lon": 101.6286151,
+  "type": "MRT"
+ },
+ {
+  "name": "Sri Damansara Sentral",
+  "lat": 3.1985406,
+  "lon": 101.6211334,
+  "type": "MRT"
+ },
+ {
+  "name": "Sri Damansara Barat",
+  "lat": 3.1982289,
+  "lon": 101.6084105,
+  "type": "MRT"
+ },
+ {
+  "name": "Damansara Damai",
+  "lat": 3.1997539,
+  "lon": 101.5929025,
+  "type": "MRT"
+ },
+ {
+  "name": "Sentul West",
+  "lat": 3.178947,
+  "lon": 101.6851548,
+  "type": "MRT"
+ },
+ {
+  "name": "Jalan Ipoh",
+  "lat": 3.1894108,
+  "lon": 101.6811225,
+  "type": "MRT"
+ },
+ {
+  "name": "16 Sierra",
+  "lat": 2.9652866,
+  "lon": 101.6548662,
+  "type": "MRT"
+ },
+ {
+  "name": "Cyberjaya Utara",
+  "lat": 2.9492344,
+  "lon": 101.6574916,
+  "type": "MRT"
+ },
+ {
+  "name": "Kajang 2",
+  "lat": 2.9625446,
+  "lon": 101.7920628,
+  "type": "KTM"
+ },
+ {
+  "name": "Cyberjaya City Centre",
+  "lat": 2.9389661,
+  "lon": 101.6656104,
+  "type": "MRT"
+ },
+ {
+  "name": "Putrajaya Sentral",
+  "lat": 2.931411,
+  "lon": 101.6714742,
+  "type": "MRT"
+ },
+ {
+  "name": "UPM",
+  "lat": 3.0084876,
+  "lon": 101.705391,
+  "type": "MRT"
+ },
+ {
+  "name": "Taman Naga Emas",
+  "lat": 3.0777184,
+  "lon": 101.6995333,
+  "type": "MRT"
+ },
+ {
+  "name": "Serdang Raya South",
+  "lat": 3.0284811,
+  "lon": 101.7074978,
+  "type": "MRT"
+ },
+ {
+  "name": "Serdang Raya North",
+  "lat": 3.041714,
+  "lon": 101.7049109,
+  "type": "MRT"
+ },
+ {
+  "name": "Serdang Jaya",
+  "lat": 3.0215527,
+  "lon": 101.7089376,
+  "type": "MRT"
+ },
+ {
+  "name": "Kuchai",
+  "lat": 3.0895795,
+  "lon": 101.6940983,
+  "type": "MRT"
+ },
+ {
+  "name": "Dang Wangi",
+  "lat": 3.1567089,
+  "lon": 101.7020271,
+  "type": "LRT"
+ },
+ {
+  "name": "Angkasapuri",
+  "lat": 3.1126853,
+  "lon": 101.6734378,
+  "type": "KTM"
+ },
+ {
+  "name": "Bandar Utama",
+  "lat": 3.1449185,
+  "lon": 101.6190114,
+  "type": "LRT"
+ },
+ {
+  "name": "Jalan Meru",
+  "lat": 3.0590562,
+  "lon": 101.4520586,
+  "type": "LRT"
+ },
+ {
+  "name": "Klang Market",
+  "lat": 3.0679426,
+  "lon": 101.4508514,
+  "type": "LRT"
+ },
+ {
+  "name": "Johan Setia",
+  "lat": 2.9764189,
+  "lon": 101.4593532,
+  "type": "LRT"
+ },
+ {
+  "name": "Bandar Baru Klang",
+  "lat": 3.0626799,
+  "lon": 101.4659295,
+  "type": "LRT"
+ },
+ {
+  "name": "Seksyen 7 Shah Alam",
+  "lat": 3.0674606,
+  "lon": 101.4869681,
+  "type": "LRT"
+ },
+ {
+  "name": "UiTM Shah Alam",
+  "lat": 3.0627923,
+  "lon": 101.5011692,
+  "type": "LRT"
+ },
+ {
+  "name": "Equine Park",
+  "lat": 2.9893421,
+  "lon": 101.6725847,
+  "type": "MRT"
+ },
+ {
+  "name": "Putra Permai",
+  "lat": 2.9831113,
+  "lon": 101.6605775,
+  "type": "MRT"
+ },
+ {
+  "name": "Sungai Buloh",
+  "lat": 3.2062441,
+  "lon": 101.5799923,
+  "type": "KTM"
+ },
+ {
+  "name": "Batu Caves",
+  "lat": 3.2377806,
+  "lon": 101.6814431,
+  "type": "KTM"
+ },
+ {
+  "name": "BU 11 (Bandar Utama 11)",
+  "lat": 3.133444,
+  "lon": 101.6046666,
+  "type": "LRT"
+ },
+ {
+  "name": "Damansara Idaman",
+  "lat": 3.1228459,
+  "lon": 101.5942514,
+  "type": "LRT"
+ },
+ {
+  "name": "Dato' Menteri",
+  "lat": 3.0699341,
+  "lon": 101.5211731,
+  "type": "LRT"
+ },
+ {
+  "name": "Kayu Ara",
+  "lat": 3.1349122,
+  "lon": 101.6168038,
+  "type": "LRT"
+ },
+ {
+  "name": "Subang",
+  "lat": 3.1062359,
+  "lon": 101.5912411,
+  "type": "LRT"
+ },
+ {
+  "name": "Glenmarie 2",
+  "lat": 3.0953344,
+  "lon": 101.5888022,
+  "type": "LRT"
+ },
+ {
+  "name": "Kerjaya",
+  "lat": 3.08235,
+  "lon": 101.5619822,
+  "type": "LRT"
+ },
+ {
+  "name": "Stadium Shah Alam",
+  "lat": 3.0799569,
+  "lon": 101.5491189,
+  "type": "LRT"
+ },
+ {
+  "name": "Ampang Park",
+  "lat": 3.1617374,
+  "lon": 101.7179786,
+  "type": "MRT"
+ },
+ {
+  "name": "Persiaran KLCC",
+  "lat": 3.156847,
+  "lon": 101.7178909,
+  "type": "MRT"
+ },
+ {
+  "name": "Titiwangsa (MRT)",
+  "lat": 3.1744534,
+  "lon": 101.6963008,
+  "type": "MRT"
+ },
+ {
+  "name": "Kuala Lumpur Hospital",
+  "lat": 3.1737807,
+  "lon": 101.7015271,
+  "type": "MRT"
+ },
+ {
+  "name": "Raja Uda",
+  "lat": 3.16785,
+  "lon": 101.711138,
+  "type": "MRT"
+ },
+ {
+  "name": "Conlay",
+  "lat": 3.150907,
+  "lon": 101.7184028,
+  "type": "MRT"
+ },
+ {
+  "name": "Chan Sow Lin",
+  "lat": 3.1283747,
+  "lon": 101.7165932,
+  "type": "MRT"
+ },
+ {
+  "name": "Hang Tuah",
+  "lat": 3.1407148,
+  "lon": 101.7060827,
+  "type": "Monorail"
+ },
+ {
+  "name": "Kuala Lumpur",
+  "lat": 3.1407737,
+  "lon": 101.6937665,
+  "type": "Rail"
+ },
+ {
+  "name": "Putrajaya/Cyberjaya",
+  "lat": 2.9318305,
+  "lon": 101.6710183,
+  "type": "Rail"
+ },
+ {
+  "name": "Kajang",
+  "lat": 2.9826748,
+  "lon": 101.79053,
+  "type": "KTM"
+ },
+ {
+  "name": "Ampang Park",
+  "lat": 3.1601062,
+  "lon": 101.7190662,
+  "type": "LRT"
+ },
+ {
+  "name": "Kampung Baru",
+  "lat": 3.161447,
+  "lon": 101.7069263,
+  "type": "LRT"
+ },
+ {
+  "name": "Segambut Utara",
+  "lat": 3.1920006,
+  "lon": 101.655163,
+  "type": "KTM"
  }
 ]
