@@ -241,6 +241,17 @@ def matches_building(comp: dict, building: str) -> bool:
     return len(want & have) / len(want) >= 0.6
 
 
+def _save_debug(portal: str, kind: str, html: str):
+    """Keep the first page that yielded no listings so the cause (block page,
+    layout change) can be inspected in data/debug/."""
+    from .config import DATA_DIR
+    d = DATA_DIR / "debug"
+    d.mkdir(parents=True, exist_ok=True)
+    f = d / f"{portal}_{kind}.html"
+    f.write_text(html[:400_000], encoding="utf-8")
+    log.warning("%s %s: page had no listings - saved to %s (%d bytes)", portal, kind, f, len(html))
+
+
 def page_url(url: str, page: int) -> str:
     """PG-platform pagination is path style: /property-for-sale/2?..."""
     if page <= 1:
@@ -269,6 +280,8 @@ def fetch_comps(fetcher, portals_cfg: dict, query: str, building: str | None, pa
                     log.warning("%s %s failed for %r: %s", portal, kind, query, exc)
                     break
                 found = listings_from_html(html, url)
+                if not found and pg == 1:
+                    _save_debug(portal, kind, html)
                 comps.extend(found)
                 if len(found) < 15:      # last page
                     break

@@ -52,31 +52,37 @@ def classify_station(tags: dict) -> str:
 
 
 def fetch_stations(bbox) -> list[dict]:
+    # Stations in KL are often mapped as areas/ways, not points: ask for
+    # nodes, ways and relations ("nwr") and take each one's centre.
     s, w, n, e = bbox
     q = f"""
-    [out:json][timeout:60];
+    [out:json][timeout:90];
     (
-      node["railway"="station"]({s},{w},{n},{e});
-      node["public_transport"="station"]["train"="yes"]({s},{w},{n},{e});
-      node["public_transport"="station"]["subway"="yes"]({s},{w},{n},{e});
-      node["public_transport"="station"]["light_rail"="yes"]({s},{w},{n},{e});
-      node["public_transport"="station"]["monorail"="yes"]({s},{w},{n},{e});
+      nwr["railway"~"^(station|halt)$"]({s},{w},{n},{e});
+      nwr["public_transport"="station"]["train"="yes"]({s},{w},{n},{e});
+      nwr["public_transport"="station"]["subway"="yes"]({s},{w},{n},{e});
+      nwr["public_transport"="station"]["light_rail"="yes"]({s},{w},{n},{e});
+      nwr["public_transport"="station"]["monorail"="yes"]({s},{w},{n},{e});
     );
-    out body;
+    out center tags;
     """
-    r = requests.post(OVERPASS, data={"data": q}, headers=HEADERS, timeout=120)
+    r = requests.post(OVERPASS, data={"data": q}, headers=HEADERS, timeout=180)
     r.raise_for_status()
     stations, seen = [], set()
     for el in r.json().get("elements", []):
         tags = el.get("tags", {})
         name = tags.get("name:en") or tags.get("name")
-        if not name:
+        lat = el.get("lat") or (el.get("center") or {}).get("lat")
+        lon = el.get("lon") or (el.get("center") or {}).get("lon")
+        if not (name and lat and lon):
             continue
-        key = (name.lower(), round(el["lat"], 3), round(el["lon"], 3))
+        if tags.get("bus") == "yes" and not any(tags.get(k) == "yes" for k in ("train", "subway", "light_rail", "monorail")):
+            continue
+        key = (name.lower(), round(lat, 3), round(lon, 3))
         if key in seen:
             continue
         seen.add(key)
-        stations.append({"name": name, "lat": el["lat"], "lon": el["lon"], "type": classify_station(tags)})
+        stations.append({"name": name, "lat": lat, "lon": lon, "type": classify_station(tags)})
     return stations
 
 
@@ -84,7 +90,9 @@ def load_stations(bbox, refresh: bool = False) -> list[dict]:
     manual = DATA_DIR / "stations_manual.json"
     extra = json.loads(manual.read_text()) if manual.exists() else []
     if STATIONS_FILE.exists() and not refresh:
-        return json.loads(STATIONS_FILE.read_text()) + extra
+        cached = json.loads(STATIONS_FILE.read_text())
+        if len(cached) >= 50:          # an old, incomplete cache is refetched
+            return cached + extra
     try:
         stations = fetch_stations(bbox)
         STATIONS_FILE.write_text(json.dumps(stations, indent=1, ensure_ascii=False))

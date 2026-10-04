@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS comps (
 CREATE TABLE IF NOT EXISTS evaluations (
     listing_id TEXT PRIMARY KEY, run_date TEXT, grade TEXT, score REAL, data TEXT
 );
+CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS notified (
     listing_id TEXT, grade TEXT, reserve_price REAL, notified_at TEXT,
     PRIMARY KEY (listing_id, reserve_price)
@@ -80,18 +81,21 @@ def today() -> str:
     return date.today().isoformat()
 
 
-def upsert_listing(conn, lst: dict, area_label: str):
+def upsert_listing(conn, lst: dict, area_label: str, seen_now: bool = True):
+    """seen_now=False (re-parsing stored pages) keeps the sighting history intact."""
     now = today()
     fp = fingerprint(lst["building"], lst["unit"], lst["built_up"], lst["area"])
-    row = conn.execute("SELECT first_seen FROM listings WHERE listing_id=?", (lst["listing_id"],)).fetchone()
+    row = conn.execute("SELECT first_seen, last_seen FROM listings WHERE listing_id=?", (lst["listing_id"],)).fetchone()
     first = row["first_seen"] if row else now
+    last = now if (seen_now or not row) else row["last_seen"]
     row = {**lst, "fingerprint": fp, "building_key": building_key(lst["building"]), "area_label": area_label,
            "flags": json.dumps(lst.get("flags", [])), "bumi": int(lst["bumi"]),
            "dual_key": int(lst["dual_key"]), "occupied": int(lst["occupied"]),
-           "first_seen": first, "last_seen": now, "source": lst.get("source", "")}
+           "first_seen": first, "last_seen": last, "source": lst.get("source", "")}
     conn.execute(f"INSERT OR REPLACE INTO listings ({','.join(LISTING_COLS)}) "
                  f"VALUES ({','.join(':' + c for c in LISTING_COLS)})", row)
-    observe(conn, lst["listing_id"], lst["reserve_price"], lst["auction_date"])
+    if seen_now:
+        observe(conn, lst["listing_id"], lst["reserve_price"], lst["auction_date"])
 
 
 def observe(conn, listing_id: str, price, auction_date, seen: str | None = None):
@@ -101,12 +105,24 @@ def observe(conn, listing_id: str, price, auction_date, seen: str | None = None)
                  (seen, listing_id, seen))
 
 
+def get_meta(conn, key: str, default=None):
+    row = conn.execute("SELECT value FROM meta WHERE key=?", (key,)).fetchone()
+    return row["value"] if row else default
+
+
+def set_meta(conn, key: str, value):
+    conn.execute("INSERT OR REPLACE INTO meta VALUES (?,?)", (key, str(value)))
+
+
 def get_comps(conn, key: str, max_age_days: int):
     row = conn.execute("SELECT fetched_at, data FROM comps WHERE query_key=?", (key,)).fetchone()
     if not row:
         return None
     age = (datetime.now(timezone.utc) - datetime.fromisoformat(row["fetched_at"])).days
-    return json.loads(row["data"]) if age <= max_age_days else None
+    data = json.loads(row["data"])
+    if not any(data.get(k) for k in ("sale", "rent", "area_sale", "area_rent")):
+        return None                     # an empty result (blocked?) is retried next run
+    return data if age <= max_age_days else None
 
 
 def put_comps(conn, key: str, data: dict):

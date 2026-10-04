@@ -26,6 +26,8 @@ from bs4 import BeautifulSoup
 log = logging.getLogger(__name__)
 
 BASE = "https://www.bplelonglist.com"
+# Bump when parsing improves: stored pages are then re-parsed automatically.
+PARSER_VERSION = 2
 SQM_TO_SQFT = 10.7639
 
 STATES = ["Kuala Lumpur", "Selangor", "Putrajaya", "Penang", "Pulau Pinang", "Johor",
@@ -190,7 +192,7 @@ def parse_date(text: str) -> str | None:
     t = re.sub(r"\s+", " ", t).strip()
     patterns = [
         r"\d{1,2} [A-Za-z]{3,9} \d{4}", r"[A-Za-z]{3,9} \d{1,2} \d{4}",
-        r"\d{1,2}[/.-]\d{1,2}[/.-]\d{4}", r"\d{4}-\d{2}-\d{2}",
+        r"\d{1,2}[/.-]\d{1,2}[/.-]\d{4}", r"\d{4}-\d{2}-\d{2}", r"\b\d{1,2}[/.-]\d{1,2}[/.-]\d{2}\b",
     ]
     for p in patterns:
         m = re.search(p, t)
@@ -198,7 +200,7 @@ def parse_date(text: str) -> str | None:
             continue
         s = m.group(0)
         for fmt in ("%d %B %Y", "%d %b %Y", "%B %d %Y", "%b %d %Y",
-                    "%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y", "%Y-%m-%d"):
+                    "%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y", "%Y-%m-%d", "%d/%m/%y", "%d-%m-%y", "%d.%m.%y"):
             try:
                 return datetime.strptime(s, fmt).date().isoformat()
             except ValueError:
@@ -213,8 +215,11 @@ def _label(text: str, labels: str, value: str = r"([^\n]{2,200})") -> str | None
 
 def parse_built_up(text: str) -> float | None:
     unit = r"(sq\.?\s*f(?:ee)?t\.?|sqft|sf\b|square\s*f(?:ee|oo)t|sq\.?\s*m\.?|sqm|m2|m²|square\s*met(?:er|re)s?)"
-    m = re.search(rf"(?:built[\s-]*up|floor\s*area|land\s*area|size|area)[^\d\n]{{0,40}}([\d,]+(?:\.\d+)?)\s*{unit}",
-                  text, re.I)
+    m = None
+    for label in (r"built[\s-]*up", r"floor\s*area|size", r"land\s*area|area"):   # built-up wins over land area
+        m = re.search(rf"(?:{label})[^\d\n]{{0,40}}([\d,]+(?:\.\d+)?)\s*{unit}", text, re.I)
+        if m:
+            break
     if not m:
         m = re.search(rf"([\d,]+(?:\.\d+)?)\s*{unit}", text, re.I)
     if not m:
@@ -227,6 +232,7 @@ def parse_built_up(text: str) -> float | None:
     return round(val, 1)
 
 
+STATE_WORDS = {s.lower() for s in STATES} | {"wilayah persekutuan", "w.p. kuala lumpur", "wp kuala lumpur", "malaysia"}
 ROAD_WORDS = re.compile(r"^(jalan|jln|lorong|lrg|persiaran|lebuh|lebuhraya|taman|tmn|kampung|kg|off|no\.?|lot|unit|parcel|level|tingkat|block|blok)\b", re.I)
 
 
@@ -234,7 +240,8 @@ def derive_building(address: str, title: str) -> str:
     """Best-effort building name from the address ('B-15-07, Residensi X, Jalan..')."""
     for part in (address or "").split(","):
         part = part.strip()
-        if not part or UNIT_RE.fullmatch(part) or ROAD_WORDS.match(part) or re.search(r"\d{5}", part):
+        if (not part or UNIT_RE.fullmatch(part) or ROAD_WORDS.match(part) or re.search(r"\d{5}", part)
+                or part.lower() in STATE_WORDS):
             continue
         if re.search(r"[A-Za-z]{3,}", part) and not re.fullmatch(r"[\d\W]+", part):
             return re.sub(r"^(?:[A-Z]?\d+[A-Z]?-)+\d+[A-Z]?\s+", "", part)
@@ -247,20 +254,47 @@ def derive_building(address: str, title: str) -> str:
 UNIT_RE = re.compile(r"\b(?:unit\s*(?:no\.?)?\s*[:\-]?\s*)?((?:[A-Z]{1,2}\d?-)?\d{1,3}[A-Z]?-\d{1,3}[A-Z]?(?:-\d{1,3})?)\b", re.I)
 
 
+BOILERPLATE_RE = re.compile(r"^(Loan Calculator|Feel Free to Contact Us|Find Your Property|Related Auctions|"
+                            r"More Auctions|Contact Us)$", re.M)
+
+
+def _line_after(text: str, heading: str) -> str | None:
+    """The line right below a heading line, e.g. the property type under
+    'Auction Property Details'."""
+    m = re.search(rf"^{heading}[ \t]*\n([^\n]{{2,40}})$", text, re.I | re.M)
+    return m.group(1).strip() if m else None
+
+
+def _multiline_label(text: str, labels: str) -> str | None:
+    """Value spanning several lines, up to the next 'Label:' line.
+    'Property Address:\nUnit No.\n, Residensi X, Jalan Y, 55100, KL' -> one string."""
+    m = re.search(rf"(?:{labels})\s*:?[ \t]*\n((?:(?![^\n]{{1,30}}:[ \t]*$)[^\n]+(?:\n|$)){{1,4}})", text, re.I | re.M)
+    if not m:
+        return _label(text, labels)
+    val = " ".join(line.strip() for line in m.group(1).strip().split("\n"))
+    return re.sub(r"\s+,", ",", val)
+
+
 def parse_detail(html: str, url: str) -> Listing:
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript"]):
         if tag.get("type") != "application/ld+json":
             tag.decompose()
     title = ""
-    if soup.find("h1"):
-        title = soup.find("h1").get_text(" ", strip=True)
-    elif soup.title:
-        title = soup.title.get_text(" ", strip=True)
+    for cand in [soup.find("h1"), soup.title]:
+        t = cand.get_text(" ", strip=True) if cand else ""
+        if t and not re.search(r"\.(com|my)\b", t, re.I):     # skip "bplelonglist.com" logo headings
+            title = t
+            break
     # Main content only if we can find it; otherwise the whole page.
     main = soup.find("main") or soup.find(id=re.compile("content|detail", re.I)) or soup.body or soup
     text = main.get_text("\n", strip=True)
     text = re.sub(r"\n{2,}", "\n", text)
+    # Drop the enquiry form, search box and "Related Auctions" (other units'
+    # prices and sizes would otherwise leak into this listing).
+    cut = [m.start() for m in BOILERPLATE_RE.finditer(text)]
+    if cut:
+        text = text[:min(cut)]
 
     slug = parse_slug(url)
     lst = Listing(listing_id=listing_id_from_url(url), url=url, source=source_name(url), title=title)
@@ -286,22 +320,38 @@ def parse_detail(html: str, url: str) -> Listing:
     lst.reserve_price = _num(price) or lst.reserve_price or slug.get("reserve_price")
     lst.built_up = parse_built_up(text)
     lst.auction_date = parse_date(_label(text, r"auction\s*date|date\s*of\s*auction|tarikh\s*lelong") or "")
-    lst.address = (_label(text, r"property\s*address|address|alamat") or lst.address or "").strip()
+    lst.address = (_multiline_label(text, r"property\s*address|address|alamat") or lst.address or "").strip()
     lst.auctioneer = (_label(text, r"auctioneer|pelelong") or "")[:120]
     lst.bank = (_label(text, r"assignee|chargee|bank|lender|pemegang\s*gadaian") or "")[:120]
     lst.property_type = (_label(text, r"property\s*type|type\s*of\s*property|jenis\s*hartanah", r"([^\n]{2,60})")
+                         or _line_after(text, r"auction[ \t]+property[ \t]+details")
                          or slug.get("property_type", ""))
     lst.area = slug.get("area") or ""
     lst.state = slug.get("state") or ""
     lst.building = _label(text, r"(?:building|project|development|scheme)\s*name|condominium\s*name",
                           r"([^\n]{2,80})") or ""
 
+    if not lst.building:
+        # Address beats the URL slug: slugs on some sites are marketing copy
+        # ("Nestled in a prime location Condominium ...").
+        slug_b = slug.get("building", "")
+        lst.building = (derive_building(lst.address, "")
+                        or (slug_b if 0 < len(slug_b.split()) <= 5 else "")
+                        or derive_building("", title))
+    enrich(lst, text)
+    lst.raw_text = text[:20000]
+    return lst
+
+
+def enrich(lst: Listing, text: str) -> Listing:
+    """Tenure, title, bumi, dual key, occupancy, unit and risk flags - shared by
+    auction-site pages and Telegram posts."""
     low = text.lower()
     if "freehold" in low or "pegangan bebas" in low:
         lst.tenure = "Freehold"
     elif "leasehold" in low or "pajakan" in low:
         m = re.search(r"leasehold[^\n]{0,60}?(\d{2,3})\s*years?", text, re.I)
-        exp = re.search(r"expir\w*[^\n]{0,20}?(20\d{2}|21\d{2})", text, re.I)
+        exp = re.search(r"(?:expir\w*|till|until)[^\n]{0,20}?(20\d{2}|21\d{2})", text, re.I)
         lst.tenure = "Leasehold" + (f" {m.group(1)}y" if m else "") + (f" exp {exp.group(1)}" if exp else "")
     if re.search(r"master\s*title", low):
         lst.title_type = "Master title"
@@ -311,19 +361,13 @@ def parse_detail(html: str, url: str) -> Listing:
         lst.title_type = "Individual title"
     lst.bumi = bool(re.search(r"(?<!non-)(?<!non )(?<!not )(?<!non)\bbumi(putera)?\s*lot|(?<!non-)(?<!non )bumiputera\s*(only|status)"
                               r"|malay\s*reserv|rizab\s*melayu", low))
-    lst.dual_key = bool(re.search(r"dual[\s-]*key", low))
-    lst.occupied = bool(re.search(r"\b(tenanted|occupied by|occupants?)\b", low)) and "vacant" not in low
-
-    if not lst.building:
-        # Address beats the URL slug: slugs on some sites are marketing copy
-        # ("Nestled in a prime location Condominium ...").
-        slug_b = slug.get("building", "")
-        lst.building = (derive_building(lst.address, "")
-                        or (slug_b if 0 < len(slug_b.split()) <= 5 else "")
-                        or derive_building("", title))
-    um = UNIT_RE.search(lst.address or "")
-    if um:
-        lst.unit = um.group(1).upper()
+    lst.dual_key = lst.dual_key or bool(re.search(r"dual[\s-]*key", low))
+    lst.occupied = (bool(re.search(r"\b(tenanted|occupied by|occupants?)\b|status\s*:\s*occupied", low))
+                    and "vacant" not in low)
+    if not lst.unit:
+        um = UNIT_RE.search(lst.address or "")
+        if um:
+            lst.unit = um.group(1).upper()
 
     if lst.title_type == "Master title":
         lst.flags.append("Master title only - financing/transfer slower")
@@ -335,11 +379,12 @@ def parse_detail(html: str, url: str) -> Listing:
         lst.flags.append("Non-LACA - check developer consent & title chain")
     if re.search(r"(purchaser|buyer)[^.\n]{0,80}(arrears|outstanding)", low):
         lst.flags.append("Buyer bears outstanding arrears per conditions of sale")
-    m = re.search(r"leasehold[^\n]{0,60}?expir\w*[^\n]{0,20}?(20\d{2}|21\d{2})", text, re.I)
+    dep = re.search(r"deposit\s*:?\s*(\d{1,2})\s*%", text, re.I)
+    if dep and dep.group(1) != "10":
+        lst.flags.append(f"Auction-day deposit is {dep.group(1)}% (not the usual 10%)")
+    m = re.search(r"leasehold[^\n]{0,60}?(?:expir\w*|till|until)[^\n]{0,20}?(20\d{2}|21\d{2})", text, re.I)
     if m and int(m.group(1)) - date.today().year < 60:
         lst.flags.append(f"Short lease remaining (expires {m.group(1)}) - banks may limit loan")
-
-    lst.raw_text = text[:20000]
     return lst
 
 

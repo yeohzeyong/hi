@@ -20,20 +20,32 @@ MANUAL_COMPS_FILE = DATA_DIR / "manual_comps.csv"
 # ---------------------------------------------------------------------------
 # 1. Scrape
 # ---------------------------------------------------------------------------
-def save_parsed(conn, lst: bpl.Listing, cfg: dict) -> str | None:
+def save_parsed(conn, lst: bpl.Listing, cfg: dict, seen_now: bool = True) -> str | None:
     d = lst.to_dict()
     # Use the real location (area from the URL, then the address). Advert
     # titles often name-drop nearby areas ("... near Bukit Bintang") for
     # units that are actually in Pudu or Brickfields.
     areas = cfg["search"]["areas"]
     label = scoring.matched_area(d["area"], areas) or scoring.matched_area(d["address"], areas)
+    want_state = cfg["search"].get("state", "")
+    if label and want_state and d.get("state") and d["state"].lower() != want_state.lower():
+        label = None          # e.g. "Cheras" in Selangor when you want KL
     if not label and not d["area"] and not d["address"]:
         label = scoring.matched_area(f"{d['title']} {d['building']}", areas)
-    db.upsert_listing(conn, d, label or "")
+    db.upsert_listing(conn, d, label or "", seen_now=seen_now)
     return label
 
 
+def reparse_if_parser_changed(conn, cfg: dict):
+    if db.get_meta(conn, "parser_version") != str(bpl.PARSER_VERSION):
+        log.info("parser updated - re-parsing stored listings")
+        reparse(conn, cfg)
+        db.set_meta(conn, "parser_version", bpl.PARSER_VERSION)
+        conn.commit()
+
+
 def scrape(conn, fetcher, cfg: dict, backfill: bool = False) -> dict:
+    reparse_if_parser_changed(conn, cfg)
     s = cfg["search"]
     known = {r["listing_id"]: r for r in conn.execute("SELECT listing_id, reserve_price, auction_date FROM listings")}
     known_ids = set(known)
@@ -93,17 +105,22 @@ def scrape_telegram(conn, fetcher, cfg: dict, backfill: bool = False) -> dict:
             added += 1
         except Exception as exc:
             log.warning("telegram listing failed %s: %s", url, exc)
+    for lst in res.get("listings", []):
+        save_parsed(conn, lst, cfg)       # re-saving refreshes last_seen / price
+        added += lst.listing_id not in known
     conn.commit()
     res["stats"]["listings_added"] = added
     return res["stats"]
 
 
 def reparse(conn, cfg: dict):
-    """Re-run the parser over stored page text (after improving the parser)."""
-    for r in conn.execute("SELECT listing_id, url, raw_text FROM listings").fetchall():
+    """Re-run the parser over stored page text (after improving the parser).
+    Telegram listings are skipped - their posts are re-parsed on every run."""
+    for r in conn.execute("SELECT listing_id, url, raw_text FROM listings "
+                          "WHERE COALESCE(source,'') NOT LIKE 'telegram%'").fetchall():
         html = "<main>" + "".join(f"<p>{line}</p>" for line in (r["raw_text"] or "").split("\n")) + "</main>"
         lst = bpl.parse_detail(html, r["url"])
-        save_parsed(conn, lst, cfg)
+        save_parsed(conn, lst, cfg, seen_now=False)
     conn.commit()
 
 

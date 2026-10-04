@@ -311,3 +311,131 @@ def test_area_label_ignores_marketing_title(tmp_path, cfg):
            "Bukit-Bintang-in-Brickfields-Kuala-Lumpur-for-RM500000")
     lst = bpl.parse_detail("<main><h1>Suite near Bukit Bintang</h1>Reserve Price RM 500,000</main>", url)
     assert pipeline.save_parsed(conn, lst, cfg) is None
+
+
+# ------------------------------------------- real-format regression tests ----
+BPL_REAL = """Home
+Auction
+Property Details
+Auction Property Details
+Service Apartment
+Residensi Agile Delima, Kuala Lumpur
+Reserve Price
+RM 633,000.00
+Auction Details
+Property Address:
+Unit No.
+, Residensi Agile Delima, Jalan Delima, Bukit Bintang, 55100, Kuala Lumpur
+Auction Date:
+Thursday, 8 Oct, 2026
+Reserve Price:
+RM 633,000.00
+Deposit:
+5%
+Built Up:
+703 sq.ft
+Tenure:
+Freehold
+Related Auctions
+RM 562,000.00
+Service Apartment
+625 sq.ft"""
+
+
+def test_bpl_real_page_layout():
+    html = "<h1>bplelonglist.com</h1><main>" + "".join(f"<p>{l}</p>" for l in BPL_REAL.split("\n")) + "</main>"
+    url = ("https://www.bplelonglist.com/auction/ekFUSHBNNE5nNWpMd0FQSTlKMXpNZz09/"
+           "Lelong-Auction-Service-Apartment-in-Bukit-Bintang-Kuala-Lumpur-for-RM633000")
+    l = bpl.parse_detail(html, url)
+    assert l.building == "Residensi Agile Delima"
+    assert l.address == "Unit No., Residensi Agile Delima, Jalan Delima, Bukit Bintang, 55100, Kuala Lumpur"
+    assert (l.property_type, l.built_up, l.reserve_price, l.auction_date) == ("Service Apartment", 703, 633000, "2026-10-08")
+    assert l.tenure == "Freehold" and "Auction-day deposit is 5% (not the usual 10%)" in l.flags
+
+
+YUKI = """🏠
+D'sands Residence @ Old Klang Road
+✅
+Service Apartment
+✅
+Size 1313 sqft
+✅
+Freehold
+✅
+Non Bumi Lot
+📍
+No. B1-09-1, Block 1, D'Sands Residence (Residensi Pasir Emas), Jalan Kampung Pasir, Off Jalan Klang Lama, 58200, Kuala Lumpur
+💥
+Lelong Price
+💥
+RM 475k
+💥
+** Market Value : RM 720k
+📆
+Lelong Date : 22/10/2026"""
+
+CHRIS = """Parc 3 @ Cheras
+📍
+Unit No. 33-12, Parc 3, No. 5, Jalan Pudu Perdana, 56100, Kuala Lumpur
+✅
+Service Apartment
+✅
+Built Up 1453 sq.ft
+🔥
+Auction Price RM 729k
+🔥
+Market Value RM 1mil
+📅
+Auction Date 7/10/26"""
+
+TRINITY = """𝐂𝐎𝐍𝐃𝐎𝐌𝐈𝐍𝐈𝐔𝐌 𝐈𝐍 𝐁𝐔𝐊𝐈𝐓 𝐉𝐀𝐋𝐈𝐋!
+Location: Residensi Parkhill, No. 12, Lebuhraya Bukit Jalil, 57000, Kuala Lumpur.
+𝐔𝐧𝐢𝐭 𝐍𝐨: 𝐂-𝟑𝟐-𝟎𝟑, 𝐓𝐨𝐰𝐞𝐫 𝐂.
+Size: 1,100 sq.ft.
+Market Price: RM560,000
+Auction Price: RM416,000
+Auction Date: 8th October 2026
+𝐔𝐧𝐢𝐭 𝐍𝐨: 𝐂-𝟑𝟐-𝟑𝐀, 𝐓𝐨𝐰𝐞𝐫 𝐂.
+Size: 1,100 sq.ft.
+Market Price: RM560,000
+Auction Price: RM500,000
+Auction Date: 21st October 2026
+(Potential Rental: RM2,500 - RM2,800)
+Tenure: Leasehold (Till 2114)
+Type: Condominium
+Status: Occupied"""
+
+
+def test_telegram_listing_posts():
+    y = telegram.parse_post_listings({"channel": "yuki", "post_id": 1, "text": YUKI})[0]
+    assert (y.building, y.unit, y.built_up, y.reserve_price, y.auction_date) == (
+        "D'Sands Residence (Residensi Pasir Emas)", "B1-09-1", 1313, 475000, "2026-10-22")
+    assert y.state == "Kuala Lumpur" and not y.bumi and y.property_type == "Service Apartment"
+    assert any("Agent claims market value RM720,000" in f for f in y.flags)
+
+    c = telegram.parse_post_listings({"channel": "chris", "post_id": 2, "text": CHRIS})[0]
+    assert (c.area, c.building, c.reserve_price, c.auction_date, c.built_up) == ("Cheras", "Parc 3", 729000, "2026-10-07", 1453)
+
+    t = telegram.parse_post_listings({"channel": "trinity", "post_id": 3, "text": TRINITY})
+    assert [(x.unit, x.reserve_price, x.auction_date) for x in t] == [
+        ("C-32-03", 416000, "2026-10-08"), ("C-32-3A", 500000, "2026-10-21")]
+    assert all(x.occupied and x.tenure.startswith("Leasehold") and x.building == "Residensi Parkhill" for x in t)
+
+
+def test_state_filter_drops_selangor_cheras(tmp_path, cfg):
+    conn = db.connect(tmp_path / "t.db")
+    lst = bpl.Listing(listing_id="x", url="u", area="", state="Selangor",
+                      address="Unit No. B-11-1, Akasa Cheras, Jalan Akasa, Akasa Cheras Selatan, 43300 Seri Kembangan, Selangor")
+    assert pipeline.save_parsed(conn, lst, cfg) is None
+
+
+def test_reparse_keeps_sighting_history(tmp_path, cfg):
+    conn = db.connect(tmp_path / "t.db")
+    lst = bpl.parse_detail("<main>" + "".join(f"<p>{l}</p>" for l in BPL_REAL.split("\n")) + "</main>",
+                           "https://www.bplelonglist.com/auction/ekFUSHBNNE5nNWpMd0FQSTlKMXpNZz09/x-for-RM633000")
+    pipeline.save_parsed(conn, lst, cfg)
+    conn.execute("UPDATE listings SET last_seen='2026-01-01'")
+    conn.execute("DELETE FROM observations")
+    pipeline.reparse(conn, cfg)
+    assert conn.execute("SELECT last_seen FROM listings").fetchone()[0] == "2026-01-01"
+    assert conn.execute("SELECT COUNT(*) FROM observations").fetchone()[0] == 0
