@@ -37,7 +37,13 @@ def cmd_scrape(cfg, args, conn):
 def cmd_comps(cfg, args, conn):
     with _fetcher(cfg, args) as f:
         n = pipeline.refresh_comps(conn, f, cfg, force=args.force, limit=args.limit)
-    logging.info("refreshed comps for %d building(s)", n)
+        logging.info("refreshed comps for %d building(s)", n)
+        if not args.no_forum:
+            try:
+                k = pipeline.refresh_forum(conn, f, cfg, force=args.force, limit=args.limit)
+                logging.info("read Lowyat discussion for %d building(s)", k)
+            except Exception:
+                logging.exception("Lowyat step failed; continuing")
 
 
 def cmd_evaluate(cfg, args, conn):
@@ -135,8 +141,9 @@ def main(argv=None):
     sp.add_argument("--no-geocode", action="store_true")
     sp = add("scrape", cmd_scrape, "scrape bplelonglist")
     sp.add_argument("--backfill", action="store_true", help="crawl all pages to build history")
-    sp = add("comps", cmd_comps, "refresh PropertyGuru / iProperty comps")
+    sp = add("comps", cmd_comps, "refresh PropertyGuru / iProperty comps (+ Lowyat comments)")
     sp.add_argument("--force", action="store_true")
+    sp.add_argument("--no-forum", action="store_true", help="skip reading Lowyat")
     sp.add_argument("--limit", type=int)
     sp = add("evaluate", cmd_evaluate, "score listings and write the dashboard")
     sp.add_argument("--no-geocode", action="store_true")

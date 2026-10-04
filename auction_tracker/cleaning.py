@@ -241,6 +241,8 @@ def summarize(kept: list[dict], subject_sqft: float | None, kind: str, cfg: dict
     haircut = cfg.get("sale_asking_haircut" if kind == "sale" else "rent_asking_haircut", 0)
     med = statistics.median(psfs)
     p25 = _quantile(psfs, 0.25)
+    q = cfg.get("valuation_quantile", 0.25)
+    cheapest = min(kept, key=lambda c: c["psf"])
     out = {
         "n": len(kept),
         "median_psf": round(med, 3),
@@ -250,8 +252,12 @@ def summarize(kept: list[dict], subject_sqft: float | None, kind: str, cfg: dict
         "haircut": haircut,
         "confident": len(kept) >= cfg.get("min_comps_confident", 4),
         "dual_key_share": round(sum(1 for c in kept if c.get("dual_key")) / len(kept), 2),
+        "valuation_quantile": q,
+        "cheapest": {"price": round(cheapest.get("adj_price") or cheapest["price"]), "built_up": cheapest["built_up"],
+                     "psf": round(cheapest["psf"], 2), "url": cheapest.get("url", ""), "match": cheapest.get("match", "")},
     }
     if subject_sqft:
-        # Blend median with P25 for a slightly conservative estimate.
-        out["estimate"] = round(subject_sqft * (0.7 * med + 0.3 * p25) * (1 - haircut))
+        # Conservative: value on the lower quartile of genuine comparables.
+        out["estimate"] = round(subject_sqft * _quantile(psfs, q) * (1 - haircut))
+        out["cheapest_equiv"] = round(subject_sqft * cheapest["psf"] * (1 - haircut))
     return out

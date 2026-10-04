@@ -107,6 +107,7 @@ def _pg_listing(ld: dict, base_url: str) -> dict | None:
     prop = ld.get("property") if isinstance(ld.get("property"), dict) else {}
     furn = ("fully" if "fully furnished" in blob else "partly" if "partially furnished" in blob
             else "unfurnished" if "unfurnished" in blob else "")
+    by = re.search(r'"(?:build|built|completion|top)_?year"\s*:\s*"?((?:19|20)\d{2})|built:?\s*((?:19|20)\d{2})', blob)
     return {
         "id": str(ld.get("id") or ""),
         "title": _text(ld.get("localizedTitle") or ld.get("title") or ""),
@@ -123,6 +124,7 @@ def _pg_listing(ld: dict, base_url: str) -> dict | None:
         "bedrooms": _to_number(ld.get("bedrooms")),
         "ptype": _text(prop.get("subTypeText") or prop.get("typeText") or ld.get("propertyType") or ""),
         "furnishing": furn,
+        "built_year": int(by.group(1) or by.group(2)) if by else None,
     }
 
 
@@ -261,6 +263,11 @@ def matches_building(comp: dict, building: str, state: str | None = None) -> boo
     not match "Royal Lexis"), and the comp must not be in another state."""
     if wrong_state(comp, state):
         return False
+    variants = search_names(building) or [building]
+    return any(_matches_name(comp, v) for v in variants)
+
+
+def _matches_name(comp: dict, building: str) -> bool:
     want = name_tokens(building)
     if not want:
         return True
@@ -282,8 +289,28 @@ def _save_debug(portal: str, kind: str, html: str):
     d = DATA_DIR / "debug"
     d.mkdir(parents=True, exist_ok=True)
     f = d / f"{portal}_{kind}.html"
-    f.write_text(html[:400_000], encoding="utf-8")
+    nd = html.find('id="__NEXT_DATA__"')
+    keep = html[:150_000] + (("\n<!-- ... -->\n" + html[max(nd - 200, 150_000):nd + 600_000]) if nd > 150_000 else "")
+    f.write_text(keep, encoding="utf-8")
     log.warning("%s %s: page had no listings - saved to %s (%d bytes)", portal, kind, f, len(html))
+
+
+GENERIC_PREFIX = re.compile(r"^(residensi|kondominium|condominium|pangsapuri(\s+servis)?|apartment\s+servis|"
+                            r"apartment\s+service|apartmen|the)\s+", re.I)
+
+
+def search_names(building: str) -> list[str]:
+    """Names to try on the portals, most specific first.
+    'Casa Kiara (BLK-B)' -> 'Casa Kiara'; 'Residensi M Vertika' -> also 'M Vertika'."""
+    n = re.sub(r"\(.*?\)", " ", building or "")
+    n = re.sub(r"\b(blk|blok|block|tower|menara|phase|fasa)\s*[-.]?\s*[A-Z0-9]{1,3}\b", " ", n, flags=re.I)
+    n = re.sub(r"\s+", " ", n).strip(" -,@")
+    out = [n] if n else []
+    short = GENERIC_PREFIX.sub("", n).strip()
+    short = re.sub(r"\s+(condominium|kondominium|apartment|residences?)$", "", short, flags=re.I).strip()
+    if short and short.lower() != n.lower() and len(short) >= 4:
+        out.append(short)
+    return out
 
 
 def page_url(url: str, page: int) -> str:
@@ -296,6 +323,18 @@ def page_url(url: str, page: int) -> str:
 
 def fetch_comps(fetcher, portals_cfg: dict, query: str, building: str | None, pages: int = 1,
                 state: str | None = None) -> dict:
+    """Try the cleaned building name, then a shorter variant if nothing came back."""
+    names = search_names(query) if building else [query]
+    result = {"sale": [], "rent": []}
+    for name in names or [query]:
+        result = _fetch_comps_once(fetcher, portals_cfg, name, building, pages, state)
+        if result["sale"] or result["rent"]:
+            break
+    return result
+
+
+def _fetch_comps_once(fetcher, portals_cfg: dict, query: str, building: str | None, pages: int = 1,
+                      state: str | None = None) -> dict:
     """Return {"sale": [...], "rent": [...]} from all configured portals."""
     result = {"sale": [], "rent": []}
     for portal, urls in portals_cfg.items():

@@ -52,12 +52,12 @@ portals:
   # iProperty runs on the same platform, so the same listing often appears
   # on both - the cleaner de-duplicates them.
   propertyguru:
-    sale: "https://www.propertyguru.com.my/property-for-sale?freetext={q}&isCommercial=false&listingType=sale&locale=en"
-    rent: "https://www.propertyguru.com.my/property-for-rent?freetext={q}&isCommercial=false&listingType=rent&locale=en"
+    sale: "https://www.propertyguru.com.my/property-for-sale?freetext={q}&isCommercial=false&listingType=sale&locale=en&sort=price_asc"
+    rent: "https://www.propertyguru.com.my/property-for-rent?freetext={q}&isCommercial=false&listingType=rent&locale=en&sort=price_asc"
   iproperty:
-    sale: "https://www.iproperty.com.my/property-for-sale?freetext={q}&isCommercial=false&listingType=sale&locale=en"
-    rent: "https://www.iproperty.com.my/property-for-rent?freetext={q}&isCommercial=false&listingType=rent&locale=en"
-  pages: 2                 # result pages per search (~20 listings each)
+    sale: "https://www.iproperty.com.my/property-for-sale?freetext={q}&isCommercial=false&listingType=sale&locale=en&sort=price_asc"
+    rent: "https://www.iproperty.com.my/property-for-rent?freetext={q}&isCommercial=false&listingType=rent&locale=en&sort=price_asc"
+  pages: 3                 # result pages per search (~20 listings each), cheapest first
   cache_days: 21           # market prices move slowly; don't hammer the portals
 
 cleaning:
@@ -65,6 +65,9 @@ cleaning:
   # first band; widened to the second only when fewer than
   # min_comps_confident units match.
   size_bands: [0.15, 0.25]
+  # Value units on the LOWER end of genuine comparables, not the middle:
+  # 0.25 = the price only a quarter of similar units are cheaper than.
+  valuation_quantile: 0.25
   furnished_rent_premium: 0.10   # auction units are unfurnished: fully-furnished rents x 0.9
   min_comps_confident: 4   # below this, valuation is flagged low-confidence
   mad_threshold: 2.5       # robust z-score cut-off
