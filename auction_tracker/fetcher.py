@@ -9,11 +9,17 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import random
 import re
+import shutil
+import socket
+import subprocess
+import sys
 import time
+import urllib.request
 from urllib.parse import urlparse
 
 log = logging.getLogger(__name__)
@@ -34,8 +40,11 @@ class FetchError(RuntimeError):
 def looks_blocked(status: int, html: str) -> bool:
     if status in (401, 403, 429, 503):
         return True
-    head = html[:6000].lower()
-    title = re.search(r"<title[^>]*>([^<]*)", head)
+    low = html[:60000].lower()
+    if "performing security verification" in low or "verify you are human" in low and "cloudflare" in low:
+        return True
+    head = low[:6000]
+    title = re.search(r"<title[^>]*>([^<]*)", low)
     if title and re.search(r"just a moment|attention required|access denied|verify|captcha|blocked", title.group(1)):
         return True                     # challenge pages can be large; trust the title
     return len(html) < 20000 and any(m in head for m in CHALLENGE_MARKERS)
@@ -51,24 +60,38 @@ class Fetcher:
         self.headless = bool(cfg.get("chrome_headless", False))
         if os.environ.get("CI"):
             self.headless = True
+        # Cloud: give up on a blocking site fast. Your PC: allow time for you
+        # to tick the "verify you are human" box.
+        self.max_blocks = 2 if self.headless else 6
         self._session = None
         self._pw = None
         self._ctx = None
+        self._browser = None
+        self._chrome_proc = None
         self._chrome_domains: set[str] = set()
         self._blocked: dict[str, int] = {}      # domain -> hard blocks this run
-        self.max_blocks = 2
         self._last: dict[str, float] = {}
 
     # -- lifecycle ---------------------------------------------------------
     def close(self):
-        if self._ctx is not None:
+        if self._ctx is not None and self._chrome_proc is None:
             try:
                 self._ctx.close()
-            finally:
-                self._ctx = None
+            except Exception:
+                pass
+        self._ctx = None
+        if self._browser is not None:
+            try:
+                self._browser.close()
+            except Exception:
+                pass
+            self._browser = None
         if self._pw is not None:
             self._pw.stop()
             self._pw = None
+        if self._chrome_proc is not None:
+            self._chrome_proc.terminate()
+            self._chrome_proc = None
 
     def __enter__(self):
         return self
@@ -130,6 +153,39 @@ class Fetcher:
                 time.sleep(2 ** (attempt + 1))
         raise FetchError(f"Network error for {url}: {last_exc}")
 
+    def _start_real_chrome(self) -> bool:
+        """Start your normal Google Chrome (no automation flags) and attach to
+        it. Cloudflare's "verify you are human" check passes for a normally
+        started Chrome but loops forever for a Playwright-launched one."""
+        exe = find_chrome()
+        if not exe:
+            return False
+        with socket.socket() as s:
+            s.bind(("127.0.0.1", 0))
+            port = s.getsockname()[1]
+        os.makedirs(self.profile_dir, exist_ok=True)
+        self._chrome_proc = subprocess.Popen(
+            [exe, f"--remote-debugging-port={port}", f"--user-data-dir={self.profile_dir}",
+             "--no-first-run", "--no-default-browser-check", "about:blank"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        endpoint = f"http://127.0.0.1:{port}"
+        for _ in range(60):
+            try:
+                with urllib.request.urlopen(endpoint + "/json/version", timeout=1) as r:
+                    json.load(r)
+                break
+            except Exception:
+                time.sleep(0.5)
+        else:
+            log.warning("Chrome did not open its debugging port; falling back")
+            self._chrome_proc.terminate()
+            self._chrome_proc = None
+            return False
+        self._browser = self._pw.chromium.connect_over_cdp(endpoint)
+        self._ctx = self._browser.contexts[0] if self._browser.contexts else self._browser.new_context()
+        log.info("Using your Google Chrome (%s)", exe)
+        return True
+
     def _get_chrome(self, url: str) -> str:
         domain = urlparse(url).netloc
         if self._ctx is None:
@@ -140,13 +196,17 @@ class Fetcher:
                     "Chrome backend needs Playwright: pip install playwright "
                     "(it drives your installed Google Chrome)") from exc
             self._pw = sync_playwright().start()
-            kwargs = dict(user_data_dir=self.profile_dir, headless=self.headless,
-                          locale="en-MY", user_agent=None)
-            try:
-                self._ctx = self._pw.chromium.launch_persistent_context(channel="chrome", **kwargs)
-            except Exception:
-                log.info("Google Chrome not found; using Playwright's bundled Chromium")
-                self._ctx = self._pw.chromium.launch_persistent_context(**kwargs)
+            if not self.headless and self._start_real_chrome():
+                pass
+            else:
+                kwargs = dict(user_data_dir=self.profile_dir, headless=self.headless, locale="en-MY",
+                              args=["--disable-blink-features=AutomationControlled"],
+                              ignore_default_args=["--enable-automation"])
+                try:
+                    self._ctx = self._pw.chromium.launch_persistent_context(channel="chrome", **kwargs)
+                except Exception:
+                    log.info("Google Chrome not found; using Playwright's bundled Chromium")
+                    self._ctx = self._pw.chromium.launch_persistent_context(**kwargs)
         page = self._ctx.new_page()
         try:
             page.goto(url, wait_until="domcontentloaded", timeout=self.timeout * 1000)
@@ -170,3 +230,25 @@ class Fetcher:
             return html
         finally:
             page.close()
+
+
+def find_chrome() -> str | None:
+    """Locate an installed Google Chrome (or Chromium) executable."""
+    env = os.environ.get("CHROME_PATH")
+    if env and os.path.exists(env):
+        return env
+    cands = []
+    if sys.platform.startswith("win"):
+        for base in (os.environ.get("PROGRAMFILES"), os.environ.get("PROGRAMFILES(X86)"), os.environ.get("LOCALAPPDATA")):
+            if base:
+                cands.append(os.path.join(base, "Google", "Chrome", "Application", "chrome.exe"))
+    elif sys.platform == "darwin":
+        cands.append("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+    for c in cands:
+        if os.path.exists(c):
+            return c
+    for name in ("google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "chrome"):
+        p = shutil.which(name)
+        if p:
+            return p
+    return None

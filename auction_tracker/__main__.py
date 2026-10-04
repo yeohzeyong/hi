@@ -152,6 +152,7 @@ def main(argv=None):
     cfg = load_config(args.config)
     conn = db.connect()
     try:
+        pipeline.reparse_if_parser_changed(conn, cfg)   # fix records saved by an older parser
         args.fn(cfg, args, conn)
     finally:
         conn.close()
