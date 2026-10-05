@@ -12,6 +12,8 @@
  "bam villa, taman maluri, kuala lumpur": null,
  "berjaya times square (east tower), bukit bintang, kuala lumpur": null,
  "berjaya times square (east tower), kuala lumpur": null,
+ "berkeley park sri putramas condominium, dutamas, kuala lumpur": null,
+ "berkeley park sri putramas condominium, kuala lumpur": null,
  "bplelonglist.com, bukit bintang, kuala lumpur": null,
  "bplelonglist.com, cheras, kuala lumpur": null,
  "bplelonglist.com, kuala lumpur": null,
@@ -22,12 +24,30 @@
  "bplelonglist.com, titiwangsa, kuala lumpur": null,
  "casa kiara (blk-b), kuala lumpur": null,
  "casa kiara (blk-b), mont kiara, kuala lumpur": null,
+ "changkat view condominium, dutamas, kuala lumpur": null,
+ "changkat view condominium, kuala lumpur": null,
  "condo bukit cheras, kuala lumpur": null,
  "condo bukit cheras, taman bukit cheras, kuala lumpur": null,
  "desa view towers, kuala lumpur": null,
  "desa view towers, taman melawati, kuala lumpur": null,
+ "dorsett residences bukit bintang, bukit bintang, kuala lumpur": [
+  3.1475156,
+  101.7157377
+ ],
+ "dover park, dutamas, kuala lumpur": null,
+ "dover park, kuala lumpur": null,
+ "duta ria condominium, dutamas, kuala lumpur": null,
+ "duta ria condominium, kuala lumpur": [
+  3.1789184,
+  101.6549444
+ ],
  "glenview villa, kuala lumpur": null,
  "glenview villa, taman pinggiran cheras, kuala lumpur": null,
+ "hartamas regency 2, dutamas, kuala lumpur": null,
+ "hartamas regency 2, kuala lumpur": [
+  3.1723726,
+  101.6631199
+ ],
  "j dupion, cheras, kuala lumpur": [
   3.1135971,
   101.7268814
@@ -45,10 +65,15 @@
  "kiaramas danai, mont kiara, kuala lumpur": null,
  "kondominium tinggian titiwangsa (the reach), kuala lumpur": null,
  "kondominium tinggian titiwangsa (the reach), titiwangsa, kuala lumpur": null,
+ "la grande kiara, mont kiara, kuala lumpur": [
+  3.1748107,
+  101.6580513
+ ],
  "mont' kiara banyan, mont kiara, kuala lumpur": [
   3.1723564,
   101.6522817
  ],
+ "no. a-16-08, residensi bennington, no. 1, jalan arena 1, 53200 setapak, kuala lumpur": null,
  "pangsapuri aston kiara 3, kuala lumpur": null,
  "pangsapuri aston kiara 3, mont kiara, kuala lumpur": null,
  "pangsapuri damai vista, cheras, kuala lumpur": null,
@@ -108,8 +133,17 @@
   3.1731727,
   101.6508853
  ],
+ "royal domain sri putramas ii condominium, dutamas, kuala lumpur": null,
+ "royal domain sri putramas ii condominium, kuala lumpur": null,
+ "royal domain sri putramas ii, dutamas, kuala lumpur": null,
+ "royal domain sri putramas ii, kuala lumpur": null,
  "royal tower, kuala lumpur": null,
  "royal tower, mont kiara, kuala lumpur": null,
+ "solaris dutamas, dutamas, kuala lumpur": null,
+ "solaris dutamas, kuala lumpur": [
+  3.171192,
+  101.6659125
+ ],
  "sri kinabalu condominium, kuala lumpur": null,
  "sri kinabalu condominium, wangsa maju, kuala lumpur": null,
  "sri lojing condominiums, wangsa maju, kuala lumpur": [
@@ -119,6 +153,15 @@
  "sri penara, bandar sri permaisuri, kuala lumpur": [
   3.0979678,
   101.7090532
+ ],
+ "sri putramas condominium, dutamas, kuala lumpur": null,
+ "sri putramas condominium, kuala lumpur": null,
+ "sri putramas ii (royal domain), dutamas, kuala lumpur": null,
+ "sri putramas ii (royal domain), kuala lumpur": null,
+ "sri putramas ii, dutamas, kuala lumpur": null,
+ "sri putramas ii, kuala lumpur": [
+  3.180374,
+  101.6725772
  ],
  "titiwangsa sentral condominium, kuala lumpur": null,
  "titiwangsa sentral condominium, titiwangsa, kuala lumpur": null,
@@ -136,16 +179,23 @@
  "unit no., apartment servis j dupion, jalan sembilang, 56000, kuala lumpur": null,
  "unit no., apartment servis j dupion, no. 1, jalan sembilang, 56000, kuala lumpur": null,
  "unit no., berjaya times square (east tower), no. 1, jalan imbi, 55100, kuala lumpur": null,
+ "unit no., berkeley park sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., block a (green park), sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., block a, changkat view condominium, 18, jalan dutamas raya, off jalan segambut, 51200, kuala lumpur": null,
  "unit no., block a, kemensah villa condominium, jalan melati indah 1, saujana melawati, 53100, kuala lumpur": null,
  "unit no., block a, pangsapuri damai vista, jalan damai perdana 1/1, bandar damai perdana, 56000, kuala lumpur": null,
  "unit no., block a, pv8 platinum hill condominium, no. 5, jalan melati utama, taman melati utama, 53100, kuala lumpur": null,
  "unit no., block a2, condo bukit cheras, jalan bukit cheras 18, taman bukit cheras, 56000, kuala lumpur": null,
+ "unit no., block b1, royal domain sri putramas ii condominium, no.1, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., block b2, royal domain sri putramas ii, no. 1, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., block c, residensi m vertika, no. 555, jalan cheras, 56000, kuala lumpur": null,
  "unit no., blok 2, sri kinabalu condominium, jalan 4/27e, wangsa maju seksyen 10, 53300, kuala lumpur": null,
+ "unit no., blok b (oakwood park), sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., blok b, glenview villa, taman pinggiran cheras, jalan 49, off jalan kuari, 56100, kuala lumpur": null,
  "unit no., blok b, jalan 1a, taman segar, 56100, kuala lumpur": null,
  "unit no., casa kiara (blk-b), jalan kiara 3, 50480 mont kiara, kuala lumpur": null,
  "unit no., desa view towers, blok 22, jalan 1/4a, off jalan genting klang, 53100, kuala lumpur": null,
+ "unit no., dover park, sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., kondominium tinggian titiwangsa (the reach), jalan tiara titiwangsa, no. 1, 53200, kuala lumpur": null,
  "unit no., pangsapuri aston kiara 3, no. 27, jalan kiara 3, mont kiara, 51200, kuala lumpur": null,
  "unit no., pv20 platinum lake condominium, jalan usahawan 2, off jalan genting klang, setapak, 53200, kuala lumpur": null,
@@ -158,8 +208,11 @@
  "unit no., residensi laman satu melawati, taman melawati, 53100, kuala lumpur": null,
  "unit no., residensi m vertika, batu 2 1/2, jalan cheras, 56000, kuala lumpur": null,
  "unit no., royal tower, mont' kiara palma, jalan kiara, mont' kiara, 50480, kuala lumpur": null,
+ "unit no., sri putramas ii (royal domain), no. 1, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., titiwangsa sentral condominium, no. 1, jalan chemur, 50400, kuala lumpur": null,
  "unit no., wangsa metroview condominium, block a, jalan metro wangsa, wangsa maju, seksyen 2, 53300, kuala lumpur": null,
+ "unit no., westminster park, sri putramas condo, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., westminster park, sri putramas condominium, jalan putramas 1, off jalan kuching, 52100, kuala lumpur": null,
  "vista amani condominium, bandar sri permaisuri, kuala lumpur": [
   3.0963306,
   101.7146055
@@ -170,5 +223,7 @@
  ],
  "vista harmoni, taman bukit cheras, kuala lumpur": null,
  "wangsa metroview condominium, kuala lumpur": null,
- "wangsa metroview condominium, wangsa maju, kuala lumpur": null
+ "wangsa metroview condominium, wangsa maju, kuala lumpur": null,
+ "westminster park, dutamas, kuala lumpur": null,
+ "westminster park, kuala lumpur": null
 }
