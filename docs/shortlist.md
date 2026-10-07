@@ -1,6 +1,6 @@
-# Auction shortlist - 06 Oct 2026
+# Auction shortlist - 07 Oct 2026
 
-1 listing(s) graded B or better out of 73 evaluated.
+1 listing(s) graded B or better out of 78 evaluated.
 
 ## [B] Parc 3 - Cheras
 - Reserve **RM729,000** (1,453 sqft, RM501.7 psf), auction 2026-10-07
