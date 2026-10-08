@@ -39,6 +39,11 @@
  "condo bukit cheras, taman bukit cheras, kuala lumpur": null,
  "desa view towers, kuala lumpur": null,
  "desa view towers, taman melawati, kuala lumpur": null,
+ "diamond regency, kuala lumpur": [
+  3.196193,
+  101.7055731
+ ],
+ "diamond regency, setapak, kuala lumpur": null,
  "dorsett residences bukit bintang, bukit bintang, kuala lumpur": [
   3.1475156,
   101.7157377
@@ -177,6 +182,7 @@
   3.171192,
   101.6659125
  ],
+ "solaris dutamas, mont kiara, kuala lumpur": null,
  "sri kinabalu condominium, kuala lumpur": null,
  "sri kinabalu condominium, wangsa maju, kuala lumpur": null,
  "sri lojing condominiums, wangsa maju, kuala lumpur": [
@@ -203,6 +209,10 @@
   101.6965783
  ],
  "titiwangsa sentral, titiwangsa, kuala lumpur": null,
+ "tower a, cheras, kuala lumpur": [
+  3.0894693,
+  101.7478092
+ ],
  "tower e, kuala lumpur": [
   3.090151,
   101.6737715
