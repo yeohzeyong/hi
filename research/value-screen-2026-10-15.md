@@ -2,7 +2,7 @@
 
 **Same method as the October 3 screen:** durable moat + a temporary scare + well below the stock's usual valuation + guru or analyst support. Scored with the same 0–100 model (moat 30%, 10-year safety 25%, undervaluation 25%, growth 10%, management 10%).
 
-> Prices are Oct 14 closes where available. Rows marked † use the Oct 2 Dataroma quotes because a fresh quote wasn't available. Fair values and EPS conversions (e.g., RELX pence→USD) are **my estimates**. Educational, not personalized advice.
+> **Prices refreshed Oct 15, 2026:** latest available quotes. Oct 14 closes unless marked ‡ (Oct 15 intraday). Today: the Dow is higher, the Nasdaq is down ~1% (chip selloff), and Treasury yields are down ~13bp this morning. Fair values and EPS conversions (e.g., RELX pence→USD) are **my estimates**. Educational, not personalized advice.
 
 ## 1. What changed since Oct 3
 - **Rates are the story.** September CPI ran ~3.7% y/y. The **10-year Treasury is ~5.2%** and a **December Fed hike** is priced in. The S&P 500 (7,719) trades at ~21–22x forward earnings, an earnings yield of ~4.6%, **below** the 10-year yield. Stocks overall are expensive versus bonds.
@@ -15,26 +15,32 @@
 ## 2. Ranked buy list (Oct 15)
 | # | Stock | Price | Moat | Valuation now | Usual | My fair value | Margin of safety | Score | Verdict |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | **Aon (AON)** | ~$275 | Wide: global broker oligopoly | ~14–15x adj. EPS | 20–28x | ~$370–395 | **~25–30%** | 82 | **BUY.** Still #1 value. Earnings Oct 28 |
-| 2 | **Marsh (MRSH)** 🆕 | ~$177 | Wide: #1 global broker, less leverage than AON | ~17x 2026 EPS (~$10.4) | ~22–25x | ~$220–235 | **~20–25%** | **84** | **BUY.** The "safer AON." Q3 beat today |
-| 3 | **RELX (RELX ADR)** 🆕 | ~$37 | Wide: LexisNexis legal, Elsevier science, Risk analytics data | ~18–20x forward | ~25–30x | ~$50–52 (Morningstar $57) | **~28–35%** | **84** | **BUY.** Same thesis as SPGI's AI scare, but cheaper. Down ~50% from its 2025 peak |
+| 1 | **Aon (AON)** | $276.10 | Wide: global broker oligopoly | ~14–15x adj. EPS | 20–28x | ~$370–395 | **~25–30%** | 82 | **BUY.** Still #1 value. Earnings Oct 28 |
+| 2 | **Marsh (MRSH)** 🆕 | $178.40 (pre-Q3 close) | Wide: #1 global broker, less leverage than AON | ~17x 2026 EPS (~$10.4) | ~22–25x | ~$220–235 | **~20–25%** | **84** | **BUY.** The "safer AON." Q3 beat today |
+| 3 | **RELX (RELX ADR)** 🆕 | $36.85 | Wide: LexisNexis legal, Elsevier science, Risk analytics data | ~18–20x forward | ~25–30x | ~$50–52 (Morningstar $57) | **~26–30%** | **84** | **BUY.** Same thesis as SPGI's AI scare, but cheaper. Down ~50% from its 2025 peak |
 | 4 | **American Express (AXP)** | $306.95 | Wide: closed loop + brand | ~17x 2026 EPS ($17.30–17.90) | 15–20x | ~$370 | ~17% | 81 | **BUY** after Oct 23 earnings if write-offs stay ~2% |
-| 5 | **Elevance (ELV)** † | ~$386 | Narrow: Blue Cross scale | ~14x 2026 (≥ $27) | 15–18x | ~$450 | ~15% | 73 | **Accumulate.** Earnings Oct 21. UNH beat and raised on Oct 13, a good read-through |
-| 6 | **PepsiCo (PEP)** | ~$126 | Wide: Frito-Lay snacks + distribution | ~15x; **4.7% yield** | 20–22x | ~$150–160 | ~17–20% | 78 | **BUY for income/defense.** Q3 beat, but full-year EPS guidance cut to +2.5–3.5% |
-| 7 | **Home Depot (HD)** | ~$290 | Wide: scale + pro customer | ~20x; 3.2% yield | 22–25x | ~$340 | ~15% | 79 | **Accumulate slowly.** Housing has been frozen for 4 years; 5.2% yields delay recovery |
+| 5 | **Elevance (ELV)** ‡ | **~$428** (+11% since Oct 2) | Narrow: Blue Cross scale | ~16x 2026 (≥ $27), ~14x 2027 | 15–18x | ~$450 | **~5%** | 70 | **HOLD, no longer a buy.** It rallied with UNH's beat and raised guidance. Earnings Oct 21 |
+| 6 | **PepsiCo (PEP)** | $129.27 | Wide: Frito-Lay snacks + distribution | ~15–16x; **4.6% yield** | 20–22x | ~$150–160 | ~14–19% | 78 | **BUY for income/defense.** Q3 beat, but full-year EPS guidance cut to +2.5–3.5% |
+| 7 | **Home Depot (HD)** | $295.51 | Wide: scale + pro customer | ~20x; 3.2% yield | 22–25x | ~$340 | ~13% | 79 | **Accumulate slowly.** Housing has been frozen for 4 years; 5.2% yields delay recovery |
 | 8 | **S&P Global (SPGI)** | $408.57 | Wide | ~19.5x 2027 | 25–30x | ~$490 | ~17% | 89 | **HOLD/ADD ≤ $400.** Wait for Oct 27 earnings (watch issuance at 5.2% yields) |
-| 9 | **Uber (UBER)** | $69.29 | Narrow, robotaxi risk | ~15x 2027 adj.; ~10% 2027 FCF yield | — | ~$83 weighted | ~17% | 72 | **Puts only:** a Dec 18 put after Nov 4 earnings |
+| 9 | **Uber (UBER)** | ~$69.30 | Narrow, robotaxi risk | ~15x 2027 adj.; ~10% 2027 FCF yield | — | ~$83 weighted | ~17% | 72 | **Puts only:** a Dec 18 put after Nov 4 earnings |
 
 ### Speculative deep value (small size, or watch only)
 | Stock | Price | Why cheap | Why careful | Score |
 |---|---|---|---|---|
-| **Zoetis (ZTS)** | ~$74 | ~12x EPS (guide $6.15–6.25) vs ~30x historically; 52-week low $69.48 on Oct 1; 2.9% yield | **Moat under attack:** Elanco and Merck are competing with Apoquel/Cytopoint and Simparica; 2026 organic growth −1% to −3%; Fundsmith exited | 75 |
-| **Nike (NKE)** | ~$34 | 12-year low; Morningstar says 62% below fair value | China −26%; guidance slashed; turnaround pushed to 2027; investor day in November | 71 |
-| **Brookfield (BN)** † | ~$37 | ~45% below its $67 plan value | Leverage plus private-credit fear; higher rates hurt | 75 |
+| **Zoetis (ZTS)** | $74.32 | ~12x EPS (guide $6.15–6.25) vs ~30x historically; 52-week low $69.48 on Oct 1; 2.9% yield | **Moat under attack:** Elanco and Merck are competing with Apoquel/Cytopoint and Simparica; 2026 organic growth −1% to −3%; Fundsmith exited | 75 |
+| **Nike (NKE)** | $35.30 | 12-year low; Morningstar says 62% below fair value | China −26%; guidance slashed; turnaround pushed to 2027; investor day in November | 71 |
+| **Brookfield (BN)** | ~$36.50–37 | ~45% below its $67 plan value | Leverage plus private-credit fear; higher rates hurt | 75 |
 | **Broadcom (AVGO)** | ~$346 | Morningstar says 45% below its $650 fair value | AI-cycle stock; forward P/E estimates range from 19x to 53x by source. Outside our value circle | — |
 
 ### Paused or fully valued: don't buy now
 Visa ($391, pause > $390), Mastercard ($603, 52-week high), Moody's ($462), Berkshire ($526, fair), Microsoft ($534, near its record), Alphabet ($348, buy below ~$300), Coca-Cola (~25x). FICO and Intuit stay value traps: their moats are being questioned.
+
+### Price refresh, Oct 15: what changed the ranking
+- **Elevance moved from Accumulate to HOLD.** At ~$428 (52-week high $436) the margin of safety is only ~5%.
+- **UnitedHealth (~$403 ‡)** rallied ~8% on its Q3 beat. At ~20x 2026 EPS (≥ $20.50) it isn't a value buy either.
+- Everything else is within ±2% of the screen. **The top 4 (AON, Marsh, RELX, AXP) are unchanged.**
+- Latest quotes for the rest (Oct 14 closes): V $391.43 · MA $603.24 · MCO $462.77 · BRK.B $526.35 · MSFT $533.69 · GOOGL $347.64.
 
 ## 3. New ideas in detail
 ### Marsh (MRSH): the lower-risk way to own the broker thesis
