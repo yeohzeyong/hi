@@ -151,6 +151,13 @@
   101.7156384
  ],
  "platinum lake condominium, taman danau kota, kuala lumpur": null,
+ "plaza klts, kuala lumpur": null,
+ "plaza klts, setapak, kuala lumpur": null,
+ "prima setapak condominium, kuala lumpur": [
+  3.1983225,
+  101.7056723
+ ],
+ "prima setapak condominium, setapak, kuala lumpur": null,
  "pv20 platinum lake condominium, kuala lumpur": null,
  "pv20 platinum lake condominium, setapak, kuala lumpur": null,
  "pv6 platinum hill condominium, kuala lumpur": null,
@@ -172,6 +179,8 @@
  "residensi fera, wangsa maju, kuala lumpur": null,
  "residensi henna, kuala lumpur": null,
  "residensi henna, wangsa maju, kuala lumpur": null,
+ "residensi holmes 2, bandar tun razak, kuala lumpur": null,
+ "residensi holmes 2, kuala lumpur": null,
  "residensi infiniti 3, wangsa maju, kuala lumpur": [
   3.1944921,
   101.7380607
@@ -186,6 +195,11 @@
   3.1900285,
   101.7312388
  ],
+ "residensi pv9, kuala lumpur": [
+  3.2180919,
+  101.7251878
+ ],
+ "residensi pv9, taman melati setapak, kuala lumpur": null,
  "richmond kiara 3, mont kiara, kuala lumpur": [
   3.1731727,
   101.6508853
@@ -205,6 +219,11 @@
   101.7387405
  ],
  "saville, taman melawati, kuala lumpur": null,
+ "solaris dutamas (block-b1), dutamas, kuala lumpur": null,
+ "solaris dutamas (block-b1), kuala lumpur": [
+  3.171192,
+  101.6659125
+ ],
  "solaris dutamas, dutamas, kuala lumpur": null,
  "solaris dutamas, kuala lumpur": [
   3.171192,
@@ -239,6 +258,10 @@
   101.6965783
  ],
  "titiwangsa sentral, titiwangsa, kuala lumpur": null,
+ "tower a, bukit bintang, kuala lumpur": [
+  3.1547237,
+  101.7212769
+ ],
  "tower a, cheras, kuala lumpur": [
   3.0894693,
   101.7478092
@@ -253,6 +276,8 @@
   116.1300474
  ],
  "unit no. a-27-3a, residensi ascenda no. 3, jalan arena 1, setapak, 53200, kuala lumpur": null,
+ "unit no. c-13-08, plaza klts, no. 99, jalan gombak, setapak, 53000, kuala lumpur": null,
+ "unit no., 13th floor, block b, residensi holmes 2, no. 2, jalan budiman, bandar tun razak, 56000, kuala lumpur": null,
  "unit no., 22nd floor, block b2, sri putramas ii condominium, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., 22nd floor, residensi pudu alam rekreasi, no. 5, jalan pudu perdana, 56100, kuala lumpur": null,
  "unit no., 28th floor, block b, kiara designer suites, no. 18, jalan kiara 3, mont kiara, 50480, kuala lumpur": null,
