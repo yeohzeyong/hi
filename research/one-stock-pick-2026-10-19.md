@@ -24,6 +24,16 @@
 | Bear case | **~$370 (−14%)** | 18x × $20.5 if AI or regulation fears deepen |
 | Crisis case (temporary) | **−40–50%** | 2008-style issuance collapse. Buying monthly turns this into an opportunity |
 
+## Is it undervalued right now?
+| Yardstick | SPGI today | Undervalued? |
+|---|---|---|
+| P/E vs its own history | ~21x 2027 vs a usual 25–30x | ✅ ~20–30% below its normal multiple |
+| vs my fair value ($490) | $429.64 | ✅ ~12% discount (modest) |
+| vs analyst average ($514–520) | $429.64 | ✅ ~17–20% upside |
+| Good entry? | Today is **acceptable**. **$400–415 is a good entry** (15–18% discount) and **≤ $370 is excellent** | |
+
+**If the priority is the biggest discount today**, RELX ($39.06, 22–31% below fair value, Morningstar $57) is cheaper. But it carries more AI and currency risk as a sole holding.
+
 ## How to buy it ($1,000 this month)
 - **$500 now** (limit ≤ $430, about 1 share).
 - **$500 after the Q3 report (expected Oct 27; one source says Oct 22, so check SPGI's investor relations page)**, or earlier if it dips to ≤ $415.
