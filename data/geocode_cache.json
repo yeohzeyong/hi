@@ -48,6 +48,11 @@
  "cheras ria, taman cheras utama, kuala lumpur": null,
  "condo bukit cheras, kuala lumpur": null,
  "condo bukit cheras, taman bukit cheras, kuala lumpur": null,
+ "damai vista condominium, cheras, kuala lumpur": null,
+ "damai vista condominium, kuala lumpur": [
+  3.1628946,
+  101.719268
+ ],
  "desa view towers, kuala lumpur": null,
  "desa view towers, taman melawati, kuala lumpur": null,
  "diamond regency, kuala lumpur": [
@@ -309,6 +314,7 @@
  "unit no., block b1, royal domain sri putramas ii condominium, no.1, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., block b2, royal domain sri putramas ii, no. 1, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., block c, residensi m vertika, no. 555, jalan cheras, 56000, kuala lumpur": null,
+ "unit no., block d, sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., blok 2, sri kinabalu condominium, jalan 4/27e, wangsa maju seksyen 10, 53300, kuala lumpur": null,
  "unit no., blok a, pangsapuri damai vista, jalan damai perdana 1/1, 56000 cheras, kuala lumpur": null,
  "unit no., blok a, pangsapuri damai vista, jalan damai perdana 1/1, bandar damai perdana, 56000, kuala lumpur": null,
@@ -344,6 +350,10 @@
  "unit no., wangsa metroview condominium, block a, jalan metro wangsa, wangsa maju, seksyen 2, 53300, kuala lumpur": null,
  "unit no., westminster park, sri putramas condo, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., westminster park, sri putramas condominium, jalan putramas 1, off jalan kuching, 52100, kuala lumpur": null,
+ "verticas residensi, bukit bintang, kuala lumpur": [
+  3.1476384,
+  101.7045452
+ ],
  "verticas residensi, bukit ceylon, kuala lumpur": null,
  "verticas residensi, kuala lumpur": [
   3.1476384,
