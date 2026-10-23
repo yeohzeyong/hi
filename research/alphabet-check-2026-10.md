@@ -51,3 +51,12 @@ The 52-week low was $235, so it reached these levels within the last year.
 - [FCF collapse (Seeking Alpha)](https://seekingalpha.com/article/4928875-alphabet-free-cash-flow-collapse-changes-everything), [2027 capex (KuCoin/FactSet)](https://www.kucoin.com/news/flash/alphabet-s-2027-capital-expenditure-expected-to-reach-250-billion-amid-ai-expansion), [fair value ~$409 (TIKR)](https://www.tikr.com/blog/alphabet-stock-fell-9-this-week-heres-why-analysts-still-see-409-fair-value), [AI leaders exit (TIKR)](https://www.tikr.com/blog/alphabet-is-down-15-from-its-high-as-ai-leaders-exit-heres-where-the-stock-could-go)
 - [Search share (TechnologyChecker)](https://technologychecker.io/blog/search-engine-market-share), [Antitrust remedies (Tech Insider)](https://tech-insider.org/google-antitrust-appeal-doj-search-monopoly-2026/)
 - Superinvestor buys and sells: Dataroma (user-supplied, Q2 2026)
+
+## Update — Oct 23, 2026 (price $324.22, Oct 22 close)
+- **Price:** down 3.2% on Oct 22 in a tech sell-off driven by worries about AI capex and the cost of capital. It's ~21% below its $408 high.
+- **Valuation:** ~21.5x 2027 consensus EPS ($15.07, raised in October). Reported EPS is distorted by large unrealized investment gains (Q2 reported $9.11).
+- **Balance sheet:** long-term debt has doubled to ~$98B. Free cash flow is still negative. 2027 capex of $250–300B+ is possible.
+- **Positives since Oct 4:** the ad-tech antitrust remedies are behavioral only (**no forced breakup**). Cloud backlog is $514B.
+- **Price zones (unchanged method):** fair ~$360–400 · **buy ≤ $300** (≈20x 2027) · **strong buy ≤ $270** (≈18x).
+- **Q3 earnings Oct 28 (after the close):** consensus ~$127B revenue, ~$2.9–3.0 EPS excluding gains. **2027 capex guidance** is the key swing factor.
+- **Verdict:** a great business at a fair-to-slightly-cheap price. Starter position at most; the main buy is at ≤ $300.
