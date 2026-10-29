@@ -119,3 +119,19 @@ Sources: [CNBC](https://www.cnbc.com/2026/10/28/alphabet-googl-earnings-q3-2026.
 
 **Action that fits history:** buy in thirds, ~$290 / ≤ $275 / ≤ $260. Don't try to catch the exact bottom.
 Sources: [Trefis earnings reactions](https://www.trefis.com/stock/googl/articles/620714/alphabet-reports-soon-how-has-the-stock-reacted-to-past-earnings/2026-10-27), [Motley Fool Oct 26, 2026](https://www.fool.com/investing/2026/10/26/will-alphabet-stock-surge-after-oct-28/), [Motley Fool Oct 2023](https://www.fool.com/investing/2023/10/26/why-alphabet-stock-lost-10-this-week), [OptionSlam](https://www.optionslam.com/earnings/stocks/GOOGL), [CNBC Investing Club](https://www.cnbc.com/investingclub/2026/10/28/our-next-steps-for-alphabet-stock-after-earnings-disappoint-at-nearly-every-turn.html)
+
+## Next buy levels for GOOG (Class C), after buying 4 more at $285 (Oct 29)
+> GOOG trades ~$3–4 below GOOGL. Technical levels are approximate (no live chart access). Value levels use 2027 EPS of ~$14.0–14.3 after the expected estimate cuts.
+
+**Analyst moves after Q3:** DA Davidson $300 (Hold) · Bernstein $325 · Raymond James $350 · Morgan Stanley $375 · BofA $380 · KeyBanc $385 · Susquehanna $400 · Citizens downgraded to Market Perform.
+
+| Level (GOOG) | Technical | Value (2027 P/E) | Action |
+|---|---|---|---|
+| $315–322 | Earnings-gap resistance; below the 50- and 200-day averages (~$339–340) | ~22–23x | Don't add. Hold |
+| ~$285 (your buy) | First post-gap area | ~20x | ✅ Done |
+| **$265–270** | **52-week-low zone** (GOOGL $267.67) | **~19x** | **Next buy** |
+| **$250–255** | Round number / ~18x support | **~18x** | **Strong buy** |
+| $235–240 | Old Oct 2025 low area; only in a market-wide selloff | ~17x | Max buy |
+
+**Rules:** don't chase above $300. Keep GOOG ≤ 20–25% of the portfolio. Sell only on a thesis break, not on price drops.
+Sources: [Investing.com Bernstein](https://www.investing.com/news/analyst-ratings/bernstein-cuts-alphabet-stock-price-target-to-325-on-search-miss-93CH-4981903), [BofA](https://www.investing.com/news/analyst-ratings/bofa-cuts-alphabet-stock-price-target-on-search-risks-to-380-93CH-4982343), [DA Davidson](https://uk.investing.com/news/stock-market-news/da-davidson-cuts-alphabet-stock-price-target-to-300-on-capex-concerns-93CH-4940352), [TipRanks](https://www.tipranks.com/news/is-this-the-quarter-we-feared-da-davidson-reacts-as-alphabet-stock-falls-after-q3-miss), [AltIndex GOOG technicals](https://altindex.com/ticker/goog/technical-analysis), [TradersUnion](https://tradersunion.com/news/stocks/show/4001311-alphabet-rises-1-1percent-to-usd324-10)
