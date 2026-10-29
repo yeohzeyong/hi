@@ -95,3 +95,27 @@ The 52-week low was $235, so it reached these levels within the last year.
 - **Thesis-break watch:** search revenue growth < 5%, Cloud margins falling back, or 2027 capex > $300B without matching Cloud backlog growth.
 
 Sources: [CNBC](https://www.cnbc.com/2026/10/28/alphabet-googl-earnings-q3-2026.html), [Alphabet Q3 release](https://s206.q4cdn.com/479360582/files/doc_financials/2026/q3/2026q3-alphabet-earnings-release.pdf), [SEC 8-K](https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000080/googexhibit991q32026.htm), [Bloomberg](https://www.bloomberg.com/news/articles/2026-10-28/alphabet-reports-disappointing-revenue-income-shares-drop), [Fortune](https://fortune.com/2026/10/28/alphabet-google-stock-drops-cloud-revenue-doubles-free-cash-flow-negative/), [Tom's Hardware](https://www.tomshardware.com/tech-industry/big-tech/alphabet-goes-cash-flow-negative-for-the-first-time-as-ai-capex-doubles-to-44-9-billion-in-a-single-quarter), [Benzinga transcript](https://www.benzinga.com/news/26/10/62679903/alphabet-q3-2026-earnings-call-transcript), [Investing.com](https://www.investing.com/news/stock-market-news/alphabet-shares-tumble-65-as-earnings-miss-overshadows-cloud-boom-4980569), [GuruFocus](https://www.gurufocus.com/news/9148625/alphabet-goog-shares-drop-87-after-q3-earnings-miss-expectations), [Google Finance](https://www.google.com/finance/quote/GOOGL:NASDAQ), [StockAnalysis targets](https://stockanalysis.com/stocks/googl/forecast/)
+
+## History: what GOOGL did after past sharp post-earnings drops
+> Approximate figures from public price history and press coverage, rounded. Verify exact closes before relying on them. Past patterns don't guarantee future moves.
+
+| Event | Day-1 drop | Next few days | Low point after | Back to the pre-drop price |
+|---|---|---|---|---|
+| Q3 2022 (Oct 25, 2022) | **−9.1%** | Kept slipping (~−2–5%) | ~−12% more by early Nov (a market selloff on top) | ~3–4 months |
+| Q3 2023 (Oct 24, 2023), Cloud miss | **−9.5%** | **−2.6% to −3.5% the next day**, then stabilized | ~−3% more within days | ~5–7 weeks |
+| Q4 2023 (Jan 30, 2024), ad miss | **−7.5%** | Flat to slightly down | Choppy for ~6 weeks | ~1–2 months |
+| Q2 2024 (Jul 23, 2024) | **−5%** | Drifted lower | ~−9% more by Aug 5 (yen-carry market selloff) | ~2–3 months |
+| Q4 2024 (Feb 4, 2025), capex shock ($75B) | **−7.3%** | Drifted lower | Much lower by April 2025 (tariff crash, ~−25% total) | ~5 months |
+| Q2 2026 (Jul 22, 2026) | **−7.1%** | Drifted lower | Longest monthly losing streak since 2015 (to Aug); rallied in Sep on Gemini and the antitrust win | ~6 weeks to a partial recovery |
+| **Q3 2026 (Oct 28, 2026)** | **~−9% to −11% after hours** (~$288–295) | ? | ? | ? |
+
+**Patterns:**
+1. **There usually isn't an immediate V-shaped bounce.** After big misses the stock tends to drift lower for days to weeks, typically another **−2% to −10%**, as analysts cut targets and funds rebalance. The size depends on the market backdrop.
+2. **The worst follow-through came when a market-wide selloff hit at the same time** (Nov 2022, Aug 2024, Apr 2025).
+3. **Every one of these drops was recovered within ~1–5 months.** The business kept growing.
+4. Over the last 16 quarters the stock closed down after earnings 9 times. The average move was **±5.2%**. This is a ~10% move, among its biggest.
+
+**Next few days (base rates, not a prediction):** the most common path is a weak or volatile day 2 (−3% to +3%), analyst target cuts, then a base forming over 1–3 weeks. A further dip toward **$270–280** is plausible. The 52-week low is $267.67. The option market implies ~±8% for the week.
+
+**Action that fits history:** buy in thirds, ~$290 / ≤ $275 / ≤ $260. Don't try to catch the exact bottom.
+Sources: [Trefis earnings reactions](https://www.trefis.com/stock/googl/articles/620714/alphabet-reports-soon-how-has-the-stock-reacted-to-past-earnings/2026-10-27), [Motley Fool Oct 26, 2026](https://www.fool.com/investing/2026/10/26/will-alphabet-stock-surge-after-oct-28/), [Motley Fool Oct 2023](https://www.fool.com/investing/2023/10/26/why-alphabet-stock-lost-10-this-week), [OptionSlam](https://www.optionslam.com/earnings/stocks/GOOGL), [CNBC Investing Club](https://www.cnbc.com/investingclub/2026/10/28/our-next-steps-for-alphabet-stock-after-earnings-disappoint-at-nearly-every-turn.html)
