@@ -80,6 +80,8 @@
   3.1723726,
   101.6631199
  ],
+ "idaman robertson, bukit bintang, kuala lumpur": null,
+ "idaman robertson, kuala lumpur": null,
  "j dupion, cheras, kuala lumpur": [
   3.1135971,
   101.7268814
@@ -173,6 +175,10 @@
   3.1375986,
   101.7327589
  ],
+ "pertiwi indah, taman maluri, kuala lumpur": [
+  3.1375986,
+  101.7327589
+ ],
  "platinum lake condominium, kuala lumpur": [
   3.200966,
   101.7156384
@@ -245,6 +251,10 @@
  "residensi pv9, taman melati setapak, kuala lumpur": null,
  "residensi skysanctuary 1, kuala lumpur": null,
  "residensi skysanctuary 1, setapak, kuala lumpur": null,
+ "residensi wangsa 9, wangsa maju, kuala lumpur": [
+  3.1951708,
+  101.7231817
+ ],
  "richmond kiara 3, mont kiara, kuala lumpur": [
   3.1731727,
   101.6508853
@@ -257,6 +267,11 @@
  "royal domain sri putramas ii condominium, kuala lumpur": null,
  "royal domain sri putramas ii, dutamas, kuala lumpur": null,
  "royal domain sri putramas ii, kuala lumpur": null,
+ "royal domain, dutamas, kuala lumpur": null,
+ "royal domain, kuala lumpur": [
+  3.1807763,
+  101.6741509
+ ],
  "royal tower, kuala lumpur": null,
  "royal tower, mont kiara, kuala lumpur": null,
  "saville, kuala lumpur": [
@@ -362,6 +377,7 @@
  "unit no., casa kiara (blk-b), jalan kiara 3, 50480 mont kiara, kuala lumpur": null,
  "unit no., desa view towers, blok 22, jalan 1/4a, off jalan genting klang, 53100, kuala lumpur": null,
  "unit no., dover park, sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., idaman robertson, jalan robertson, 50150, kuala lumpur": null,
  "unit no., kiara 9 residency, no. 22, jalan kiara 3, mont kiara, 50480, kuala lumpur": null,
  "unit no., klts, no. 99, jalan gombak, setapak, 53000, kuala lumpur": null,
  "unit no., kompleks danau kota, taman zeta@zetapark, 67, jalan taman ibu kota, setapak, 53300, kuala lumpur": null,
@@ -407,6 +423,7 @@
   3.0963306,
   101.7146055
  ],
+ "vista harmoni, cheras, kuala lumpur": null,
  "vista harmoni, kuala lumpur": [
   3.2049441,
   101.6903971
