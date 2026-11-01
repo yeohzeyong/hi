@@ -4,3 +4,6 @@ __pycache__/
 .venv/
 venv/
 data/*.db-journal
+
+# day-trader-skill working data (config, portfolio, trade log)
+trader/
