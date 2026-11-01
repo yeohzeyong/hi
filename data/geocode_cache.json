@@ -154,6 +154,7 @@
   101.6539646
  ],
  "no. a-16-08, residensi bennington, no. 1, jalan arena 1, 53200 setapak, kuala lumpur": null,
+ "no. a-27-05, block a, residensi bennington, no 1, jalan arena 1, setapak, 53200 kuala lumpur": null,
  "no. a-27-3a, residensi ascenda no. 3, jalan arena 1, setapak, 53200, kuala lumpur": null,
  "oakwood park sri putramas condominium, dutamas, kuala lumpur": null,
  "oakwood park sri putramas condominium, kuala lumpur": null,
@@ -228,6 +229,8 @@
  ],
  "residensi laman satu melawati, kuala lumpur": null,
  "residensi laman satu melawati, taman melawati, kuala lumpur": null,
+ "residensi lea, kuala lumpur": null,
+ "residensi lea, taman melawati, kuala lumpur": null,
  "residensi m astra, setapak, kuala lumpur": [
   3.1986279,
   101.7246507
@@ -254,6 +257,10 @@
  "residensi wangsa 9, wangsa maju, kuala lumpur": [
   3.1951708,
   101.7231817
+ ],
+ "riana green east, wangsa maju, kuala lumpur": [
+  3.1949162,
+  101.7408162
  ],
  "richmond kiara 3, mont kiara, kuala lumpur": [
   3.1731727,
@@ -384,6 +391,7 @@
  "unit no., kondominium concerto kiara utara, no. 1, jalan dutamas orkid, segambut, 51200, kuala lumpur": null,
  "unit no., kondominium tinggian titiwangsa (the reach), jalan tiara titiwangsa, no. 1, 53200, kuala lumpur": null,
  "unit no., kondominium veo melawati, no. 1, jalan melati kuarza 2, kl timur, 53100, kuala lumpur": null,
+ "unit no., level 4, residensi lea, jalan bukit melawati 1, 53100, kuala lumpur": null,
  "unit no., oakwood park sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., pangsapuri aston kiara 3, no. 27, jalan kiara 3, mont kiara, 51200, kuala lumpur": null,
  "unit no., pangsapuri damai vista, jalan damai perdana 1/1, bandar damai perdana, 56000, kuala lumpur": null,
