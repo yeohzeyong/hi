@@ -54,12 +54,14 @@ Gives Claude your MT5 prices, account, positions, a free ForexFactory economic c
 **Requirements:** MT5 desktop terminal installed and logged in to a **demo** account
 (Windows native; macOS/Linux via Wine; or a remote Windows bridge). `uv` installed
 (docs.astral.sh/uv). The commands pin Python 3.12 because the `MetaTrader5` package may not support
-newer Python versions yet; uv downloads 3.12 by itself.
+newer Python versions yet; uv downloads 3.12 by itself. They also pin `mcp<2`:
+meta-trader-mcp 1.2.2 accepts any `mcp>=1.0`, but `mcp` 2.x removed `FastMCP`, so
+without the pin the server crashes on start (Claude shows `CONNECTION_CLOSED`).
 
 **Claude Code** (run in this repo, on the computer with MT5):
 
 ```bash
-claude mcp add meta-trader-mcp -e MTM_ENABLE_TRADING=false -e MTM_ENABLE_EXEC=false -- uvx --python 3.12 --from "meta-trader-mcp[windows]==1.2.2" meta-trader-mcp serve --transport stdio
+claude mcp add meta-trader-mcp -e MTM_ENABLE_TRADING=false -e MTM_ENABLE_EXEC=false -- uvx --python 3.12 --with "mcp<2" --from "meta-trader-mcp[windows]==1.2.2" meta-trader-mcp serve --transport stdio
 ```
 
 **Claude Desktop** (Settings > Developer > Edit Config, `claude_desktop_config.json`):
@@ -69,7 +71,7 @@ claude mcp add meta-trader-mcp -e MTM_ENABLE_TRADING=false -e MTM_ENABLE_EXEC=fa
   "mcpServers": {
     "meta-trader-mcp": {
       "command": "uvx",
-      "args": ["--python", "3.12", "--from", "meta-trader-mcp[windows]==1.2.2", "meta-trader-mcp", "serve", "--transport", "stdio"],
+      "args": ["--python", "3.12", "--with", "mcp<2", "--from", "meta-trader-mcp[windows]==1.2.2", "meta-trader-mcp", "serve", "--transport", "stdio"],
       "env": {
         "MTM_MODE": "auto",
         "MTM_ENABLE_TRADING": "false",
