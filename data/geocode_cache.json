@@ -7,6 +7,8 @@
  ],
  "28th floor, kuala lumpur": null,
  "28th floor, mont kiara, kuala lumpur": null,
+ "amansuri city sentral, bandar sri permaisuri, kuala lumpur": null,
+ "amansuri city sentral, kuala lumpur": null,
  "apartment service j.dupion, kuala lumpur": null,
  "apartment service j.dupion, taman tenaga, kuala lumpur": null,
  "apartment servis j dupion, cheras, kuala lumpur": null,
@@ -338,6 +340,11 @@
   3.0894693,
   101.7478092
  ],
+ "tower a, kuala lumpur": [
+  3.1618229,
+  101.714878
+ ],
+ "tower a, setapak, kuala lumpur": null,
  "tower e, kuala lumpur": [
   3.090151,
   101.6737715
@@ -355,6 +362,7 @@
  "unit no., 22nd floor, block b2, sri putramas ii condominium, jalan putramas, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., 22nd floor, residensi pudu alam rekreasi, no. 5, jalan pudu perdana, 56100, kuala lumpur": null,
  "unit no., 28th floor, block b, kiara designer suites, no. 18, jalan kiara 3, mont kiara, 50480, kuala lumpur": null,
+ "unit no., amansuri city sentral, 56000, kuala lumpur": null,
  "unit no., apartment service j.dupion, no. 1, jalan sembilang, taman tenaga, cheras, 56000, kuala lumpur": null,
  "unit no., apartment servis j dupion, jalan sembilang, 56000, kuala lumpur": null,
  "unit no., apartment servis j dupion, no. 1, jalan sembilang, 56000, kuala lumpur": null,
@@ -407,6 +415,7 @@
  "unit no., residensi curvo, no. 1, jalan arena 2, setapak, 53200, kuala lumpur": null,
  "unit no., residensi fera, no. 1, jalan wangsa kuarza, wangsa maju, 53300, kuala lumpur": null,
  "unit no., residensi henna, jalan wangsa kuarza, wangsa maju, 53300, kuala lumpur": null,
+ "unit no., residensi laman satu melawati, jalan melawati 1, taman melawati, 53100, kuala lumpur": null,
  "unit no., residensi laman satu melawati, taman melawati, 53100, kuala lumpur": null,
  "unit no., residensi m centura, jalan sentul perdana, setapak, 51000, kuala lumpur": null,
  "unit no., residensi m vertika, batu 2 1/2, jalan cheras, 56000, kuala lumpur": null,
