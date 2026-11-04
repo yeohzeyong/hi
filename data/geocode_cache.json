@@ -33,6 +33,8 @@
  "berjaya times square (east tower), kuala lumpur": null,
  "berkeley park sri putramas condominium, dutamas, kuala lumpur": null,
  "berkeley park sri putramas condominium, kuala lumpur": null,
+ "berkeley park, dutamas, kuala lumpur": null,
+ "berkeley park, kuala lumpur": null,
  "bplelonglist.com, bukit bintang, kuala lumpur": null,
  "bplelonglist.com, cheras, kuala lumpur": null,
  "bplelonglist.com, kuala lumpur": null,
@@ -368,6 +370,7 @@
  "unit no., apartment servis j dupion, no. 1, jalan sembilang, 56000, kuala lumpur": null,
  "unit no., berjaya times square (east tower), no. 1, jalan imbi, 55100, kuala lumpur": null,
  "unit no., berkeley park sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., berkeley park, sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., block a (green park), sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., block a, changkat view condominium, 18, jalan dutamas raya, off jalan segambut, 51200, kuala lumpur": null,
  "unit no., block a, glenview villa, taman pinggiran cheras, jalan 49, off jalan kuari, cheras 56100, kuala lumpur": null,
@@ -446,6 +449,11 @@
   101.6903971
  ],
  "vista harmoni, taman bukit cheras, kuala lumpur": null,
+ "vista residensi, kuala lumpur": [
+  3.2180394,
+  101.7242121
+ ],
+ "vista residensi, taman kobena, kuala lumpur": null,
  "wangsa metroview condominium, kuala lumpur": null,
  "wangsa metroview condominium, wangsa maju, kuala lumpur": null,
  "westminster park, dutamas, kuala lumpur": null,
