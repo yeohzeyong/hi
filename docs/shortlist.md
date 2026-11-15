@@ -1,4 +1,4 @@
-# Auction shortlist - 14 Nov 2026
+# Auction shortlist - 15 Nov 2026
 
 1 listing(s) graded B or better out of 85 evaluated.
 
