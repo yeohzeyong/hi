@@ -93,6 +93,8 @@
   3.1723726,
   101.6631199
  ],
+ "hillside apartment, kuala lumpur": null,
+ "hillside apartment, taman melawati, kuala lumpur": null,
  "idaman robertson, bukit bintang, kuala lumpur": null,
  "idaman robertson, kuala lumpur": null,
  "j dupion, cheras, kuala lumpur": [
@@ -219,6 +221,10 @@
   101.7056723
  ],
  "prima setapak condominium, setapak, kuala lumpur": null,
+ "prisma cheras, cheras, kuala lumpur": [
+  3.0991941,
+  101.7298695
+ ],
  "pv20 platinum lake condominium, kuala lumpur": null,
  "pv20 platinum lake condominium, setapak, kuala lumpur": null,
  "pv6 platinum hill condominium, kuala lumpur": null,
@@ -229,6 +235,8 @@
   3.1962566,
   101.707297
  ],
+ "residensi altris, kuala lumpur": null,
+ "residensi altris, wangsa maju, kuala lumpur": null,
  "residensi ascenda no. 3, kuala lumpur": null,
  "residensi ascenda no. 3, setapak, kuala lumpur": null,
  "residensi ascenda no. 3, skyarena setapak, kuala lumpur": null,
@@ -405,6 +413,7 @@
  "unit no., berjaya times square (east tower), no. 1, jalan imbi, 55100, kuala lumpur": null,
  "unit no., berkeley park sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., berkeley park, sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
+ "unit no., block 16, hillside apartment, taman melawati, 53100, kuala lumpur": null,
  "unit no., block 257, casa ria apartment, jalan jejaka, taman maluri cheras, 55100, kuala lumpur": null,
  "unit no., block a (green park), sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., block a, changkat view condominium, 18, jalan dutamas raya, off jalan segambut, 51200, kuala lumpur": null,
@@ -448,6 +457,7 @@
  "unit no., pv20 platinum lake condominium, jalan usahawan 2, off jalan genting klang, setapak, 53200, kuala lumpur": null,
  "unit no., pv6 platinum hill condominium, jalan melati utama, taman melati utama, 53100, kuala lumpur": null,
  "unit no., pv6 platinum hill condominium, no. 3, jalan melati 3, taman melati utama, 53100 setapak, kuala lumpur": null,
+ "unit no., residensi altris, jalan wangsa kuarza, wangsa maju, 53300, kuala lumpur": null,
  "unit no., residensi ascenda no. 3, jalan arena 1, setapak, 53200, kuala lumpur": null,
  "unit no., residensi ascenda, jalan arena 1, setapak, 53200, kuala lumpur": null,
  "unit no., residensi bennington, jalan arena 1, setapak, 53200, kuala lumpur": null,
