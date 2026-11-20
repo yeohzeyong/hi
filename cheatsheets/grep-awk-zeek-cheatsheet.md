@@ -394,6 +394,7 @@ zeek-cut fuid mime_type md5 < files.log | awk -F'\t' '$2=="application/x-dosexec
 | `x509.log` | `certificate.subject`, `certificate.issuer`, `certificate.not_valid_after` | |
 | `software.log` | `host`, `software_type`, `name`, `version.major` | |
 | `smb_files.log`, `dce_rpc.log`, `kerberos.log`, `ntlm.log`, `rdp.log` | Windows protocols | |
+| `websocket.log` (Zeek 6.1+) | `host`, `uri`, `user_agent`, `subprotocol`, `client_protocols`, `server_protocols`, `client_extensions`, `server_extensions` | `zeek-cut -d ts id.orig_h id.resp_h id.resp_p host uri subprotocol < websocket.log` (cleartext `ws://` handshakes only; `wss://` is inside TLS) |
 
 Common `notice.log` `note` values (depend on loaded scripts): `Scan::Port_Scan`, `Scan::Address_Scan`, `SSH::Password_Guessing`, `SSH::Login_By_Password_Guesser`, `SSL::Invalid_Server_Cert`, `HTTP::SQL_Injection_Attacker`, `Weird::Activity`.
 
