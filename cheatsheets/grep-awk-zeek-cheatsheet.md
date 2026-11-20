@@ -346,6 +346,18 @@ zeek-cut host uri < http.log | grep -iE "union|select|%27|\.\./|cmd=|/etc/passwd
 zeek-cut id.orig_h host username password < http.log | awk -F'\t' '$3!="-"'                # cleartext credentials
 ```
 
+#### Which websites were visited? (combine three logs)
+```bash
+# HTTP (cleartext): full URLs
+zeek-cut -d ts id.orig_h host uri < http.log | awk -F'\t' '{print $1, $2, "http://"$3$4}'
+# HTTPS: site name from SNI (no path, encrypted)
+zeek-cut -d ts id.orig_h server_name < ssl.log | awk -F'\t' '$3!="-"'
+# Everything looked up, any protocol
+zeek-cut -d ts id.orig_h query < dns.log
+# One-line summary: unique sites per client (HTTP + HTTPS)
+{ zeek-cut id.orig_h host < http.log; zeek-cut id.orig_h server_name < ssl.log; } | awk -F'\t' '$2!="-"' | sort | uniq -c | sort -rn
+```
+
 ### 3.7 ssl.log (TLS)
 | Field | Meaning / common values |
 |---|---|
