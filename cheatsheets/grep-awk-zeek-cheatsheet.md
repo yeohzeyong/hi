@@ -427,3 +427,138 @@ grep -w "CHhAvVGS1DHFjwGM9" *.log
 ```bash
 zeek-cut FIELD < X.log | sort | uniq -c | sort -rn | head
 ```
+
+---
+
+## 5. Wireshark command-line tools (editcap and friends)
+
+> Installed with Wireshark. Use them when a capture is too big to open in the GUI (Wireshark often hangs or crashes on files over ~1 GB).
+
+### 5.1 editcap: split, trim, convert and clean capture files
+```bash
+editcap [options] <infile> <outfile> [packet#-range ...]
+```
+By default the packet ranges you list are **deleted**. Add `-r` to **keep** them instead.
+
+| Option | What it does | Example |
+|---|---|---|
+| `-c <N>` | **Split** into files of N packets each | `editcap -c 100000 big.pcap part.pcap` |
+| `-i <sec>` | **Split** into files covering N seconds each | `editcap -i 60 big.pcap part.pcap` |
+| `-A <time>` | Keep packets **at or after** this time | `-A "2026-11-20 09:00:00"` |
+| `-B <time>` | Keep packets **before** this time | `-B "2026-11-20 09:10:00"` |
+| `-r` | **Keep** the listed packet ranges (instead of deleting them) | `editcap -r big.pcap first.pcap 1-1000` |
+| *(ranges, no -r)* | **Delete** the listed packets | `editcap big.pcap out.pcap 1-500 900` |
+| `-d` | Remove duplicate packets (compares with the previous 5) | `editcap -d in.pcap dedup.pcap` |
+| `-D <N>` | Remove duplicates within a window of N packets | `editcap -D 100 in.pcap dedup.pcap` |
+| `-w <sec>` | Remove duplicates within a time window | `editcap -w 0.5 in.pcap dedup.pcap` |
+| `-s <bytes>` | Truncate each packet to N bytes (headers only, smaller file) | `editcap -s 96 in.pcap hdrs.pcap` |
+| `-C [off:]<n>` | Chop n bytes from the start (positive) or end (negative) of each packet | `editcap -C 4 in.pcap out.pcap` |
+| `-F <format>` | Convert the file format (`editcap -F` alone lists them) | `editcap -F pcap in.pcapng out.pcap` |
+| `-T <encap>` | Change the link-layer encapsulation type | |
+| `-t <sec>` | Shift every timestamp by N seconds (can be negative) | `editcap -t 3600 in.pcap out.pcap` |
+| `-S <sec>` | Fix out-of-order or strict time adjustments | |
+| `-E <prob>` | Randomly corrupt bytes (fuzz testing) | `-E 0.01` |
+| `-V` | Verbose output | |
+
+**Split output names** are numbered and time-stamped automatically, e.g. `part_00000_20261120090000.pcap`, `part_00001_20261120090100.pcap`.
+
+```bash
+# Common recipes
+editcap -c 200000 big.pcap part.pcap                                      # chunks of 200k packets
+editcap -i 300 big.pcap part.pcap                                         # 5-minute chunks
+editcap -A "2026-11-20 09:00:00" -B "2026-11-20 09:15:00" big.pcap win.pcap   # one time window
+editcap -r big.pcap sample.pcap 1-50000                                   # first 50k packets
+editcap -F pcap capture.pcapng capture.pcap                               # pcapng → pcap (for older tools)
+editcap -d big.pcap nodup.pcap                                            # remove duplicates (SPAN-port captures)
+```
+
+### 5.2 capinfos: file summary (check before splitting)
+| Option | Shows |
+|---|---|
+| *(none)* | Everything |
+| `-c` | Number of packets |
+| `-u` | Capture duration |
+| `-a` / `-e` | First / last packet time |
+| `-s` | File size |
+| `-E` | Encapsulation type |
+| `-t` | File type (pcap / pcapng) |
+| `-T` | Table output (good for many files) |
+| `-M` | Exact (machine-readable) numbers |
+
+```bash
+capinfos big.pcap
+capinfos -c -u -a -e big.pcap
+capinfos -T part_*.pcap
+```
+
+### 5.3 mergecap: combine files
+```bash
+mergecap -w all.pcap part_*.pcap         # merge, ordered by timestamp
+mergecap -a -w all.pcap a.pcap b.pcap    # -a: concatenate in the given order
+mergecap -F pcap -w all.pcap *.pcapng    # choose the output format
+```
+
+### 5.4 tshark: command-line Wireshark
+| Option | Meaning |
+|---|---|
+| `-r <file>` | Read a capture file |
+| `-Y "<filter>"` | Display filter (same syntax as the Wireshark GUI) |
+| `-w <file>` | Write the matching packets to a new file |
+| `-c <N>` | Stop after N packets |
+| `-n` | No name resolution (faster) |
+| `-T fields -e <field>` | Print chosen fields |
+| `-E header=y -E separator=,` | Header row and separator for `-T fields` |
+| `-q -z <stats>` | Statistics only |
+
+```bash
+tshark -r big.pcap -Y "ip.addr==212.19.6.213 && tcp.port==23" -w telnet.pcap    # extract a subset (also shrinks big files)
+tshark -r in.pcap -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -E header=y
+tshark -r in.pcap -q -z conv,tcp           # TCP conversations (like Statistics → Conversations)
+tshark -r in.pcap -q -z endpoints,ip       # IP endpoints
+tshark -r in.pcap -q -z io,phs             # protocol hierarchy
+tshark -r in.pcap -q -z follow,tcp,ascii,0 # follow TCP stream 0 as text
+tshark -r in.pcap -Y "dns" -T fields -e dns.qry.name | sort | uniq -c | sort -rn
+```
+
+### 5.5 Other tools
+| Tool | Purpose | Example |
+|---|---|---|
+| `reordercap` | Sort packets into timestamp order | `reordercap in.pcap sorted.pcap` |
+| `text2pcap` | Convert a hex dump to pcap | `text2pcap dump.txt out.pcap` |
+| `dumpcap` | Lightweight capture engine | `dumpcap -i eth0 -b filesize:100000 -w ring.pcapng` (ring buffer) |
+
+### 5.6 Big-capture workflow
+```bash
+capinfos big.pcap                                            # 1. size, packets, time span
+tshark -r big.pcap -Y "<filter>" -w focus.pcap               # 2a. extract only what matters, OR
+editcap -c 200000 big.pcap part.pcap                         # 2b. split into pieces
+capinfos -T part_*.pcap                                      # 3. find the piece with the right time range
+wireshark part_00003_*.pcap &                                # 4. open one small piece
+```
+
+---
+
+## 6. Wireshark display filters (quick reference)
+
+| Goal | Filter |
+|---|---|
+| Traffic to/from an IP | `ip.addr == 212.19.6.213` |
+| Source / destination IP | `ip.src == 192.168.10.43` / `ip.dst == 212.19.6.213` |
+| Port (either side) | `tcp.port == 23` · `udp.port == 53` |
+| Two hosts talking | `ip.addr == A && ip.addr == B` |
+| One TCP stream | `tcp.stream eq 0` |
+| SYN only (connection attempts) | `tcp.flags.syn == 1 && tcp.flags.ack == 0` |
+| SYN-ACK (port open / server answered) | `tcp.flags.syn == 1 && tcp.flags.ack == 1` |
+| Resets | `tcp.flags.reset == 1` |
+| **Completed connections** (Wireshark 3.6+) | `tcp.completeness == 31` (FIN close) · `tcp.completeness == 47` (RST close) |
+| Retransmissions / problems | `tcp.analysis.retransmission` · `tcp.analysis.flags` |
+| Text inside packets | `frame contains "HWaddr"` · `frame matches "(?i)password"` |
+| MAC address (local segment only) | `eth.addr == 00:50:56:86:52:73` |
+| DNS name | `dns.qry.name contains "example"` |
+| HTTP POSTs | `http.request.method == "POST"` |
+| Telnet / SSH / FTP | `telnet` · `ssh` · `ftp \|\| ftp-data` |
+| Exclude noise | `!(arp \|\| dns \|\| icmp)` |
+
+**`tcp.completeness` bits:** 1 = SYN, 2 = SYN-ACK, 4 = ACK, 8 = data, 16 = FIN, 32 = RST. Add up the bits for the events you want (e.g. 1+2+4+8+16 = **31**).
+
+**Reminder: MAC addresses are hop by hop.** For a remote IP, the Ethernet header shows your **local router's** MAC, not the remote host's. The remote host's real MAC only appears inside payload data, e.g. `ifconfig`/`ip addr` output in a Telnet stream (Follow → TCP Stream, then search `HWaddr` or `ether`).
