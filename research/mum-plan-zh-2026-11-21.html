@@ -1,0 +1,353 @@
+<title>妈妈的三股投资计划</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+<style>
+/* Layout: one calm reading column, like a letter from family; plain-language glossary first, then the three companies, the buying steps and the 10-year plan */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --ink:#18243a; --muted:#5b6678; --line:#dde2ea;
+  --accent:#23477a; --accent-soft:#e7edf6;
+  --up:#c0392b; --down:#1e8a4c; --warn:#a86a00; --warn-soft:#fbf1de;
+  --f-display:"Noto Serif SC","Songti SC","SimSun",serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151f; --surface:#171e2b; --ink:#e7ebf2; --muted:#9aa5b8; --line:#2a3446;
+  --accent:#8fb3e8; --accent-soft:#1d2a40;
+  --up:#ff7b6b; --down:#4fd08a; --warn:#f0b450; --warn-soft:#2c2414; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#171e2b; --ink:#e7ebf2; --muted:#9aa5b8; --line:#2a3446;
+  --accent:#8fb3e8; --accent-soft:#1d2a40;
+  --up:#ff7b6b; --down:#4fd08a; --warn:#f0b450; --warn-soft:#2c2414; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.8}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.4}
+h1{font-size:1.9rem}
+h2{font-size:1.35rem;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+h3{font-size:1.12rem}
+p{margin:0}
+b{font-weight:700}
+.eyebrow{font-size:.85rem;letter-spacing:.08em;color:var(--muted)}
+.lead{color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up);font-weight:700}
+.down{color:var(--down);font-weight:700}
+.answer{background:var(--accent-soft);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.answer strong{color:var(--accent)}
+.alert{background:var(--warn-soft);border:1px solid var(--warn);border-radius:10px;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.alert strong{color:var(--warn)}
+.glossary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.term h3{font-size:1.02rem;color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums}
+.cards{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.hold{border-color:var(--warn)}
+.card header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.tick{font-size:.85rem;color:var(--muted)}
+.price{font-size:1.2rem;font-weight:700;font-variant-numeric:tabular-nums}
+.chg{font-size:.9rem}
+dl{margin:0;display:grid;grid-template-columns:7em minmax(0,1fr);gap:8px 12px}
+dt{color:var(--muted);font-size:.95rem}
+dd{margin:0;min-width:0}
+.zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.zone{border-radius:8px;padding:8px 10px;background:var(--bg);border:1px solid var(--line);font-size:.9rem;min-width:0}
+.zone b{display:block;font-variant-numeric:tabular-nums;font-size:1rem}
+.zone.now{border-color:var(--accent);background:var(--accent-soft)}
+.verdict{font-weight:700;color:var(--accent)}
+.verdict.wait{color:var(--warn)}
+.tag{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle;font-family:var(--f-body)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:500px;font-variant-numeric:tabular-nums}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.85rem;color:var(--muted);font-weight:500;background:var(--bg)}
+tr:last-child td{border-bottom:none}
+td.r,th.r{text-align:right}
+tfoot td{font-weight:700}
+.timeline{display:flex;flex-direction:column;border-left:3px solid var(--accent);margin-left:6px}
+.step{position:relative;padding:0 0 22px 22px;display:flex;flex-direction:column;gap:6px}
+.step:last-child{padding-bottom:0}
+.step::before{content:"";position:absolute;left:-9px;top:8px;width:15px;height:15px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.step .when{font-size:.85rem;color:var(--accent);font-weight:700;letter-spacing:.04em}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.box.do h3{color:var(--accent)}
+.box.dont h3{color:var(--warn)}
+.note{background:var(--warn-soft);border-radius:10px;padding:14px 18px;font-size:.95rem;display:flex;flex-direction:column;gap:8px}
+.note > p b{color:var(--warn)}
+ul,ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.small{font-size:.88rem;color:var(--muted)}
+.src{font-size:.85rem;color:var(--muted);word-break:break-word}
+.src a{color:var(--accent)}
+@media (max-width:560px){
+  h1{font-size:1.55rem}
+  .stats,.zones,.glossary,.two{grid-template-columns:minmax(0,1fr)}
+  dl{grid-template-columns:minmax(0,1fr)}
+  dt{margin-top:4px}
+}
+</style>
+
+<div class="wrap">
+
+<header style="display:flex;flex-direction:column;gap:10px">
+  <p class="eyebrow">给妈妈的投资计划 · 2026年11月21日 · 使用最新收盘价(11月20日,星期五)</p>
+  <h1>妈妈的三股投资计划</h1>
+  <p class="lead">用 <b class="num">10,000</b> 美元闲钱,投资三家世界顶级公司:<b>谷歌</b>、<b>台积电</b>、<b>英伟达</b>。慢慢分批买,买了以后长期持有5–10年,让好公司帮我们赚钱。</p>
+</header>
+
+<div class="answer">
+  <p><strong>一句话总结</strong></p>
+  <p>现在先买谷歌和台积电,每家大约 <b>1,000</b> 美元。英伟达先<b>暂停不买</b>,钱留着,等调查结果清楚了再决定。剩下的钱分批买,买完以后不用天天看,一年检查两次就好。</p>
+</div>
+
+<div class="alert">
+  <p><strong>11月20日(星期五)发生了什么?</strong></p>
+  <ul>
+    <li>据路透社报道,美国证券监管机构(SEC)正在调查<b>英伟达的会计账目</b>,英伟达当天下跌14%。公司暂时没有回应。</li>
+    <li>全球芯片股大跌。台湾股市这一周下跌约17.5%,是1991年以来最差的一周;台积电当天下跌约9.5%。</li>
+    <li>谷歌也下跌2.6%,跌破了之前一年的最低价。</li>
+  </ul>
+  <p>价值投资最重要的一条是:<b>只买看得懂、账目可信的公司</b>。所以英伟达的账目被调查期间,我们先不买;谷歌和台积电的生意没有变,反而变得更便宜了。</p>
+</div>
+
+<section>
+  <h2>先了解几个简单概念</h2>
+  <div class="glossary">
+    <div class="term"><h3>股票是什么?</h3><p>买一股,就是成为这家公司的一个小股东。公司越赚钱,股票通常就越值钱。</p></div>
+    <div class="term"><h3>价值投资是什么?</h3><p>就像在大减价时买名牌好货:只买好公司,而且只在价格比它真正的价值便宜的时候买。巴菲特就是用这个方法致富的。</p></div>
+    <div class="term"><h3>"护城河"是什么?</h3><p>古代城堡外面的护城河让敌人很难攻进来。好公司也有"护城河":别人很难抢走它的生意,比如大家都习惯用谷歌搜索。</p></div>
+    <div class="term"><h3>"市盈率"是什么?</h3><p>股价除以每股一年赚的钱。可以理解为"按现在的赚钱速度,多少年回本"。数字越小越便宜。</p></div>
+    <div class="term"><h3>为什么要分批买?</h3><p>没人能猜中最低点。分几次买,如果股价跌了,后面能买得更便宜;如果涨了,我们也已经买到一部分。</p></div>
+    <div class="term"><h3>"限价单"是什么?</h3><p>告诉券商:"价格跌到我定的数字才帮我买。"就像在市场跟老板说"降到这个价我就要"。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>三家公司的情况</h2>
+  <p class="small">"事实"来自新闻报道并注明日期;"价格区间"是我按价值投资方法算出来的估计,不是保证。股价是美国股市收盘价(美元)。</p>
+
+  <div class="cards">
+
+  <article class="card">
+    <header>
+      <h3>谷歌 Alphabet <span class="tick">代号 GOOG</span></h3>
+      <span class="price">$264.00 <span class="chg down">−2.6%</span> <span class="small">(11月20日)</span></span>
+    </header>
+    <p class="verdict">结论:现在可以买</p>
+    <dl>
+      <dt>做什么</dt><dd>大家每天用的谷歌搜索、YouTube视频、安卓手机系统、谷歌地图,还有给企业提供的"云"服务。</dd>
+      <dt>护城河</dt><dd>全世界几十亿人每天都在用,习惯很难改,别的公司很难抢走。</dd>
+      <dt>事实</dt><dd>星期五跌破了之前一年的最低价($271),比一年最高价 $404 低了约35%。巴菲特的公司(伯克希尔·哈撒韦)在2026年第二季度大量买入谷歌。</dd>
+      <dt>为什么现在便宜</dt><dd>市场担心AI投入花钱太多,也担心AI聊天工具抢走搜索生意。我估计现在约等于"18–19年回本",比它过去的平均水平便宜。</dd>
+      <dt>要注意的风险</dt><dd>如果大家改用AI聊天工具代替搜索,广告收入可能减少。</dd>
+    </dl>
+    <div class="zones">
+      <div class="zone">我估计的真正价值<b>$340–370</b></div>
+      <div class="zone now">可以买的价格<b>≤ $300</b>现在的价格在这里</div>
+      <div class="zone">非常便宜,多买<b>≤ $250</b></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <header>
+      <h3>台积电 TSMC <span class="tick">代号 TSM</span></h3>
+      <span class="price">$318.71 <span class="chg down">−9.5%</span> <span class="small">(11月20日)</span></span>
+    </header>
+    <p class="verdict">结论:现在可以买(已到"非常便宜"的价格)</p>
+    <dl>
+      <dt>做什么</dt><dd>全世界最先进的芯片"工厂"。英伟达的芯片、谷歌自己的AI芯片,都是交给台积电生产的。</dd>
+      <dt>护城河</dt><dd>最先进的芯片几乎只有它造得出来,对手技术落后好几年。不管谁的芯片卖得好,都要找台积电生产。</dd>
+      <dt>事实</dt><dd>生意依然很好:2026年10月营收比去年同期增长 <span class="num">59.7%</span>;第三季度每卖100元,扣除生产成本后还剩约66元(毛利率 <span class="num">66.4%</span>)。这次下跌主要是全球芯片股恐慌,加上美国新的芯片出口规定;来自中国的生意只占约5%。</dd>
+      <dt>为什么现在便宜</dt><dd>按现价约等于"14年回本",而分析师预计明年盈利还会增长约27–29%。</dd>
+      <dt>要注意的风险</dt><dd>台海局势。巴菲特2022年买过台积电,几个月后就卖了,原因就是担心地缘政治。芯片行业也有好年坏年,短期可能继续大跌。</dd>
+    </dl>
+    <div class="zones">
+      <div class="zone">我估计的真正价值<b>$420–440</b></div>
+      <div class="zone">可以买的价格<b>≤ $370</b></div>
+      <div class="zone now">非常便宜,多买<b>≤ $320</b>现在的价格在这里</div>
+    </div>
+  </article>
+
+  <article class="card hold">
+    <header>
+      <h3>英伟达 Nvidia <span class="tick">代号 NVDA</span></h3>
+      <span class="price">$125.53 <span class="chg down">−14.0%</span> <span class="small">(11月20日)</span></span>
+    </header>
+    <p class="verdict wait">结论:暂停买入,等调查结果</p>
+    <dl>
+      <dt>做什么</dt><dd>设计AI用的"大脑"芯片。ChatGPT这类AI,大多是用英伟达的芯片训练出来的。</dd>
+      <dt>护城河</dt><dd>全世界的AI工程师都习惯用它的配套软件(CUDA),换别家芯片很麻烦。</dd>
+      <dt>事实</dt><dd>最近一个季度营收 <span class="num">1,158亿美元</span>,生意还在增长。但创始人黄仁勋11月12日因个人丑闻辞职;11月17日有报道指SEC在调查它关于亚洲业务的信息披露;11月20日路透社又报道SEC在调查它的<b>会计账目</b>。</dd>
+      <dt>为什么暂停</dt><dd>股价看起来很便宜,但"便宜"是用公司公布的盈利算出来的。如果账目有问题,这些盈利数字就不可信,便宜也可能是假的。巴菲特的原则是:宁可多付一点钱,也要买确定的东西。</dd>
+      <dt>什么时候再考虑</dt><dd>(1)英伟达在正式文件里说明调查的范围,而且没有需要修改过去账目;(2)董事会任命新的正式CEO。两件事都清楚了,再分三次买入。如果调查发现严重问题,就不买,把这笔钱换成别的好公司。</dd>
+    </dl>
+  </article>
+
+  </div>
+</section>
+
+<section>
+  <h2>怎么买:一步一步来</h2>
+  <div class="stats">
+    <div class="stat"><div class="k">① 现在买:谷歌 + 台积电</div><div class="v">≈ $2,012</div></div>
+    <div class="stat"><div class="k">② 挂限价单:等再便宜一点</div><div class="v">≈ $1,870</div></div>
+    <div class="stat"><div class="k">③ 明年1–2月看完成绩再买</div><div class="v">≈ $2,818</div></div>
+    <div class="stat"><div class="k">④ 英伟达的钱:先等调查结果</div><div class="v">≈ $3,300</div></div>
+  </div>
+  <p class="small">还没用到的钱,先放在券商的货币基金或短期国债里,会有利息,需要时随时可以用。</p>
+
+  <h3>① 现在买 <span class="tag">约 $2,012</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>股票</th><th class="r">买几股</th><th class="r">参考价(11月20日)</th><th class="r">大约花费</th></tr></thead>
+    <tbody>
+      <tr><td>谷歌 GOOG</td><td class="r">4</td><td class="r">$264.00</td><td class="r">$1,056</td></tr>
+      <tr><td>台积电 TSM</td><td class="r">3</td><td class="r">$318.71</td><td class="r">$956</td></tr>
+    </tbody>
+    <tfoot><tr><td>合计</td><td></td><td></td><td class="r">$2,012</td></tr></tfoot>
+  </table></div>
+  <p class="small">星期一开盘时股价可能和上面不同。如果比参考价高出5%以上,就先等一等,不用追。</p>
+
+  <h3>② 挂好"限价单",跌到这个价自动买 <span class="tag">约 $1,870</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>股票</th><th class="r">买几股</th><th class="r">跌到这个价才买</th><th class="r">大约花费</th></tr></thead>
+    <tbody>
+      <tr><td>谷歌 GOOG</td><td class="r">4</td><td class="r">$250</td><td class="r">$1,000</td></tr>
+      <tr><td>台积电 TSM</td><td class="r">3</td><td class="r">$290</td><td class="r">$870</td></tr>
+    </tbody>
+    <tfoot><tr><td>合计</td><td></td><td></td><td class="r">$1,870</td></tr></tfoot>
+  </table></div>
+  <p class="small">在券商App里选"限价单"和"长期有效(GTC)",这样订单会一直挂着,不用每天盯。</p>
+
+  <h3>③ 看完公司成绩再买 <span class="tag">约 $2,818</span></h3>
+  <ul>
+    <li><b>什么时候:</b>台积电预计2027年1月21日左右公布成绩,谷歌通常在1月底到2月初。</li>
+    <li><b>怎么做:</b>如果成绩没问题,股价还在"可以买的价格"里(谷歌 ≤ $300、台积电 ≤ $370),每家再买大约 <b class="num">$1,400</b>。</li>
+    <li><b>如果一直没跌:</b>到2027年2月底,第②步的限价单还没成交,而公司依然很好,就把那部分钱也按这一步的规则买进去,不要一直空等。</li>
+  </ul>
+
+  <h3>④ 英伟达的钱:先放着 <span class="tag">约 $3,300</span></h3>
+  <ul>
+    <li>调查清楚、没有账目问题、新CEO到位以后,分三次买,每次约 $1,100。到时候价格可能比现在高,这是为"确定"付的代价,值得。</li>
+    <li>如果调查发现账目有严重问题,这笔钱就不买英伟达,改为加买谷歌、台积电,或者换一家和AI无关的好公司。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>长期计划:5到10年</h2>
+  <div class="timeline">
+    <div class="step">
+      <p class="when">现在 – 2027年2月</p>
+      <h3>按步骤慢慢买</h3>
+      <p>先买谷歌和台积电,英伟达等调查结果。不着急,一步一步来。</p>
+    </div>
+    <div class="step">
+      <p class="when">第1–3年</p>
+      <h3>耐心持有,一年检查两次</h3>
+      <p>每年大约2月和8月(公司公布成绩以后)看一次,只问三个问题:</p>
+      <ol>
+        <li>公司还在赚钱、还在增长吗?</li>
+        <li>它的"护城河"还在吗?有没有被对手抢走生意?</li>
+        <li>股价是不是已经贵得离谱?</li>
+      </ol>
+      <p>三个问题都没问题,就继续拿着,什么都不用做。</p>
+    </div>
+    <div class="step">
+      <p class="when">第3–5年</p>
+      <h3>适当调整,分散风险</h3>
+      <ul>
+        <li>如果某一只涨得太多,占了全部钱的一半以上,就卖掉一部分,分给其他股票。</li>
+        <li>如果某只股价比我估计的真正价值高出很多(高出50%以上),可以卖掉一部分,把赚到的钱落袋为安。</li>
+        <li>如果妈妈有新的闲钱,建议加一只和AI无关的好公司,或者买标普500指数基金(一次买下美国500家大公司),让组合更稳。</li>
+      </ul>
+    </div>
+    <div class="step">
+      <p class="when">第5–10年</p>
+      <h3>让好公司慢慢"利滚利"</h3>
+      <p>好公司每年赚更多钱,股价长期跟着涨。举个例子:如果每年平均赚10%,10,000美元大约7年变成20,000美元,10年大约变成26,000美元。这只是举例,不是保证,中间会有涨有跌。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>两到三年后可能的结果</h2>
+  <p class="small">以下是我按11月20日价格做的估计,不是保证。按中文习惯,<span class="up">红色=涨</span>,<span class="down">绿色=跌</span>。英伟达要等调查结果,暂不估算。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>情况</th><th class="r">谷歌</th><th class="r">台积电</th><th class="r">两只一起</th></tr></thead>
+    <tbody>
+      <tr><td>很好:AI继续快速发展</td><td class="r up">+52%</td><td class="r up">+76%</td><td class="r up">约 +64%</td></tr>
+      <tr><td>正常:增长慢一点但稳定</td><td class="r up">+29–40%</td><td class="r up">+54%</td><td class="r up">约 +44%</td></tr>
+      <tr><td>不好:公司减少AI投入</td><td class="r down">−13%</td><td class="r down">−27%</td><td class="r down">约 −20%</td></tr>
+      <tr><td>很差:AI热潮破灭</td><td class="r down">跌更多</td><td class="r down">跌更多</td><td class="r down">约 −35%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">换成钱来看:每投入1,000美元,正常情况可能变成约1,440美元;很差的情况可能暂时只剩约650美元。</p>
+</section>
+
+<section>
+  <h2>股价大跌时怎么办?</h2>
+  <p>像这个星期一样的大跌一定会再出现,一年跌20–30%是常见的事。大跌时先问自己一个问题:<b>是公司本身出问题了,还是只是大家在恐慌?</b></p>
+  <ul>
+    <li><b>只是恐慌,公司还在赚钱</b>(比如这次的台积电):不要卖。如果手上有闲钱,这反而是用更便宜价格买好公司的机会。</li>
+    <li><b>公司本身出了问题</b>(比如这次英伟达的账目调查):先停下来,弄清楚再说。</li>
+  </ul>
+  <div class="tbl"><table>
+    <thead><tr><th>公司</th><th>什么情况要认真考虑卖出</th></tr></thead>
+    <tbody>
+      <tr><td>谷歌</td><td>搜索生意被AI聊天工具明显抢走,或云业务利润持续下降</td></tr>
+      <tr><td>台积电</td><td>台海局势严重恶化,或客户订单明显减少</td></tr>
+      <tr><td>英伟达(如果买了)</td><td>账目需要修改、调查发现造假,或大型科技公司大幅减少AI投入</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>妈妈要记住的</h2>
+  <div class="two">
+    <div class="box do">
+      <h3>要做</h3>
+      <ul>
+        <li>只用几年内都不会用到的闲钱</li>
+        <li>有耐心,至少持有3–5年</li>
+        <li>一年认真看两次就够</li>
+        <li>大跌时先冷静,看公司本身有没有问题</li>
+      </ul>
+    </div>
+    <div class="box dont">
+      <h3>不要做</h3>
+      <ul>
+        <li>不要天天看股价,容易心慌</li>
+        <li>不要因为下跌就慌张卖掉</li>
+        <li>不要借钱买股票</li>
+        <li>不要听亲戚朋友的"内幕消息"追着买</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="note">
+  <p><b>重要提醒</b></p>
+  <ul>
+    <li>这三家公司都和AI有关,好的时候一起涨,不好的时候也会一起跌(就像这个星期)。这是一个比较进取的组合,只适合放闲钱。</li>
+    <li>芯片股这几天波动非常大,星期一可能继续大涨或大跌。下单前请先看最新价格。</li>
+    <li>如果不是美国居民,美国股票的股息通常要先扣税(常见30%),但这几只股票的股息很少,影响不大。</li>
+    <li>这是家人帮忙整理的参考计划,不是专业的投资建议,不保证赚钱。</li>
+  </ul>
+</div>
+
+<section>
+  <h2>资料来源</h2>
+  <ul class="src">
+    <li>11月20日收盘价:谷歌 <a href="https://finance.yahoo.com/quote/GOOG/">Yahoo Finance</a>、<a href="https://stockanalysis.com/stocks/goog/history/">StockAnalysis</a>;英伟达 <a href="https://finance.yahoo.com/quote/NVDA/">Yahoo Finance</a>、<a href="https://investor.nvidia.com/stock-info/stock-quote-and-chart/default.aspx">英伟达官网</a>;台积电 <a href="https://finance.yahoo.com/quote/TSM/">Yahoo Finance</a>、<a href="https://www.gurufocus.com/news/9213329/taiwan-semiconductor-manufacturing-co-ltd-tsm-stock-down-95-now-undervalued-gf-score-100100">GuruFocus</a></li>
+    <li>英伟达SEC调查:<a href="https://www.bloomberg.com/news/articles/2026-11-20/wall-street-regulator-probing-nvidia-s-accounting-reuters-says">Bloomberg(引述路透社)</a>、<a href="https://live.euronext.com/en/financial-news/nvidias-accounting-focus-us-sec-investigation-sources-say">Euronext/路透社</a>、<a href="https://www.businesstoday.in/latest/corporate/story/us-sec-launches-probe-into-potential-accounting-issues-at-nvidia-scrutiny-over-china-ties-widen-568860-2026-11-21">Business Today</a>;董事会决定:<a href="https://gulfnews.com/technology/nvidia-board-will-not-reinstate-jensen-huang-as-chief-chairman-1.500751320">Gulf News</a>;季度营收:<a href="https://www.heygotrade.com/en/news/nvidia-nvda-stock-news-november-19-2026/">Gotrade</a></li>
+    <li>台湾股市最差一周:<a href="https://finance.yahoo.com/markets/world-indices/articles/taiwan-stock-market-falls-6-073304018.html">Yahoo Finance</a>、<a href="https://seekingalpha.com/news/4675049-ai-selloff-taiwans-benchmark-index-posts-worst-week-since-1991">Seeking Alpha</a>;美国出口规定:<a href="https://247wallst.com/investing/2026/11/20/tsmc-is-halting-some-china-chip-orders-as-a-new-u-s-rule-kicks-in/">24/7 Wall St.</a></li>
+    <li>台积电10月营收:<a href="https://pr.tsmc.com/english/news/3349">台积电官网</a>;市盈率:<a href="https://www.gurufocus.com/term/forward-pe-ratio/TSM">GuruFocus</a>;盈利预计:<a href="https://www.tradingview.com/news/zacks:d79c86e09094b:0-tsmc-outpaces-sector-peers-in-a-year-is-the-stock-still-a-buy/">Zacks</a>;第三季度成绩:<a href="https://cryptobriefing.com/?p=397363">Crypto Briefing</a>;中国生意占比:<a href="https://www.mitrade.com/insights/news/live-news/article-3-2265377-20261119">Mitrade</a>;公布成绩日期:<a href="https://www.marketbeat.com/stocks/NYSE/TSM/earnings/">MarketBeat</a></li>
+    <li>谷歌一年价格范围:<a href="https://www.fool.com/quote/nasdaq/alphabet-class-a/goog/">Motley Fool</a>;伯克希尔买入谷歌:<a href="https://global.morningstar.com/en-nd/stocks/berkshire-hathaway-13f-purchases-outweighed-sales-alphabet-most-traded-q2">Morningstar</a></li>
+  </ul>
+</section>
+
+</div>
