@@ -86,3 +86,15 @@
 - AXP: [Forbes](https://www.forbes.com/companies/american-express/), [Motley Fool](https://www.fool.com/investing/2026/11/23/berkshire-hathaway-owns-22-6-of-american-express-is-the-stock-a-buy-sell-or-hold-after-a-17-drop-in-2026/), [MarketBeat](https://www.marketbeat.com/stocks/NYSE/AXP/)
 - RELX: [Morningstar](https://www.morningstar.com/stocks/xnys/relx/quote), [MarketBeat](https://marketbeat.com/instant-alerts/estimates-fy2026-earnings-estimate-for-relx-issued-by-erste-group-bank-2026-11-24), [Walnut](https://walnutinvest.com/stocks/relx), [Tickeron](https://tickeron.com/ticker/RELX/)
 - Others: PEP [Yahoo](https://ca.finance.yahoo.com/quote/PEP/), UNH [Investing](https://www.investing.com/equities/united-health-group), V [MarketBeat](https://www.marketbeat.com/instant-alerts/price-visa-nyse-v-shares-climb-16-heres-what-happened-2026-11-24/), MA [Yahoo](https://finance.yahoo.com/quote/MA/chart/)
+
+---
+
+## Mum's plan, re-planned (nothing bought yet), using Nov 24 closes
+| Step | When | What | ≈ Amount |
+|---|---|---|---|
+| ① | Mon Nov 30 (skip the Fri Nov 27 half day) | 4 GOOG @ ~$277, 3 TSM @ ~$349, 5 NVDA @ ~$155 | $2,931 |
+| ② | Same day, good-till-cancelled limits | 4 GOOG ≤ $255, 3 TSM ≤ $320 | $1,980 |
+| ③ | After Q4 results (TSM ~Jan 21; GOOG late Jan / early Feb) | ~$1,500 each if GOOG ≤ $290 and TSM ≤ $370 | $3,000 |
+| ④ | NVDA, tied to news | ~$1,045 when the SEC probe scope is disclosed with no restatement; ~$1,045 after late-Feb results if guidance holds | $2,090 |
+
+**Final weights:** GOOG ~36%, TSM ~35%, NVDA ~29%. NVDA is smaller because the probe is still open.
