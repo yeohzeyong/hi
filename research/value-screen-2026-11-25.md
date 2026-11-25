@@ -98,3 +98,29 @@
 | ④ | NVDA, tied to news | ~$1,045 when the SEC probe scope is disclosed with no restatement; ~$1,045 after late-Feb results if guidance holds | $2,090 |
 
 **Final weights:** GOOG ~36%, TSM ~35%, NVDA ~29%. NVDA is smaller because the probe is still open.
+
+---
+
+## Rethink: is GOOG / NVDA / TSM still the best trio for mum? (Nov 25)
+**Verdict:** keep TSM and drop NVDA. The best-value trio is **TSM + AmEx + RELX**, the top 3 on today's screen. If mum prefers a familiar name, use TSM + GOOG + AXP instead.
+
+**Why change:**
+- All three of GOOG/NVDA/TSM ride the same AI capex cycle; they fell and rose together on Nov 5, 20 and 23.
+- NVDA has only a ~14% margin of safety after the +24% move, with an open SEC accounting probe and a board that reversed itself on its CEO.
+- GOOG's FCF is negative and Search is slowing, so its fair value is cut to $320–350.
+
+**2–3 year scenarios (my estimates):**
+| | Base | Bull | Bear |
+|---|---|---|---|
+| TSM $349 | $490 (+40%) | $560 (+60%) | $234 (−33%) |
+| RELX $38.5 | $50 (+30%) + ~2% dividend | $56 (+45%) | $28 (−27%) |
+| AXP $308 | ~$400 (+30%) | $440 (+43%) | $230 (−25%) |
+| **TSM/AXP/RELX** | **~+33%** | **~+49%** | ~−28% if all hit at once; the drivers are different, so more likely ~−15% |
+| **GOOG/NVDA/TSM** | ~+30% | ~+54% | ~−30% or worse, highly correlated |
+
+**Plan: TSM 40% / AXP 30% / RELX 30%**
+| Step | TSM | AXP | RELX | ≈ Total |
+|---|---|---|---|---|
+| ① Mon Nov 30 | 5 @ ~$349 ($1,746) | 4 @ ≤ $315 (~$1,232) | 30 @ ≤ $40 (~$1,155) | $4,133 |
+| ② Good-till-cancelled limits | 3 @ ≤ $320 ($960) | 3 @ ≤ $290 ($870) | 25 @ ≤ $35 ($875) | $2,705 |
+| ③ After results (TSM ~Jan 21, AXP ~late Jan, RELX ~mid-Feb) | ~$1,300 | ~$900 | ~$960 | ~$3,160 |
