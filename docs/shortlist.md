@@ -1,18 +1,6 @@
-# Auction shortlist - 26 Nov 2026
+# Auction shortlist - 27 Nov 2026
 
-9 listing(s) graded B or better out of 72 evaluated.
-
-## [B] Westminster Park - Mont Kiara
-- Reserve **RM300,000** (1,098 sqft, RM273.2 psf), auction 2026-11-26
-- **VERIFY**: Numbers look good but data is thin or the discount looks too good - confirm comps first. Bid from RM300,000 up to RM582,000 - stop there.
-- ✅ Building rental yield ~5.3% (rent vs asking price of similar units)
-- ✅ Rent RM3,412 vs installment+maintenance RM1,744 -> 1.96x cover
-- ✅ 61% below market (valued on the cheaper 25% of similar units)
-- ✅ Round 4: reserve cut -50% from first auction
-- ✅ Headroom to bid up to RM582,000 (discount-limited)
-- ⚠️ Auction-day deposit is 5% (not the usual 10%)
-- ⚠️ 61% discount is unusually deep - verify size, occupancy, arrears and title before trusting it
-- https://www.bplelonglist.com/auction/ZHAwMllxRzNoZGlJckRKVmRHT3RaZz09/Lelong-Auction-Condominium-in-Dutamas-Kuala-Lumpur-for-RM300000
+6 listing(s) graded B or better out of 54 evaluated.
 
 ## [B] Westminster Park - Mont Kiara
 - Reserve **RM450,000** (1,098 sqft, RM409.8 psf), auction 2027-02-18
@@ -69,20 +57,6 @@
 - ⚠️ 52% discount is unusually deep - verify size, occupancy, arrears and title before trusting it
 - https://www.bplelonglist.com/auction/V3ExSHJMU20zeGg2SGRDZE5haklDZz09/Lelong-Auction-Condominium-in-Dutamas-Kuala-Lumpur-for-RM405000
 
-## [B] Tower A - Setapak
-- Reserve **RM410,000** (1,001 sqft, RM409.6 psf), auction 2026-11-26
-- **PASS**: Even a 10% cut (~RM369,000) stays above your walk-away price of RM339,000.
-- ✅ Building rental yield ~9.6% (rent vs asking price of similar units)
-- ✅ Building completed 2017 (9 years old)
-- ✅ Rent RM5,163 vs installment+maintenance RM2,161 -> 2.39x cover
-- ✅ 432 m (~5 min) to LRT KLCC
-- ✅ Round 2: reserve cut 20% from first auction
-- ⚠️ 14 auctions in this building in 12 months - possible distress/oversupply
-- ⚠️ 10% below market (valued on the cheaper 25% of similar units)
-- ⚠️ Auction-day deposit is 5% (not the usual 10%)
-- ⚠️ Walk-away price RM339,000 is BELOW reserve - targets not met at reserve
-- https://www.bplelonglist.com/auction/Z2owRFVFQll4Y0cvU2JyaTN3SVVXUT09/Lelong-Auction-Service-Apartment-in-Setapak-Kuala-Lumpur-for-RM410000
-
 ## [B] Sri Putramas II - Mont Kiara
 - Reserve **RM480,000** (1,292 sqft, RM371.5 psf), auction 2026-12-16
 - **VERIFY**: Numbers look good but data is thin or the discount looks too good - confirm comps first. Bid from RM480,000 up to RM534,000 - stop there.
@@ -93,18 +67,3 @@
 - ⚠️ 11 auctions in this building in 12 months - possible distress/oversupply
 - ⚠️ 1797 m (~22 min) to MRT Jalan Ipoh
 - https://www.bplelonglist.com/auction/SjN3WHpYbUhVYTNkUkd2WTgyQkZkUT09/Lelong-Auction-Condominium-in-Dutamas-Kuala-Lumpur-for-RM480000
-
-## [B] Pangsapuri Damai Vista - Cheras
-- Reserve **RM181,900** (1,000 sqft, RM181.9 psf), auction 2026-11-26
-- **PASS**: Even a 10% cut (~RM163,710) stays above your walk-away price of RM103,000.
-- ✅ Building rental yield ~11.5% (rent vs asking price of similar units)
-- ✅ Building completed 2018 (8 years old)
-- ✅ Building trades 48% below similar units in the area - room to catch up
-- ✅ Rent RM1,556 vs installment+maintenance RM1,215 -> 1.28x cover
-- ✅ Round 7: reserve cut -23% from first auction
-- ⚠️ 12 auctions in this building in 12 months - possible distress/oversupply
-- ⚠️ -13% below market (valued on the cheaper 25% of similar units)
-- ⚠️ A similar unit is already listed for ~RM142,416 (size-adjusted) - cheaper than this auction, with no auction risk
-- ⚠️ Auction-day deposit is 5% (not the usual 10%)
-- ⚠️ Walk-away price RM103,000 is BELOW reserve - targets not met at reserve
-- https://www.bplelonglist.com/auction/YzhXRmt0cU0wZnZZUmxmTlhOOHpHdz09/Lelong-Auction-Condominium-in-Cheras-Kuala-Lumpur-for-RM181900
