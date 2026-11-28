@@ -17,6 +17,8 @@
  "apartment service j.dupion, taman tenaga, kuala lumpur": null,
  "apartment servis j dupion, cheras, kuala lumpur": null,
  "apartment servis j dupion, kuala lumpur": null,
+ "apartment servis j. dupion, cheras, kuala lumpur": null,
+ "apartment servis j. dupion, kuala lumpur": null,
  "apartment servis j.dupion, cheras, kuala lumpur": null,
  "apartment servis j.dupion, kuala lumpur": null,
  "arte cheras, kuala lumpur": [
@@ -64,6 +66,10 @@
  "damai vista condominium, kuala lumpur": [
   3.1628946,
   101.719268
+ ],
+ "desa putra condominium, wangsa maju, kuala lumpur": [
+  3.1998277,
+  101.7377748
  ],
  "desa view towers, kuala lumpur": null,
  "desa view towers, taman melawati, kuala lumpur": null,
@@ -137,6 +143,8 @@
  "kondominium concerto kiara utara, kuala lumpur": null,
  "kondominium concerto kiara utara, mont kiara, kuala lumpur": null,
  "kondominium concerto kiara utara, segambut, kuala lumpur": null,
+ "kondominium irama wangsa, kuala lumpur": null,
+ "kondominium irama wangsa, wangsa maju, kuala lumpur": null,
  "kondominium suasana lumayan, bandar tun razak, kuala lumpur": [
   3.0963717,
   101.717443
@@ -266,6 +274,8 @@
   3.1944921,
   101.7380607
  ],
+ "residensi laman satu melawati (park one), kuala lumpur": null,
+ "residensi laman satu melawati (park one), taman melawati, kuala lumpur": null,
  "residensi laman satu melawati, kuala lumpur": null,
  "residensi laman satu melawati, taman melawati, kuala lumpur": null,
  "residensi lea, kuala lumpur": null,
@@ -427,6 +437,7 @@
  "unit no., apartment service j.dupion, no. 1, jalan sembilang, taman tenaga, cheras, 56000, kuala lumpur": null,
  "unit no., apartment servis j dupion, jalan sembilang, 56000, kuala lumpur": null,
  "unit no., apartment servis j dupion, no. 1, jalan sembilang, 56000, kuala lumpur": null,
+ "unit no., apartment servis j. dupion, jalan sembilang, 56000, kuala lumpur": null,
  "unit no., berjaya times square (east tower), no. 1, jalan imbi, 55100, kuala lumpur": null,
  "unit no., berkeley park sri putramas condominium, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
  "unit no., berkeley park, sri putramas condominium, no. 1, jalan putramas 1, off jalan kuching, 51200, kuala lumpur": null,
@@ -462,6 +473,7 @@
  "unit no., klts, no. 99, jalan gombak, setapak, 53000, kuala lumpur": null,
  "unit no., kompleks danau kota, taman zeta@zetapark, 67, jalan taman ibu kota, setapak, 53300, kuala lumpur": null,
  "unit no., kondominium concerto kiara utara, no. 1, jalan dutamas orkid, segambut, 51200, kuala lumpur": null,
+ "unit no., kondominium irama wangsa, no. 5, jalan 3/27e, seksyen 10, wangsa maju, 53300, kuala lumpur": null,
  "unit no., kondominium tinggian titiwangsa (the reach), jalan tiara titiwangsa, no. 1, 53200, kuala lumpur": null,
  "unit no., kondominium veo melawati, no. 1, jalan melati kuarza 2, kl timur, 53100, kuala lumpur": null,
  "unit no., level 4, residensi lea, jalan bukit melawati 1, 53100, kuala lumpur": null,
@@ -486,6 +498,7 @@
  "unit no., residensi curvo, no. 1, jalan arena 2, setapak, 53200, kuala lumpur": null,
  "unit no., residensi fera, no. 1, jalan wangsa kuarza, wangsa maju, 53300, kuala lumpur": null,
  "unit no., residensi henna, jalan wangsa kuarza, wangsa maju, 53300, kuala lumpur": null,
+ "unit no., residensi laman satu melawati (park one), jalan melawati 1, taman melawati, 53100, kuala lumpur": null,
  "unit no., residensi laman satu melawati, jalan melawati 1, taman melawati, 53100, kuala lumpur": null,
  "unit no., residensi laman satu melawati, taman melawati, 53100, kuala lumpur": null,
  "unit no., residensi m centura, jalan sentul perdana, setapak, 51000, kuala lumpur": null,
